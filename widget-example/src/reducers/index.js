@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux'
-import {routerReducer} from 'react-router-redux'
 
 import {auth} from 'state/auth/reducer'
 
@@ -28,6 +27,5 @@ export const rootReducer = combineReducers({
   onlineUsers,
   smartChat,
   threads,
-  user,
-  routing: routerReducer
+  user
 })
