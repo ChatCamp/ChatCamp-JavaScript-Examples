@@ -1,0 +1,102 @@
+@import './Components/WindowHeader/style.scss';
+@import './Components/WindowFooter/style.scss';
+@import './Components/Window/style.scss';
+@import './Components/WindowContent/style.scss';
+@import 'loaders.css/src/animations/ball-beat.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+}
+
+.iflychat-popup{
+  display: block;
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+#ifc-app-container{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // bottom: 0;
+  // right: 0;
+  @media screen and (max-width: 750px) {
+    height: 100%;
+  }
+}
+#ifc-app{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // bottom: 0;
+  // right: 0;
+  @media screen and (max-width: 750px) {
+    height: 100%;
+  }
+}
+
+.ifc-chat-list-container{
+  display: block;
+  float: left;
+  position: relative;
+  height: 20px;
+  bottom: 20px;
+  width: 320px;
+  margin: 0 20px 0 0;
+   @media screen and (max-width: 750px) {
+     height: 100%;
+     width: 100%;
+     margin: 0;
+     bottom: 0;
+   }
+}
+
+.ifc-chat-window-container{
+  display: block;
+  float: left;
+  position: relative;
+  // height: 20px;
+  // bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  margin: 20px;
+   @media screen and (max-width: 750px) {
+     height: 100%;
+     width: 100%;
+     margin: 0;
+     bottom: 0;
+     position: absolute;
+   }
+
+}
+// .ifc-chat-window *::-webkit-scrollbar {
+//     width: 8px;
+//     height: 8px;
+// }
+// .ifc-chat-window *::-webkit-scrollbar-thumb {
+//     -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+// }
+// .ifc-chat-window *::-webkit-scrollbar-button {
+//     width: 0;
+//     height: 0;
+//     display: none;
+// }
+// .ifc-chat-window *::-webkit-scrollbar-corner {
+//     background-color: transparent;
+// }
+// .ifc-chat-window ::-webkit-scrollbar-thumb{
+//     background-color: rgba(0,0,0,.2);
+// }
+
+body > div:first-child, body > div:first-child > div:first-child {
+  height: inherit; }
+
+body a {
+  cursor: pointer;
+}

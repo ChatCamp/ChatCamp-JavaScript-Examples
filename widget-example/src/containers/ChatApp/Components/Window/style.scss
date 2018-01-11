@@ -1,0 +1,6 @@
+.ifc-chat-window {
+  width: 100%;
+  @media screen and (max-width: 750px) {
+    height: 100%;
+  }
+}

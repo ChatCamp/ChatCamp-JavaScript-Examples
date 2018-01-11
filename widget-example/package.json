@@ -1,0 +1,71 @@
+{
+  "name": "iflychat-flow",
+  "homepage": "https://dashboard.chatcamp.io",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "chatcamp": "ChatCamp/ChatCamp-JavaScript-SDK",
+    "emoji-mart": "^1.0.1",
+    "flow-bin": "^0.49.1",
+    "halogen": "^0.2.0",
+    "husky": "^0.14.3",
+    "immutable": "^3.8.1",
+    "lint-staged": "^4.0.0",
+    "loaders.css": "^0.1.2",
+    "lodash": "^4.17.4",
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.0.2",
+    "prettier": "^1.5.2",
+    "react": "^15.6.1",
+    "react-addons-shallow-compare": "^15.6.2",
+    "react-avatar": "^2.3.0",
+    "react-bootstrap": "^0.31.1",
+    "react-dom": "^15.6.1",
+    "react-frame-component": "^1.1.1",
+    "react-intl": "^2.3.0",
+    "react-loaders": "^2.6.0",
+    "react-mixin": "^3.0.5",
+    "react-recaptcha": "^2.3.5",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "react-router-redux": "^5.0.0-alpha.6",
+    "react-scripts": "1.0.10",
+    "react-textarea-autosize": "^5.1.0",
+    "react-timer-mixin": "^0.13.3",
+    "redux": "^3.7.1",
+    "redux-mock-store": "^1.2.3",
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-css": "^2.2.10",
+    "semantic-ui-react": "iflylabs/Semantic-UI-React",
+    "store2": "^2.5.1"
+  },
+  "devDependencies": {
+    "node-sass": "^4.5.3",
+    "react-addons-perf": "^15.4.2",
+    "redux-devtools-extension": "^2.13.2",
+    "semantic-ui": "^2.2.10",
+    "why-did-you-update": "0.0.8"
+  },
+  "scripts": {
+    "precommit": "lint-staged",
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "start-js": "NODE_PATH=src && react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "NODE_PATH=src && npm run build-css && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "flow": "flow",
+    "eslint-test": "eslint src"
+  },
+  "lint-staged": {
+    "gitDir": "../../",
+    "linters": {
+      "src/**/*.{js,jsx,json,css}": [
+        "prettier --single-quote --write",
+        "git add"
+      ]
+    }
+  }
+}

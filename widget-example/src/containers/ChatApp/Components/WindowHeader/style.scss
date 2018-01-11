@@ -1,0 +1,12 @@
+.backgroundNone{
+  background: none!important;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+.header-blink {
+  animation: blinker 1s linear infinite;
+  animation: blinker 1s linear 10;
+}
