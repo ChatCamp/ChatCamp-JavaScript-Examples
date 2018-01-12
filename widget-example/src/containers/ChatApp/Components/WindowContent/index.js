@@ -49,7 +49,7 @@ class WindowContent extends Component {
       oldScroll: this.state.node.scrollTop
     })
     if(this.state.node.scrollTop === 0 && this.state.node.scrollHeight > this.state.node.clientHeight){
-      this.props.onLoadMore()
+      // this.props.onLoadMore()
     }
   }
 
@@ -102,7 +102,6 @@ class WindowContent extends Component {
       //handle message clubbing
       let messageClubbing = this.handleClubbing(message,oldMessage)
       oldMessage = _.clone(message)
-      console.log("MAP",message)
 
       messages.push(
         <Comment.Group key={"window-message-" + message.get('id')}>
@@ -112,8 +111,8 @@ class WindowContent extends Component {
             <Comment.Content>
               {/* <Popover frame={"ifc-chat-frame-window"} position={"top left"} trigger={<Comment.Author as='a'>{message.name}</Comment.Author>} content={<ProfileCard/>}/> */}
               {!messageClubbing.info && <Comment.Author as='a'>{message.getIn(['user', 'displayName']) || message.getIn(['user', 'displayName'])}</Comment.Author>}
-              {!messageClubbing.info && false && <Comment.Metadata>
-                <div>{UtilityTime.getTime('1', message.insertedAt*1000)}</div>
+              {!messageClubbing.info && <Comment.Metadata>
+                <div>{UtilityTime.getTime('1', message.get('insertedAt')*1000)}</div>
               </Comment.Metadata>}
               <Comment.Text>
                 <div dangerouslySetInnerHTML={{ __html: UnicodeToImg.unicodeToImgTag(message.getIn(['text']), undefined, true)}}></div>

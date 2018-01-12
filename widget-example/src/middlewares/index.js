@@ -2,6 +2,7 @@ import client from 'Client'
 import {
   CHAT_CONNECT_SUCCESS,
   GROUP_CHANNELS_GET_SUCCESS,
+  GROUP_CHANNELS_GET_HISTORY_SUCCESS,
   GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS
 } from 'state/action-types'
 
@@ -35,10 +36,22 @@ export const iFlyMiddleWare = store => {
         });
 
         client.GroupChannel.get(groupChannelId, function(error, groupChannel) {
-          store.dispatch({
-            type: GROUP_CHANNELS_GET_SUCCESS,
-            groupChannel: groupChannel
-          });
+          if(error==null) {
+
+            store.dispatch({
+              type: GROUP_CHANNELS_GET_SUCCESS,
+              groupChannel: groupChannel
+            });
+
+            let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
+            previousMessageListQuery.load(20, false, function(previousMessageListQueryError, messages) {
+              store.dispatch({
+                type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
+                groupChannel: groupChannel,
+                messages: messages
+              });
+            })
+          }
         });
 
         let channelListener = new client.ChannelListener();

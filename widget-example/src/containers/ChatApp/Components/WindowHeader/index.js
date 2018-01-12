@@ -30,10 +30,10 @@ class WindowHeader extends Component {
               <Icon style={statusColor} name={statusSign}/>
             </Grid.Column>
             <Grid.Column floated="left" width={10}>
-              {this.props.groupChannels.getIn([this.props.id, 'name'], "Name")}
+              {this.props.groupChannels.getIn([this.props.id, 'name'], "Name")} ({this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")})
             </Grid.Column>
             {minimize}
-            
+
             <Grid.Column floated="left" width={1}>
 
             </Grid.Column>
