@@ -57,30 +57,10 @@ export const initialState = {
     // mobileDevice: Utility.mobileCheck()
   }),
   messages: Immutable.OrderedMap({}),
-  list: Immutable.fromJS({
-    global: {
-      users: {},
-      rooms: {}
-    }
-  }),
+
   threads: Immutable.fromJS({
 
   }),
-  apps: {},
-  chatSettings: Immutable.fromJS({
-
-  }),
-  loadTranslation: Immutable.Map({
-    locale: "en",
-    message: null
-  }),
-  notification: Immutable.fromJS({
-
-  }),
-  mobileNotification: Immutable.fromJS({
-
-  }),
-  recentChats: Immutable.List(),
   groupChannels: Immutable.fromJS({
 
   }),
@@ -94,7 +74,7 @@ export const initialState = {
 // let widgetOnlineUserList = ChatAppInit.addWidgetOnlineUserListToState(initialState);
 // let oldEmbedRoom = ChatAppInit.addOldEmbedRoomsToState(initialState);
 //
-initialState.apps = Immutable.fromJS(initialState.apps);
+// initialState.apps = Immutable.fromJS(initialState.apps);
 // console.log(initialState.apps)
 // if(popup === true || embedRoom === true || embedApp === true || widget === true || widgetOnlineUserCount === true || widgetOnlineUserList === true || oldEmbedRoom === true){
 //   // iFlyChatChatSdk.chatConnect();

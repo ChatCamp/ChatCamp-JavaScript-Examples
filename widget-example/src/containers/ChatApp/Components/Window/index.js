@@ -21,7 +21,7 @@ class Window extends Component {
     let visibleFooter = null;
     if(!this.props.loading) {
       if(this.props.state === "open" ){
-        visibleContent = <WindowContent id = {this.props.id} type = {this.props.type} state = {this.props.state} messages = {this.props.groupChannels.getIn([this.props.id, 'messages'], Map())} />
+        visibleContent = <WindowContent id = {this.props.id} type = {this.props.type} state = {this.props.state} />
         visibleFooter = <WindowFooter id = {this.props.id} type = {this.props.type} />
       }
       if(this.props.state === "minimize"){

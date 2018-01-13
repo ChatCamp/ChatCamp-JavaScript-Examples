@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import Immutable from 'immutable';
+import { bindActionCreators } from 'redux'
+import * as actions from 'state/groupChannels/actions'
 import {Map} from 'immutable'
 import { Segment, Comment } from 'semantic-ui-react'
 import {Loader} from 'react-loaders'
@@ -16,11 +20,7 @@ class WindowContent extends Component {
 
   state = {
     messages : [],
-    topVisible : false,
-    shouldRequest: false,
-    oldHeight: 0,
-    oldScroll: 0,
-    oldMessage: {}
+    isLoading: false
   }
 
   handleClubbing = (currentMessage, oldMessage) => {
@@ -44,50 +44,26 @@ class WindowContent extends Component {
 
   checkLoadMore = (e) => {
     let node = ReactDOM.findDOMNode(this);
-    this.setState({
-      oldHeight: this.state.node.scrollHeight,
-      oldScroll: this.state.node.scrollTop
-    })
-    if(this.state.node.scrollTop === 0 && this.state.node.scrollHeight > this.state.node.clientHeight){
-      // this.props.onLoadMore()
+    if(node.scrollTop === 0) {
+      this.props.actions.getHistory(this.props.id, this.props.groupChannels.getIn([this.props.id, 'messages'], false).first().id)
     }
+    return false
   }
 
-  // componentDidUpdate(prevProps, prevState){
-  //   //TODO: Make functions for 'if' conditions to better understand the code
-  //   // if((prevProps.messages.size !== this.props.messages.size || this.props.typingUser )&& (this.props.messages[this.props.messages.size - 1].sender.id === this.props.user.id || (prevProps.messages.size > 0 && this.props.messages.size > 0 && prevProps.messages[prevProps.messages.size - 1].id === this.props.messages[this.props.messages.size - 1].id))){
-  //   let node = ReactDOM.findDOMNode(this);
-  //   let bottom = ((node.clientHeight + this.state.oldScroll) === this.state.oldHeight)
-  //   // console.log("before hello scroll",this.state.oldHeight,node.scrollHeight,(node.scrollHeight - this.state.oldHeight ) ,node.clientHeight, node.scrollTop )
-  //   // console.log("before hello scroll 2", this.state.oldHeight - (node.clientHeight + node.scrollTop))
-  //   if(this.state.oldScroll === 0 && this.state.oldHeight !== node.clientHeight){
-  //     // console.log("inside first case")
-  //     node.scrollTop = this.state.oldScroll + node.scrollHeight - this.state.oldHeight
-  //   }
-  //   else if((this.props.messages.size > 0 && this.props.messages[this.props.messages.size - 1].sender.id === this.props.user.id) || bottom){
-  //     if(this.props.messages.size > 0){
-  //       this.setState({shouldRequest: true})
-  //       // setTimeout(()=> {node.scrollTop = this.state.oldScroll + node.scrollHeight - this.state.oldHeight}, 0)
-  //       // console.log("hello scroll",node.scrollHeight, node.clientHeight )
-  //       node.scrollTop = node.scrollHeight - node.clientHeight
-  //     }
-  //   }
-  //   this.setState({
-  //     oldHeight: node.scrollHeight,
-  //     oldScroll: node.scrollTop
-  //   })
-  // }
-  componentDidMount(){
-    this.setState({node: ReactDOM.findDOMNode(this)})
+  componentWillUpdate() {
     let node = ReactDOM.findDOMNode(this);
-    setTimeout(()=> {node.scrollTop = node.scrollHeight }, 0)
-    if(this.props.messages.size > 0){
-      this.setState({shouldRequest: true})
-    }
-    this.setState({
-      oldHeight: node.scrollHeight,
-      oldScroll: node.scrollTop
-    })
+    this.scrollHeight = node.scrollHeight;
+    this.scrollTop = node.scrollTop;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    let node = ReactDOM.findDOMNode(this);
+    node.scrollTop = this.scrollTop + (node.scrollHeight - this.scrollHeight);
+
+  }
+
+  componentDidMount(){
+
   }
 
   render () {
@@ -96,8 +72,8 @@ class WindowContent extends Component {
     let messages = [];
     let oldMessage = {}
     // Iterate in Messages from props and Display them
-    if(this.props.messages){
-    this.props.messages.map((message, key) => {
+    if(this.props.groupChannels.getIn([this.props.id, 'messages'], false)){
+    this.props.groupChannels.getIn([this.props.id, 'messages'], false).map((message, key) => {
       message = Map(message)
       //handle message clubbing
       let messageClubbing = this.handleClubbing(message,oldMessage)
@@ -161,4 +137,14 @@ class WindowContent extends Component {
 
 }
 
-export default WindowContent
+function mapStateToProps(state) {
+  return state
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WindowContent)

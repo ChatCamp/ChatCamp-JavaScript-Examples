@@ -44,7 +44,7 @@ export const iFlyMiddleWare = store => {
             });
 
             let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
-            previousMessageListQuery.load(20, false, function(previousMessageListQueryError, messages) {
+            previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
               store.dispatch({
                 type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
                 groupChannel: groupChannel,
