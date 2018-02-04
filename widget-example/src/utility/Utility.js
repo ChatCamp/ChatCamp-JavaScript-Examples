@@ -124,9 +124,9 @@ let Utility = {
   //     return false;
   //   }
   // },
-  // generateRandomId: function() {
-  //   return Math.floor((Math.random() * 10000) + 1)
-  // },
+  generateRandomId: function() {
+    return Math.floor((Math.random() * 10000) + 1)
+  },
   // checkIfGroupChat: function(id) {
   //   return (id.substring(0,2) === 'p-')
   // },

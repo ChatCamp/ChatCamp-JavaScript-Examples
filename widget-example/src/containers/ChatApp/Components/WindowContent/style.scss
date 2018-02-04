@@ -1,4 +1,17 @@
-.window-content{
+.ui.segment.window-content {
   height: calc(100% - 147px);
   overflow-y: auto;
+  background-color: #fafafb;
+  .ui.comments {
+    &:hover {
+      // background-color: #eee;
+    }
+  }
+  .ui.comments .comment .metadata {
+    float: right;
+  }
+
+  .ui.comments .comment .metadata.role {
+    float: initial;
+  }
 }

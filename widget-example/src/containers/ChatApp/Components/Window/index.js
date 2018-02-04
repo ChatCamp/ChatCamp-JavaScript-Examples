@@ -13,6 +13,10 @@ import './style.css'
 
 class Window extends Component {
 
+  state = {
+    fileRef: null
+  }
+
   render () {
     let frameContent = []
     let frame = []
@@ -22,7 +26,7 @@ class Window extends Component {
     if(!this.props.loading) {
       if(this.props.state === "open" ){
         visibleContent = <WindowContent id = {this.props.id} type = {this.props.type} state = {this.props.state} />
-        visibleFooter = <WindowFooter id = {this.props.id} type = {this.props.type} />
+        visibleFooter = <WindowFooter id = {this.props.id} type = {this.props.type} setFileRef = {(ref) => {this.setState({fileRef: ref})}} />
       }
       if(this.props.state === "minimize"){
         customClass = customClass + " ifc-chat-frame-window-min"
@@ -30,7 +34,7 @@ class Window extends Component {
 
       frameContent.push(
         <Segment.Group key={"window-data-" + this.props.id} size="tiny" className={"ifc-chat-window"}>
-          <WindowHeader id = {this.props.id} type = {this.props.type} state = {this.props.state}/>
+          <WindowHeader id = {this.props.id} type = {this.props.type} state = {this.props.state} fileRef = {this.state.fileRef}/>
           {visibleContent}
           {visibleFooter}
         </Segment.Group>

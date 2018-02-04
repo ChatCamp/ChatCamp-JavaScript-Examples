@@ -2,20 +2,43 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
-import { Segment, Grid, Icon } from 'semantic-ui-react'
+import { Segment, Grid, Icon, Progress } from 'semantic-ui-react'
 import './style.css'
+import Emoji from '../Emoji'
+import UnicodeToImg from 'utility/UnicodeToImg'
+import Popover from '../Popover'
 import Textarea from 'react-textarea-autosize';
+import client from 'Client'
+// import MessageAction from '../MessageAction'
+import CannedResponse from '../CannedResponse'
+import Utility from 'utility/Utility';
 
 class WindowFooter extends Component {
-  state = { open: false, message: '', isEmojiOpen: false, footerHeight: 23}
+  state = {
+    open: false,
+    message: '',
+    isEmojiOpen: false,
+    footerHeight: 23,
+    isFile: true,
+    isAction: (process.env.REACT_APP_CHATCAMP_ACTION === "TRUE") || (Utility.getUrlQueryParams(window.location.href)['action'] && Utility.getUrlQueryParams(window.location.href)['action'][0] && Utility.getUrlQueryParams(window.location.href)['action'][0] === "true")
+  }
   constructor(props,context){
     super(props,context);
     this.handleUpdateEmoji = this.handleUpdateEmoji.bind(this);
+    this.handleFileUpload = this.handleFileUpload.bind(this);
   }
 
   handleChange = (e) =>{
+    let isFile = false;
+    if(e.target.value === '') {
+      isFile = true;
+    }
     if(e.target.value !== '\n'){
-      this.setState({message: e.target.value},function(){
+      this.setState({
+        message: e.target.value,
+        isFile: isFile
+      },function(){
+        this.props.actions.startTyping(this.props.id)
       })
     }
   }
@@ -27,7 +50,7 @@ class WindowFooter extends Component {
           let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height
           let contentHeightInt = Number(contentHeight.substring(0, contentHeight.length - 2))
           let newContentHeightInt =  contentHeightInt - diff
-          console.log(newContentHeightInt)
+          // console.log(newContentHeightInt)
           this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt + "px"
           if(diff > 0){
             this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
@@ -45,15 +68,41 @@ class WindowFooter extends Component {
     }
   }
 
+  sendAttachmentClick = () => {
+    let inputAttachment = this.refs.attachmentField;
+    inputAttachment.click()
+  }
+
   sendMessageClick = () => {
     this.sendMessage()
   }
 
   sendMessage = () => {
     if((this.state.message !== '')){
-      this.props.actions.userMessage(this.props.id, this.state.message)
-      this.setState({message: ''})
+      let message = UnicodeToImg.colonToUnicode(UnicodeToImg.checkIfEmoji(this.state.message))
+      this.props.actions.userMessage(this.props.id, message)
+      this.setState({
+        message: '',
+        isFile: true
+      })
     }
+  }
+
+  handleFileUpload(e) {
+    e.preventDefault();
+    // console.log("file uploaded", e, "group_channel", this.props.id)
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    this.props.actions.attachmentMessage(this.props.id, file)
+    reader.onloadend = () => {
+      // console.log("File Reader", reader)
+      this.setState({
+        attachment: file,
+        // imagePreviewUrl: reader.result
+      });
+    }
+
+    reader.readAsDataURL(file)
   }
 
   handleUpdateEmoji(emoji, e) {
@@ -69,6 +118,7 @@ class WindowFooter extends Component {
 
   componentDidMount() {
     // this.props.setInput(this.textInputRef);
+    this.props.setFileRef(this.refs.attachmentField)
   }
 
   componentWillUnmount() {
@@ -76,13 +126,15 @@ class WindowFooter extends Component {
   }
 
   render () {
-    const { open, message } = this.state
-    let {frame} = this.props
+    const { open, message, isFile, isAction } = this.state
+    let {frame, groupChannels, id} = this.props
+    let percent = groupChannels.getIn([id, 'attachmentProgress'], 0)
     return (
     <Segment compact={true}>
       {/* <textArea className="borderNone" placeholder='Type and Send Message..' name ='message' value={message} style={{ width: "100%"}} onChange={this.handleChange} onKeyDown={this.handleKeyPress} ref={node => this.textInputRef = node} /> */}
+      {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
       <Grid>
-        {/* <Grid.Column width={2}>
+        <Grid.Column width={2}>
 
           <Popover
             frame={this.props.id}
@@ -96,15 +148,16 @@ class WindowFooter extends Component {
                     />}
           />
 
-        </Grid.Column> */}
-        <Grid.Column width={13} style={{paddingLeft: "9px", fontSize: "13.5px"}}>
+        </Grid.Column>
+
+        <Grid.Column width={(isFile && isAction)?9:(isFile?10:12)} style={{paddingLeft: "9px", fontSize: "13.5px"}}>
 
           <Textarea
             className="borderNone"
             name ='message'
             minRows={1}
             maxRows={5}
-            placeholder='Type and Send Message..'
+            placeholder={'Send Message as ' + this.props.user.get('displayName')}
             value={message}
             style={{ width: "100%", minHeight: "23px"}}
             onChange={this.handleChange}
@@ -112,23 +165,21 @@ class WindowFooter extends Component {
             inputRef={node => this.textInputRef = node}
             onHeightChange={(height, instance) => this.handleChangeHeight(height)}
           />
-
+          <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden"}}/>
         </Grid.Column>
-        <Grid.Column width={2}>
-          <Icon name='send' size='large' onClick={() => {this.sendMessageClick()}}/>
-          {/* <Popover
-            frame={this.props.id}
-            isOpen={this.state.isEmojiOpen}
-            trigger={<Icon name='send' size='large' onClick={this.handleKeyPress}/>}
-            content={<Emoji
-                      className="backgroundNone"
-                      key="ifc-chat-window-panel"
-                      showEmojiPanel={true}
-                      clickMethod ={this.handleUpdateEmoji}
-                    />}
-          /> */}
-
-        </Grid.Column>
+        {isFile && <CannedResponse id={this.props.id} />}
+        {isFile && <Grid.Column width={1}>
+          <Icon name='add' size='large' onClick={() => {this.sendAttachmentClick()}}/>
+        </Grid.Column>}
+        {isFile && <Grid.Column width={1}>
+          <Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>
+        </Grid.Column>}
+        {/* {isAction && isFile && <Grid.Column width={1}>
+          <MessageAction id={this.props.id}/>
+        </Grid.Column>} */}
+        {!isFile && <Grid.Column width={1}>
+          <Icon color="green" name='arrow right' size='large' onClick={() => {this.sendMessageClick()}}/>
+        </Grid.Column>}
       </Grid>
     </Segment>
 

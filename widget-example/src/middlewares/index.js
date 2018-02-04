@@ -1,9 +1,12 @@
 import client from 'Client'
 import {
   CHAT_CONNECT_SUCCESS,
+  GROUP_CHANNELS_GET_ERROR,
   GROUP_CHANNELS_GET_SUCCESS,
   GROUP_CHANNELS_GET_HISTORY_SUCCESS,
-  GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS
+  GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
+  GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
+  GROUP_CHANNELS_INVALID_PARTICIPANT
 } from 'state/action-types'
 
 import Utility from 'utility/Utility'
@@ -23,7 +26,7 @@ export const iFlyMiddleWare = store => {
 
   let userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
 
-  // client.customConnect(userId, "ws://192.168.2.145", "9080", function(e, user) {
+  // client.customConnect(userId, "192.168.2.2", "9080", function(e, user) {
   client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
@@ -43,14 +46,50 @@ export const iFlyMiddleWare = store => {
               groupChannel: groupChannel
             });
 
-            let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
-            previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+            // Check if the current user is participants of this groupChannelLeave
+            let isCurrentUserAcceptedParticipant = false;
+            let isCurrentUserParticipant = false;
+            console.log(client.user.id)
+            for (let i in groupChannel.participants) {
+              let participant = groupChannel.participants[i]
+              console.log(participant.id, client.user.id)
+              if(participant.id === client.user.id) {
+                isCurrentUserParticipant = true
+                if(participant.status === "accepted") {
+                  isCurrentUserAcceptedParticipant = true
+                }
+              }
+            }
+
+            if(isCurrentUserParticipant && isCurrentUserAcceptedParticipant) {
+              let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
+              previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+                store.dispatch({
+                  type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
+                  groupChannel: groupChannel,
+                  messages: messages
+                });
+              })
+            }
+            else if(isCurrentUserParticipant && !isCurrentUserAcceptedParticipant){
               store.dispatch({
-                type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
-                groupChannel: groupChannel,
-                messages: messages
+                type: GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
+                groupChannel: groupChannel
               });
-            })
+            }
+            else {
+              store.dispatch({
+                type: GROUP_CHANNELS_INVALID_PARTICIPANT,
+                groupChannel: groupChannel
+              });
+            }
+          }
+          else {
+            store.dispatch({
+              type: GROUP_CHANNELS_GET_ERROR,
+              error: error,
+              groupChannelId: groupChannelId
+            });
           }
         });
 
@@ -64,8 +103,19 @@ export const iFlyMiddleWare = store => {
           });
         }
 
+        channelListener.onGroupChannelTypingStatusChanged = function(groupChannel) {
+          console.log("Typing Status", groupChannel, groupChannel.getTypingParticipants())
+          store.dispatch({
+            type: GROUP_CHANNELS_GET_SUCCESS,
+            groupChannel: groupChannel
+          });
+        }
+
         client.addChannelListener("t", channelListener)
       // });
+    }
+    else {
+
     }
   });
 

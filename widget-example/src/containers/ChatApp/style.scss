@@ -63,7 +63,7 @@
   // height: 20px;
   // bottom: 20px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   height: 500px;
   margin: 20px;
    @media screen and (max-width: 750px) {
@@ -99,4 +99,104 @@ body > div:first-child, body > div:first-child > div:first-child {
 
 body a {
   cursor: pointer;
+}
+
+// Custom Changes
+
+.ifc-chat-window-container {
+    margin: 0;
+    max-width: none;
+    height: auto;
+	position: static;
+}
+
+.cc-chat-window-header {
+    background: #eef0f3;
+    padding-left: 40px !important;
+}
+
+.cc-chat-window-header .ui.header, .cc-chat-window-header .ui.header .sub.header, .cc-chat-window-header i.icon, .cc-chat-window-header i.icon .sub.header {
+    color: #303841;
+}
+
+.ui.segment.window-content {
+    background-color: #eef0f3;
+    padding-left: 40px;
+}
+
+.ifc-chat-window-container .ui.grid>.row> .middle{
+    width: 30px !important;
+    padding: 0;
+}
+
+
+.ifc-chat-window-container .ui.grid>.row> .left {
+    margin: 0;
+    width: auto !important;
+}
+
+.ifc-chat-window-container .ui.grid>.row> .right {
+    margin: 0;
+    position: absolute;
+    width: 30px !important;
+    padding: 0;
+    right: 20px;
+    top: 16px;
+}
+
+.ui.segment.window-content .ui.comments {
+    max-width: none !important;
+}
+
+.ui.comments .comment .text > div {
+    background: #fff;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 1px 2px 1px rgba(0,0,0,0.1);
+}
+
+.ui.comments .comment .text > div:before {
+    position: absolute;
+    content: '';
+    left: -10px;
+    top: 5px;
+    border: 5px solid transparent;
+    border-right-color: #fff;
+}
+
+.ui.compact.segment .ten {
+    width: 68.25% !important;
+}
+
+.ui.compact.segment .ten
+ textarea {
+    height: 25px !important;
+    font-size: 16px;
+}
+
+@media(max-width: 767px){
+    .ui.compact.segment .ten{width: 67% !important;}
+}
+
+.ifc-chat-window .compact.segment {
+    border: none;
+    color: #d6dce1;
+}
+
+.ifc-chat-window .compact.segment i.icon {
+    font-size: 2em;
+}
+
+.ui.compact.segment input[type="file"] {
+    display: none;
+}
+
+.ifc-chat-window .compact.segment > div {
+    height: 78px;
+}
+
+.ui.compact.segment .ten textarea:hover, .ui.compact.segment .ten textarea:focus {
+    outline: none;
 }
