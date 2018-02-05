@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import UnicodeToImg from '../../../../utility/UnicodeToImg'
 import './style.css'
-
+import emojiMart from "emoji-mart";
 
 class Emoji extends Component {
   constructor(props,context){
@@ -14,12 +14,12 @@ class Emoji extends Component {
 
   componentWillMount() {
     let t = this;
-    require.ensure(["emojis-list"], function(require) {
-      let __emojiMart = require("emoji-mart");
+    // require.ensure(["emojis-list"], function(require) {
+      let __emojiMart = emojiMart;
       t.setState({
         _emojiMart: __emojiMart
       });
-    });
+    // });
   }
 
   componentDidMount() {
