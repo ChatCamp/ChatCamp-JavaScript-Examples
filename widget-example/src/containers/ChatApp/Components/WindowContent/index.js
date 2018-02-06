@@ -135,6 +135,9 @@ class WindowContent extends Component {
           if(attachment.get('type').substring(0,5) === "image") {
             text = <Image src={attachment.get('url')} />
           }
+          if(attachment.get('type').substring(0,5) === "audio"){
+            text = <audio controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
+          }
         // }
       }
       else {

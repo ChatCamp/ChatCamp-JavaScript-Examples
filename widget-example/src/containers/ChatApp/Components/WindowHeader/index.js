@@ -5,6 +5,7 @@ import * as actions from 'state/smartChat/actions'
 import Immutable from 'immutable';
 import { Icon, Header, Segment, Grid, Label, Popup, Item, List, Image } from 'semantic-ui-react'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
+import UtilityTime from 'utility/UtilityTime'
 import './style.css'
 
 import status from 'utility/status'
@@ -28,12 +29,21 @@ class WindowHeader extends Component {
       {this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")} Participants
     </Header.Subheader>
 
+    let inlineListStyle = {
+      width: "300px"
+    }
     let inlineStyleDisplay ={
       display: "table-cell"
     }
 
     let inlineStyleHeight ={
       lineHeight: "36px"
+    }
+    let inlineStyleHeightName ={
+      lineHeight: "36px",
+      maxWidth: "120px",
+      whiteSpace: "nowrap",
+      overflowX: "hidden"
     }
     let inlineStyleHeightImage ={
       lineHeight: "36px",
@@ -72,13 +82,11 @@ class WindowHeader extends Component {
                     <Popup.Header>Participants</Popup.Header>
                     <Popup.Content>
 
-                      <List>
+                      <List style={inlineListStyle}>
                         {this.props.groupChannels.getIn([this.props.id, 'participants'], Immutable.Map()).map((user, id) => {
                           return (
                             <List.Item key={"participant-content-list-" + user.id}>
-                              <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-                                <Icon name='circle' color={user.isOnline ? "green": "grey"} />
-                              </List.Content>
+
 
                               {/* <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.userName} />} /> */}
                               <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
@@ -87,8 +95,12 @@ class WindowHeader extends Component {
                                 {/* <Label style={getStatusStyle('1')} circular floating empty /> */}
                               </List.Content>
 
-                              <List.Content style={inlineStyleHeight} verticalAlign='middle' floated="left">
+                              <List.Content style={inlineStyleHeightName} verticalAlign='middle' floated="left">
                                 <List.Header>{user.displayName}</List.Header>
+                              </List.Content>
+                              <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
+                                {user.isOnline? <Icon name='circle' color="green" /> : <div>{UtilityTime.getTime('3', user.lastSeen*1000)}</div>}
+
                               </List.Content>
                             </List.Item>)
                         })}

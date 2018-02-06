@@ -26,8 +26,8 @@ export const iFlyMiddleWare = store => {
 
   let userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
 
-  // client.customConnect(userId, "192.168.2.2", "9080", function(e, user) {
-  client.connect(userId, function(e, user) {
+  client.customConnect(userId, "localhost", "9080", function(e, user) {
+  // client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
 
@@ -70,6 +70,17 @@ export const iFlyMiddleWare = store => {
                   messages: messages
                 });
               })
+
+              setInterval(function(){
+                groupChannel.sync(function(error,groupChannel){
+                  if(error == null){
+                    store.dispatch({
+                      type: GROUP_CHANNELS_GET_SUCCESS,
+                      groupChannel: groupChannel
+                    });
+                  }
+                })
+              }, 30000)
             }
             else if(isCurrentUserParticipant && !isCurrentUserAcceptedParticipant){
               store.dispatch({
