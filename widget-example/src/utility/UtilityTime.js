@@ -53,92 +53,92 @@ _UtilityTime.getTimeTwentyFourHour = function(millis) {
     return time = (month+'/'+date+' '+hour+':'+minute);
   }
 };
-// _UtilityTime.timeSince = function(date,relativeFormat) {
-//
-//   var seconds = Math.floor((new Date() - date) / 1000);
-//   var intervalType;
-//
-//   var interval = Math.floor(seconds / 31536000);
-//   if (interval >= 1) {
-//       intervalType = 'year';
-//   } else {
-//       interval = Math.floor(seconds / 2592000);
-//       if (interval >= 1) {
-//           intervalType = 'month';
-//       } else {
-//           interval = Math.floor(seconds / 86400);
-//           if (interval >= 1) {
-//               intervalType = 'day';
-//           } else {
-//               interval = Math.floor(seconds / 3600);
-//               if (interval >= 1) {
-//                   intervalType = "hour";
-//               } else {
-//                   interval = Math.floor(seconds / 60);
-//                   if (interval >= 1) {
-//                       intervalType = "min";
-//                   } else {
-//                       interval = seconds;
-//                       intervalType = "second";
-//                   }
-//               }
-//           }
-//       }
-//   }
-//
-//   if (interval > 1) {
-//       intervalType += 's';
-//   }
-//   intervalType+= ' ago';
-//
-//   if(intervalType === "seconds ago" || intervalType === "second ago"){
-//     interval = 'just'
-//     intervalType = 'now'
-//   }
-//
-//   var relativeTime = interval + ' ' + intervalType;
-//   if(intervalType.indexOf("now") > -1) {
-//     relativeTime = Constants.JUST_NOW;
-//   } else if(intervalType.indexOf("year") > -1) {
-//     if(intervalType.indexOf("years") > -1) {
-//       relativeTime = Constants.YEARS_AGO(interval)
-//     } else {
-//       relativeTime = Constants.YEAR_AGO(interval)
-//     }
-//   } else if(intervalType.indexOf("month") > -1) {
-//     if(intervalType.indexOf("months") > -1) {
-//       relativeTime = Constants.MONTHS_AGO(interval)
-//     } else {
-//       relativeTime = Constants.MONTH_AGO(interval)
-//     }
-//   } else if(intervalType.indexOf("day") > -1) {
-//     if(intervalType.indexOf("days") > -1) {
-//       relativeTime = Constants.DAYS_AGO(interval)
-//     } else {
-//       relativeTime = Constants.DAY_AGO(interval)
-//     }
-//   } else if(intervalType.indexOf("hour") > -1) {
-//     if(intervalType.indexOf("hours") > -1) {
-//       relativeTime = Constants.HOURS_AGO(interval)
-//     } else {
-//       relativeTime = Constants.HOUR_AGO(interval)
-//     }
-//   } else if(intervalType.indexOf("minute") > -1) {
-//     if(intervalType.indexOf("minutes") > -1) {
-//       relativeTime = Constants.MINUTES_AGO(interval)
-//     } else {
-//       relativeTime = Constants.MINUTE_AGO(interval)
-//     }
-//   }
-//
-//   if(relativeFormat === 'short'){
-//     // console.log('relativeformat inside')
-//     return interval + intervalType[0];
-//   } else{
-//     return relativeTime;
-//   }
-//
-// };
+_UtilityTime.timeSince = function(date,relativeFormat) {
+
+  var seconds = Math.floor((new Date() - date) / 1000);
+  var intervalType;
+
+  var interval = Math.floor(seconds / 31536000);
+  if (interval >= 1) {
+      intervalType = 'year';
+  } else {
+      interval = Math.floor(seconds / 2592000);
+      if (interval >= 1) {
+          intervalType = 'month';
+      } else {
+          interval = Math.floor(seconds / 86400);
+          if (interval >= 1) {
+              intervalType = 'day';
+          } else {
+              interval = Math.floor(seconds / 3600);
+              if (interval >= 1) {
+                  intervalType = "hour";
+              } else {
+                  interval = Math.floor(seconds / 60);
+                  if (interval >= 1) {
+                      intervalType = "min";
+                  } else {
+                      interval = seconds;
+                      intervalType = "second";
+                  }
+              }
+          }
+      }
+  }
+
+  if (interval > 1) {
+      intervalType += 's';
+  }
+  intervalType+= ' ago';
+
+  if(intervalType === "seconds ago" || intervalType === "second ago"){
+    interval = 'just'
+    intervalType = 'now'
+  }
+
+  var relativeTime = interval + ' ' + intervalType;
+  if(intervalType.indexOf("now") > -1) {
+    relativeTime = "Just Now";
+  } else if(intervalType.indexOf("year") > -1) {
+    if(intervalType.indexOf("years") > -1) {
+      relativeTime = "Years Ago"
+    } else {
+      relativeTime = "Year Ago"
+    }
+  } else if(intervalType.indexOf("month") > -1) {
+    if(intervalType.indexOf("months") > -1) {
+      relativeTime = "Months Ago"
+    } else {
+      relativeTime = "a Month Ago"
+    }
+  } else if(intervalType.indexOf("day") > -1) {
+    if(intervalType.indexOf("days") > -1) {
+      relativeTime = "Days Ago"
+    } else {
+      relativeTime = "a Day Ago"
+    }
+  } else if(intervalType.indexOf("hour") > -1) {
+    if(intervalType.indexOf("hours") > -1) {
+      relativeTime = "Hours Ago"
+    } else {
+      relativeTime = "an Hour Ago"
+    }
+  } else if(intervalType.indexOf("minute") > -1) {
+    if(intervalType.indexOf("minutes") > -1) {
+      relativeTime = "Minutes Ago"
+    } else {
+      relativeTime = "a Minute Ago"
+    }
+  }
+
+  if(relativeFormat === 'short'){
+    // console.log('relativeformat inside')
+    return interval + intervalType[0];
+  } else{
+    return relativeTime;
+  }
+
+};
 
 let UtilityTime = {
 
