@@ -49,7 +49,7 @@ class CannedResponse extends Component {
                     </Dropdown>}
                     content='Canned Responses'
                     inverted
-        />}
+        />
         {/* <Dropdown
           name="canned_response"
           icon="wizard"
