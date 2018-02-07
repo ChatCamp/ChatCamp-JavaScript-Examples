@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import Immutable from 'immutable';
 import { bindActionCreators } from 'redux'
 import {
   GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
@@ -9,12 +8,17 @@ import {
 } from 'state/action-types'
 import * as actions from 'state/groupChannels/actions'
 import {Map} from 'immutable'
-import { Segment, Comment, Confirm, Message, Image, Card, Icon } from 'semantic-ui-react'
+import { Segment, Comment, Confirm, Message, Image } from 'semantic-ui-react'
 import {Loader} from 'react-loaders'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
+import SoundNotification from 'containers/ChatApp/Components/SoundNotification'
+import TitleAlert from 'containers/ChatApp/Components/TitleAlert'
+import DesktopNotification from 'containers/ChatApp/Components/DesktopNotification'
 import UnicodeToImg from 'utility/UnicodeToImg'
 import UtilityTime from 'utility/UtilityTime'
 import ProcessMessage from 'utility/ProcessMessage';
+import DetectBrowser from 'utility/DetectBrowser';
+
 import _ from 'lodash'
 // import MessageActionCard from '../MessageActionCard'
 
@@ -78,12 +82,6 @@ class WindowContent extends Component {
 
   }
 
-  componentDidMount(){
-
-  }
-
-
-
   render () {
     const contextWindow = document.getElementById("ifc-" + this.props.id)
     const { contextRef } = this.state
@@ -127,7 +125,7 @@ class WindowContent extends Component {
       oldMessage = _.clone(message)
 
       let text = null
-      console.log(message.get('type'), message.get('text', false), message.getIn(['attachment', 'url'], false))
+      // console.log(message.get('type'), message.get('text', false), message.getIn(['attachment', 'url'], false))
       if(message.get('type') === "attachment") {
         let attachment = message.getIn(['attachment'])
         // if(!message.getIn(['attachment', 'url'], false)) {
@@ -136,7 +134,14 @@ class WindowContent extends Component {
             text = <Image src={attachment.get('url')} />
           }
           if(attachment.get('type').substring(0,5) === "audio"){
-            text = <audio controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
+            if(!DetectBrowser.detectIE()){
+              text = <audio controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
+
+            }
+            else{
+              // IE render link instead of audio player
+              text = <div dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
+            }
           }
         // }
       }
@@ -219,6 +224,9 @@ class WindowContent extends Component {
     return (
       <Segment onScroll={this.checkLoadMore.bind(this)} className="window-content" style={{overflowY: "auto", height: "375px"}} ref={node => this.handleContextRef = node}>
         {messages}
+        <SoundNotification groupChannelId = {this.props.id}/>
+        <TitleAlert groupChannelId = {this.props.id}/>
+        <DesktopNotification groupChannelId = {this.props.id}/>
       </Segment>
     )
   }

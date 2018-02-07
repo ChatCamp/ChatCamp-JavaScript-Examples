@@ -3,18 +3,25 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/smartChat/actions'
 import Immutable from 'immutable';
-import { Icon, Header, Segment, Grid, Label, Popup, Item, List, Image } from 'semantic-ui-react'
+import { Icon, Header, Segment, Grid, Popup, List, Image } from 'semantic-ui-react'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
 import UtilityTime from 'utility/UtilityTime'
 import './style.css'
+import _ from 'lodash'
 
 import status from 'utility/status'
 
 class WindowHeader extends Component {
+  state = {
+    settingsHover: true,
+    settingsContent: "User Settings"
+  }
   handleItemClick = () => {
     this.props.fileRef.click()
   }
+
   render () {
+
     let statusColor ={
       color: status.getColorFromStatusCode(this.props.headerStatus)
     }
@@ -41,15 +48,24 @@ class WindowHeader extends Component {
     }
     let inlineStyleHeightName ={
       lineHeight: "36px",
-      maxWidth: "120px",
+      maxWidth: "140px",
       whiteSpace: "nowrap",
       overflowX: "hidden"
+    }
+    let inlineStyleHeightNameAdmin ={
+      lineHeight: "36px",
+      maxWidth: "20px",
+      whiteSpace: "nowrap",
+      overflowX: "hidden",
+      fontSize:"17px"
     }
     let inlineStyleHeightImage ={
       lineHeight: "36px",
       height: "36px",
       position: "relative"
     }
+
+
 
     let getStatusStyle = (statusCode) => {
       return {
@@ -63,6 +79,7 @@ class WindowHeader extends Component {
     }
 
     return (
+
     <Segment size="tiny">
       {/* <Header size= "tiny" as='h6'> */}
         <Grid>
@@ -98,8 +115,12 @@ class WindowHeader extends Component {
                               <List.Content style={inlineStyleHeightName} verticalAlign='middle' floated="left">
                                 <List.Header>{user.displayName}</List.Header>
                               </List.Content>
+                              {/*  show admin from metadata*/}
+                              { this.props.groupChannels.getIn([this.props.id, 'metadata'], Immutable.Map()) && this.props.groupChannels.getIn([this.props.id, 'metadata'], Immutable.Map()).admins &&  _.includes(JSON.parse(this.props.groupChannels.getIn([this.props.id, 'metadata'], Immutable.Map()).admins), user.id) && <List.Content style={inlineStyleHeightNameAdmin} verticalAlign='middle' floated="left">
+                                <Icon name="check circle outline" color="black"/>
+                              </List.Content>}
                               <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-                                {user.isOnline? <Icon name='circle' color="green" /> : <div>{UtilityTime.getTime('3', user.lastSeen*1000)}</div>}
+                                {user.isOnline? <Icon name='circle' color="green" /> : <div>{user.lastSeen === 0? "Not Joined":UtilityTime.getTime('3', user.lastSeen*1000)}</div>}
 
                               </List.Content>
                             </List.Item>)
@@ -115,9 +136,8 @@ class WindowHeader extends Component {
             {minimize}
 
             <Grid.Column floated="right" width={2}>
-              <Popup
-                trigger={
-                  <Popup
+
+                  <Popup className="headerSettings"
                     trigger={<Icon name="setting" size="big"/>}
                     hideOnScroll
                     position='bottom right'
@@ -129,10 +149,6 @@ class WindowHeader extends Component {
                       </List>
                     </Popup.Content>
                   </Popup>
-                }
-                content='Hello. This is an inverted popup'
-                inverted
-              />
             </Grid.Column>
           </Grid.Row>
 

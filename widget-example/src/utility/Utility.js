@@ -1,8 +1,3 @@
-import React from 'react'
-// import iFlyChatChatSdk from 'modules/iflychat-chat-sdk'
-// import iFlyChatChatSdkUi from 'modules/iflychat-chat-sdk-ui'
-// import FirstLetterAvatar from 'containers/ChatApp/HelperComponents/FirstLetterAvatar'
-
 let _Utility = {};
  _Utility.soundObject = []
  _Utility.soundObject['1'] = '//cdn.iflychat.com/sound/incoming.mp3';
@@ -114,48 +109,48 @@ let Utility = {
     return params;
   },
 
-  // playSound: function(soundType){
-  //   let soundFile = [];
-  //   if(soundType !== '0'){
-  //     soundFile = new Audio(_Utility.soundObject[soundType])
-  //     return soundFile.play();
-  //   }
-  //   else{
-  //     return false;
-  //   }
-  // },
+  playSound: function(soundType){
+    let soundFile = [];
+    if(soundType !== '0'){
+      soundFile = new Audio(_Utility.soundObject[soundType])
+      return soundFile.play();
+    }
+    else{
+      return false;
+    }
+  },
   generateRandomId: function() {
     return Math.floor((Math.random() * 10000) + 1)
   },
   // checkIfGroupChat: function(id) {
   //   return (id.substring(0,2) === 'p-')
   // },
-  // changeTitle: function(name, newTitle) {
-  //   if (typeof newTitle !== 'string') {
-  //     newTitle = newTitle.join(' ')
-  //   }
-  //   newTitle = name + ' says: ' + newTitle.substring(0,8) + '...';  //'says' can be translated
-  //   if(_Utility.interval !== null) {
-  //     clearInterval(_Utility.interval);
-  //     _Utility.interval = null;
-  //     document.title = _Utility.oldTitle;
-  //     _Utility.interval = setInterval(() => {
-  //       document.title = _Utility.isOldTitle ? _Utility.oldTitle : newTitle;
-  //       _Utility.isOldTitle = !_Utility.isOldTitle;
-  //     }, 2000);
-  //   }
-  //   else {
-  //     _Utility.interval = setInterval(() => {
-  //       document.title = _Utility.isOldTitle ? _Utility.oldTitle : newTitle;
-  //       _Utility.isOldTitle = !_Utility.isOldTitle;
-  //     }, 2000);
-  //   }
-  // },
-  // clearTitle: function() {
-  //   clearInterval(_Utility.interval);
-  //   _Utility.interval = null;
-  //   document.title = _Utility.oldTitle;
-  // },
+  changeTitle: function(name, newTitle) {
+    if (typeof newTitle !== 'string') {
+      newTitle = newTitle.join(' ')
+    }
+    newTitle = name + ' says: ' + newTitle.substring(0,8) + '...';  //'says' can be translated
+    if(_Utility.interval !== null) {
+      clearInterval(_Utility.interval);
+      _Utility.interval = null;
+      document.title = _Utility.oldTitle;
+      _Utility.interval = setInterval(() => {
+        document.title = _Utility.isOldTitle ? _Utility.oldTitle : newTitle;
+        _Utility.isOldTitle = !_Utility.isOldTitle;
+      }, 2000);
+    }
+    else {
+      _Utility.interval = setInterval(() => {
+        document.title = _Utility.isOldTitle ? _Utility.oldTitle : newTitle;
+        _Utility.isOldTitle = !_Utility.isOldTitle;
+      }, 2000);
+    }
+  },
+  clearTitle: function() {
+    clearInterval(_Utility.interval);
+    _Utility.interval = null;
+    document.title = _Utility.oldTitle;
+  },
   // spamCheckInterval: function() {
   //   if(_Utility.spamInterval === null) {
   //     _Utility.spamInterval = setInterval(() => {

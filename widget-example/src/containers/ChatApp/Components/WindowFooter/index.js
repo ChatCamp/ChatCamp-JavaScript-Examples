@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
-import { ReactMic } from 'react-mic';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
-import { Segment, Grid, Icon, Progress } from 'semantic-ui-react'
+import { Segment, Grid, Icon, Progress, Popup } from 'semantic-ui-react'
 import './style.css'
 import Emoji from '../Emoji'
 import UnicodeToImg from 'utility/UnicodeToImg'
 import Popover from '../Popover'
 import Textarea from 'react-textarea-autosize';
-import client from 'Client'
 // import MessageAction from '../MessageAction'
 import CannedResponse from '../CannedResponse'
 import Utility from 'utility/Utility';
+import DetectBrowser from 'utility/DetectBrowser';
 
 class WindowFooter extends Component {
   state = {
@@ -28,6 +27,18 @@ class WindowFooter extends Component {
     super(props,context);
     this.handleUpdateEmoji = this.handleUpdateEmoji.bind(this);
     this.handleFileUpload = this.handleFileUpload.bind(this);
+  }
+
+  componentWillMount(){
+    let mic
+    if(!DetectBrowser.detectIE()){
+      mic = require("react-mic").ReactMic
+      this.setState({mic: mic})
+    }
+    else{
+      this.setState({mic: false})
+    }
+
   }
 
   handleChange = (e) =>{
@@ -159,9 +170,8 @@ class WindowFooter extends Component {
   }
 
   render () {
-    console.log("i ma here")
-    const { open, message, isFile, isAction, record } = this.state
-    let {frame, groupChannels, id} = this.props
+    const { message, isFile, isAction, record } = this.state
+    let {groupChannels, id} = this.props
     let percent = groupChannels.getIn([id, 'attachmentProgress'], 0)
     return (
     <Segment compact={true}>
@@ -171,7 +181,6 @@ class WindowFooter extends Component {
         <Grid.Column width={1}>
 
           <Popover
-            frame={this.props.id}
             isOpen={this.state.isEmojiOpen}
             trigger={<Icon name='smile' size='large' />}
             content={<Emoji
@@ -201,32 +210,59 @@ class WindowFooter extends Component {
           />
           <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden"}}/>
         </Grid.Column>
+        {/* Canned Responses Add */}
         {isFile && <CannedResponse id={this.props.id} />}
+        {/* Attach File */}
         {isFile && <Grid.Column width={1}>
-          <Icon name='add' size='large' onClick={() => {this.sendAttachmentClick()}}/>
+          <Popup
+            trigger={<Icon name='add' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
+            content='Attach a File'
+            inverted
+          />
         </Grid.Column>}
+        {/* Attach Media */}
         {isFile && <Grid.Column width={1}>
-          <Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>
+          <Popup
+            trigger={<Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
+            content='Attach Media'
+            inverted
+          />
         </Grid.Column>}
         {/* {isAction && isFile && <Grid.Column width={1}>
           <MessageAction id={this.props.id}/>
         </Grid.Column>} */}
+        {/* Send Message Button */}
         {!isFile && <Grid.Column width={1}>
-          <Icon name='arrow right' size='large' onClick={() => {this.sendMessageClick()}}/>
+          <Popup
+            trigger={<Icon name='arrow right' size='large' onClick={() => {this.sendMessageClick()}}/>}
+            content='Send Message'
+            inverted
+          />
         </Grid.Column>}
+        {/* Start Recording*/}
         {isFile && !record && <Grid.Column width={1}>
-          <Icon name='microphone' size='large' onClick={() => {this.startRecording()}}/>
+          <Popup
+            trigger={<Icon name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
+            content='Start Recording'
+            inverted
+          />
         </Grid.Column>}
+        {/* Stop Recording*/}
         {isFile && record && <Grid.Column width={1}>
-          <Icon name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>
+          <Popup
+            trigger={<Icon name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
+            content='Stop Recording'
+            inverted
+          />
         </Grid.Column>}
       </Grid>
-      <ReactMic
+      {/* React Mic Hidden Component*/}
+      { this.state.mic && <this.state.mic
           record={this.state.record}
           className="hideMic"
           onStop={this.onStop}
           strokeColor="#000000"
-          backgroundColor="#FF4081" />
+          backgroundColor="#FF4081" />}
     </Segment>
 
     )

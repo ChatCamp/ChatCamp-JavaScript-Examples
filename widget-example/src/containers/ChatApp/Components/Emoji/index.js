@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import UnicodeToImg from '../../../../utility/UnicodeToImg'
 import './style.css'
-import emojiMart from "emoji-mart";
+import {Picker} from "emoji-mart";
+// import emojisList from "emojis-list";
 
 class Emoji extends Component {
   constructor(props,context){
@@ -14,11 +15,13 @@ class Emoji extends Component {
 
   componentWillMount() {
     let t = this;
-    // require.ensure(["emojis-list"], function(require) {
-      let __emojiMart = emojiMart;
+    // require.ensure([emojisList], function(require) {
+    // if(emojisList){
+      let __emojiMart = Picker;
       t.setState({
         _emojiMart: __emojiMart
       });
+    // }
     // });
   }
 
@@ -59,7 +62,7 @@ class Emoji extends Component {
 
     if(this.props.showEmojiPanel === true && typeof this.state._emojiMart !== 'undefined' && this.state._emojiMart !== null) {
       viewEmojiPanel =
-                          <this.state._emojiMart.Picker
+                          <this.state._emojiMart
                             set={this.handleEmojiSet()}
                             // sheetURL={this.handleEmojiSet()}
                             onClick={this.props.clickMethod}

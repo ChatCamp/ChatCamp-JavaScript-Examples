@@ -21,7 +21,7 @@ class Popover extends React.Component {
   render() {
     return (
           <Popup
-            frame={"ifc-" +this.props.frame}
+            // frame={"ifc-" +this.props.frame}
             trigger={this.props.trigger}
             content={this.props.content}
             on='click'

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Image, Header, Icon, List, Dropdown, Grid, Popup } from 'semantic-ui-react'
+import { Dropdown, Grid, Popup } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
@@ -36,7 +36,21 @@ class CannedResponse extends Component {
 
     return (
       <Grid.Column width={1}>
-        <Dropdown
+
+        <Popup
+          trigger={<Dropdown
+                      name="canned_response"
+                      icon="wizard"
+                      upward>
+                      <Dropdown.Menu>
+                        <Dropdown.Header content='Canned Responses' />
+                        {options.map(option => <Dropdown.Item onClick={this.handleChange} {...option} />)}
+                      </Dropdown.Menu>
+                    </Dropdown>}
+                    content='Canned Responses'
+                    inverted
+        />}
+        {/* <Dropdown
           name="canned_response"
           icon="wizard"
           upward>
@@ -44,7 +58,7 @@ class CannedResponse extends Component {
             <Dropdown.Header content='Canned Responses' />
             {options.map(option => <Dropdown.Item onClick={this.handleChange} {...option} />)}
           </Dropdown.Menu>
-        </Dropdown>
+        </Dropdown> */}
 
       </Grid.Column>
     )

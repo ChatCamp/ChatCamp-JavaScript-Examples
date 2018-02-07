@@ -2,8 +2,10 @@
   background-color: #222;
   .ui.header, i.icon {
     color: #FFF;
+    cursor: pointer;
     .sub.header {
       color: #FFF;
+      cursor: pointer;
     }
   }
 }
@@ -19,4 +21,8 @@
 .header-blink {
   animation: blinker 1s linear infinite;
   animation: blinker 1s linear 10;
+}
+
+.headerSettings .item .content{
+  cursor: pointer
 }

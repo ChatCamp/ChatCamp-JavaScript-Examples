@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/smartChat/actions'
 import { Segment } from 'semantic-ui-react'
-import {Map} from 'immutable'
 
 // import FrameWrapper from 'containers/ChatApp/Components/FrameWrapper'
 import WindowHeader from 'containers/ChatApp/Components/WindowHeader'
