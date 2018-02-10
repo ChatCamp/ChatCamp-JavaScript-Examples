@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as actions from 'state/smartChat/actions'
+import * as actions from 'state/groupChannelsState/actions'
 import Immutable from 'immutable';
 import { Icon, Header, Segment, Grid, Popup, List, Image } from 'semantic-ui-react'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
@@ -16,8 +16,20 @@ class WindowHeader extends Component {
     settingsHover: true,
     settingsContent: "User Settings"
   }
+
   handleItemClick = () => {
     this.props.fileRef.click()
+  }
+
+  openChannel = () => {
+    this.props.actions.groupChannelsOpen(this.props.id)
+  }
+
+  closeChannel = () => {
+    this.props.actions.groupChannelsClose(this.props.id)
+  }
+  minimizeChannel = () => {
+    this.props.actions.groupChannelsMinimize(this.props.id)
   }
 
   render () {
@@ -30,7 +42,6 @@ class WindowHeader extends Component {
     if(this.props.type === 'room'){
       statusSign = 'hashtag'
     }
-    let minimize;
 
     let triggerComponent = <Header.Subheader as='div'>
       {this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")} Participants
@@ -78,12 +89,13 @@ class WindowHeader extends Component {
       }
     }
 
+
     return (
 
     <Segment size="tiny">
       {/* <Header size= "tiny" as='h6'> */}
         <Grid>
-          <Grid.Row className="cc-chat-window-header">
+          <Grid.Row color="purple" className="cc-chat-window-header">
             <Grid.Column verticalAlign="middle" width={2}>
               <Icon name="group" size="big"/>
             </Grid.Column>
@@ -133,7 +145,32 @@ class WindowHeader extends Component {
               </Header>
             </Grid.Column>
 
-            {minimize}
+            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN") && <Grid.Column floated="right" width={2}>
+
+                  <Popup className="headerSettings"
+                    trigger={<Icon onClick={() => {this.minimizeChannel()}} name="minus" size="big"/>}
+                    hideOnScroll
+                    position='bottom right'
+                    on='hover' inverted>
+
+                    <Popup.Content>
+                      Minimize
+                    </Popup.Content>
+                  </Popup>
+            </Grid.Column>}
+
+            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE") && <Grid.Column floated="right" width={2}>
+
+                  <Popup className="headerSettings"
+                    trigger={<Icon onClick={() => {this.openChannel()}} name="chevron up" size="big"/>}
+                    hideOnScroll
+                    position='bottom right'
+                    on='hover' inverted>
+                    <Popup.Content>
+                      Maximize
+                    </Popup.Content>
+                  </Popup>
+            </Grid.Column>}
 
             <Grid.Column floated="right" width={2}>
 
@@ -150,6 +187,19 @@ class WindowHeader extends Component {
                     </Popup.Content>
                   </Popup>
             </Grid.Column>
+
+            { (this.props.smartChat.get("type") === "popup") && <Grid.Column floated="right" width={2}>
+
+                  <Popup className="headerSettings"
+                    trigger={<Icon onClick={() => {this.closeChannel()}} name="close" size="big"/>}
+                    hideOnScroll
+                    position='bottom right'
+                    on='hover' inverted>
+                    <Popup.Content>
+                      Close
+                    </Popup.Content>
+                  </Popup>
+            </Grid.Column>}
           </Grid.Row>
 
         </Grid>

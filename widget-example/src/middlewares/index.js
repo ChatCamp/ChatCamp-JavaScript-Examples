@@ -6,7 +6,9 @@ import {
   GROUP_CHANNELS_GET_HISTORY_SUCCESS,
   GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
   GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
-  GROUP_CHANNELS_INVALID_PARTICIPANT
+  GROUP_CHANNELS_INVALID_PARTICIPANT,
+  SET_SMART_CHAT_TYPE,
+  GROUP_CHANNELS_CREATE
 } from 'state/action-types'
 
 import Utility from 'utility/Utility'
@@ -26,18 +28,26 @@ export const iFlyMiddleWare = store => {
 
   let userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
 
-  // client.customConnect(userId, "localhost", "9080", function(e, user) {
-  client.connect(userId, function(e, user) {
+  client.customConnect(userId, "localhost", "9080", function(e, user) {
+  // client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
 
-        let groupChannelId = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
-
+        let groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
+        var allGroupChannels = []
+        allGroupChannels[0] = groupChannelId1
+        // allGroupChannels[1] = "5a7b1aeacf725e6c5c8e1fa7"
         store.dispatch({
           type: CHAT_CONNECT_SUCCESS,
           user: user
         });
+        store.dispatch({
+          type: SET_SMART_CHAT_TYPE,
+          data: {type: "embed"} //popup or embed
+        });
 
+      for(let i in allGroupChannels){
+        let groupChannelId = allGroupChannels[i]
         client.GroupChannel.get(groupChannelId, function(error, groupChannel) {
           if(error==null) {
 
@@ -45,6 +55,11 @@ export const iFlyMiddleWare = store => {
               type: GROUP_CHANNELS_GET_SUCCESS,
               groupChannel: groupChannel
             });
+
+            store.dispatch({
+              type: GROUP_CHANNELS_CREATE,
+              groupChannelsId: groupChannel.id
+            })
 
             // Check if the current user is participants of this groupChannelLeave
             let isCurrentUserAcceptedParticipant = false;
@@ -103,6 +118,7 @@ export const iFlyMiddleWare = store => {
             });
           }
         });
+      }
 
         let channelListener = new client.ChannelListener();
         channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
@@ -116,6 +132,14 @@ export const iFlyMiddleWare = store => {
 
         channelListener.onGroupChannelTypingStatusChanged = function(groupChannel) {
           console.log("Typing Status", groupChannel, groupChannel.getTypingParticipants())
+          store.dispatch({
+            type: GROUP_CHANNELS_GET_SUCCESS,
+            groupChannel: groupChannel
+          });
+        }
+
+        channelListener.onGroupChannelReadStatusUpdated = function(groupChannel) {
+          console.log("Read Status Update", groupChannel)
           store.dispatch({
             type: GROUP_CHANNELS_GET_SUCCESS,
             groupChannel: groupChannel

@@ -61,6 +61,12 @@ export const startTyping = (groupChannelId) => dispatch => {
   })
 }
 
+export const read = (groupChannelId) => dispatch => {
+  client.GroupChannel.get(groupChannelId, function(error, groupChannel) {
+    groupChannel.markAsRead()
+  })
+}
+
 export const getHistory = (groupChannelId, messageId) => dispatch => {
   client.GroupChannel.get(groupChannelId, function(error, groupChannel) {
     let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();

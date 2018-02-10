@@ -10,10 +10,12 @@ class SmartChat extends Component {
 
   render () {
     let windows = [];
-
+    let number = 0
 
     this.props.groupChannels.map((window, id) => {
-      windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} state={"open"}/>)
+      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" ){
+        windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
+      }
     })
 
     return (

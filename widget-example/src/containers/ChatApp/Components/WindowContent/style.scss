@@ -15,3 +15,15 @@
     float: initial;
   }
 }
+
+.message-content {
+    width: 93%;
+    margin-right: 0;
+    padding-right: 0;
+    display: inline-block;
+}
+
+.message-read-receipt {
+    width: 5%;
+    display: inline-block;
+}

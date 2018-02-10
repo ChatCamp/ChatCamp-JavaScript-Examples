@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 // import { ConnectedRouter as Router } from 'react-router-redux';
 import {isLoggedIn, getAppId} from 'state/auth/selectors'
+import { PersistGate } from 'redux-persist/integration/react'
 import ChatApp from 'containers/ChatApp'
 export default class Root extends Component {
   // static propTypes = {
@@ -38,13 +39,19 @@ export default class Root extends Component {
   //
   //   return true;
   // }
+  // componentDidMount() {
+  //      this.persistor.dispatch({ type: REHYDRATE });
+  //  }
 
   render() {
     const {
-      store,
+      storePersistor
       // history,
       // routes
     } = this.props;
+    let store = storePersistor.store
+    let persistor = storePersistor.persistor
+
     const appId = getAppId(store.getState())
     // const authProtection = this.authCheck.bind(this);
     // const routesWithAuthProtection = routes(authProtection, appId);
@@ -55,9 +62,11 @@ export default class Root extends Component {
     // )
     return (
       <Provider key={Math.random()} store={store}>
+        <PersistGate loading={null} persistor={persistor}>
         {/* <Router key={Math.random()} history={history}> */}
           <ChatApp key={Math.random()} appId={"iFlyChatAppDiv"}/>
         {/* </Router> */}
+      </PersistGate>
       </Provider>
     );
   }

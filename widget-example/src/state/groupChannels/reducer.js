@@ -27,6 +27,7 @@ export function groupChannels (state = initialState, action) {
         .setIn([action.groupChannel.getId(), 'typingParticipants'], action.groupChannel.getTypingParticipants())
         .setIn([action.groupChannel.getId(), 'participants'], action.groupChannel.participants)
         .setIn([action.groupChannel.getId(), 'participantsCount'], action.groupChannel.participants.length)
+        .setIn([action.groupChannel.getId(), 'readReceipt'], action.groupChannel.readReceipt)
     case GROUP_CHANNELS_GET_ERROR:
     return state
       .setIn([action.groupChannelId, "id"], action.groupChannelId)

@@ -3,17 +3,21 @@ import {
 	SMART_CHAT_OPEN,
   SMART_CHAT_CLOSE,
   SMART_CHAT_LIST_OPEN,
-  SMART_CHAT_LIST_MINIMIZE
+  SMART_CHAT_LIST_MINIMIZE,
+  SET_SMART_CHAT_TYPE
 } from 'state/action-types'
 
 
 export const initialState = Map({
   isSmartChatOpen: true,
-  isSmartChatListOpen: true
+  isSmartChatListOpen: true,
+  type: ""
 })
 
 export function smartChat (state = initialState, action) {
   switch (action.type) {
+    case SET_SMART_CHAT_TYPE:
+      return state.set('type', action.data.type)
     case SMART_CHAT_OPEN:
       return state.set('isSmartChatOpen', true)
     case SMART_CHAT_CLOSE:

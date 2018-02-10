@@ -15,7 +15,7 @@ import {onlineUsers} from 'state/onlineUsers/reducer'
 
 
 import {smartChat} from 'state/smartChat/reducer'
-import {threads} from 'state/threads/reducer'
+import {groupChannelsState} from 'state/groupChannelsState/reducer'
 import {user} from 'state/user/reducer'
 
 export const rootReducer = combineReducers({
@@ -26,6 +26,6 @@ export const rootReducer = combineReducers({
   messages,
   onlineUsers,
   smartChat,
-  threads,
+  groupChannelsState,
   user
 })

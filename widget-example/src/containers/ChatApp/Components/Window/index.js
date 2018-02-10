@@ -19,18 +19,32 @@ class Window extends Component {
   render () {
     let frameContent = []
     let frame = []
+    let popupRightAdjustment = "0";
     let customClass = "ifc-chat-frame-window"
     let visibleContent = null;
     let visibleFooter = null;
+    let mainClass = "ifc-chat-window-container";
+
+    //only for popup chat
+    if(this.props.smartChat.get("type") === "popup"){
+      popupRightAdjustment = String(450*this.props.position + 20*(this.props.position + 1)) + "px"
+      mainClass = "chatcamp-popup ifc-chat-window-container";
+      if(this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE"){
+        mainClass = "chatcamp-popup ifc-chat-window-container chatcamp-popup-minimize";
+
+      }
+    }
+    
     if(!this.props.loading) {
-      if(this.props.state === "open" ){
+      if(this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN" ){
+
         visibleContent = <WindowContent id = {this.props.id} type = {this.props.type} state = {this.props.state} />
         visibleFooter = <WindowFooter id = {this.props.id} type = {this.props.type} setFileRef = {(ref) => {this.setState({fileRef: ref})}} />
       }
       if(this.props.state === "minimize"){
         customClass = customClass + " ifc-chat-frame-window-min"
       }
-
+    if(this.props.groupChannelsState.getIn([this.props.id, "state"]) !== "CLOSE" ){
       frameContent.push(
         <Segment.Group key={"window-data-" + this.props.id} size="tiny" className={"ifc-chat-window"}>
           <WindowHeader id = {this.props.id} type = {this.props.type} state = {this.props.state} fileRef = {this.state.fileRef}/>
@@ -38,11 +52,11 @@ class Window extends Component {
           {visibleFooter}
         </Segment.Group>
       )
-
+    }
 
     }
     return (
-      <div className={"ifc-chat-window-container"}>{frameContent}</div>
+      <div style={{right: popupRightAdjustment}} className={mainClass}>{frameContent}</div>
     )
   }
 

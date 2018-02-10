@@ -8,12 +8,14 @@ import {
 } from 'state/action-types'
 import * as actions from 'state/groupChannels/actions'
 import {Map} from 'immutable'
-import { Segment, Comment, Confirm, Message, Image } from 'semantic-ui-react'
+import { Segment, Comment, Confirm, Message, Image, Popup } from 'semantic-ui-react'
 import {Loader} from 'react-loaders'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
+import ProfileCard from 'containers/ChatApp/Components/ProfileCard'
 import SoundNotification from 'containers/ChatApp/Components/SoundNotification'
 import TitleAlert from 'containers/ChatApp/Components/TitleAlert'
 import DesktopNotification from 'containers/ChatApp/Components/DesktopNotification'
+import ReadReceipt from 'containers/ChatApp/Components/ReadReceipt'
 import UnicodeToImg from 'utility/UnicodeToImg'
 import UtilityTime from 'utility/UtilityTime'
 import ProcessMessage from 'utility/ProcessMessage';
@@ -125,42 +127,45 @@ class WindowContent extends Component {
       oldMessage = _.clone(message)
 
       let text = null
-      // console.log(message.get('type'), message.get('text', false), message.getIn(['attachment', 'url'], false))
       if(message.get('type') === "attachment") {
         let attachment = message.getIn(['attachment'])
         // if(!message.getIn(['attachment', 'url'], false)) {
-          text = <div dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
+          text = <div className="message-content" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
           if(attachment.get('type').substring(0,5) === "image") {
-            text = <Image src={attachment.get('url')} />
+            text = <Image className="message-content" src={attachment.get('url')} />
           }
           if(attachment.get('type').substring(0,5) === "audio"){
             if(!DetectBrowser.detectIE()){
-              text = <audio controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
+              text = <audio className="message-content" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
 
             }
             else{
               // IE render link instead of audio player
-              text = <div dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
+              text = <div className="message-content" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
             }
           }
         // }
       }
       else {
         // if(!message.getIn(['text'], false)) {
-          text = <div dangerouslySetInnerHTML={{ __html: UnicodeToImg.unicodeToImgTag(ProcessMessage.MediaRender(message.getIn(['text'], "hello")), undefined, true)}}></div>
+          text = <div className="message-content" dangerouslySetInnerHTML={{ __html: UnicodeToImg.unicodeToImgTag(ProcessMessage.MediaRender(message.getIn(['text'], "hello")), undefined, true)}}></div>
         // }
       }
+
       let customType = message.get('customType')
       let metadata = message.get('metadata')
 
       let role = false
 
+      // user roles
       if(message.getIn(["user", "metadata"], false)) {
         let metadata = message.getIn(["user", "metadata"], false)
         if(metadata.roles) {
           role = JSON.parse(metadata.roles)[0]
         }
       }
+
+      //user avatar
       let messageAvatar;
       if(message.getIn(['user', 'avatarUrl'])){
         messageAvatar = <Comment.Avatar src={message.getIn(['user', 'avatarUrl'])} />
@@ -168,26 +173,35 @@ class WindowContent extends Component {
       else{
         messageAvatar = <Comment.Avatar as={() => <AvatarWrapper color={messageClubbing.color} className="avatar" name={message.getIn(['user', 'displayName']) }/>} />
       }
+
+      //message object
       if(text!=null) messages.push(
         <Comment.Group key={"window-message-" + message.get('id')}>
           <Comment>
-
             {messageAvatar}
-            {/* <Comment.Avatar src="https://iflychat.com/sites/default/files/styles/thumbnail/public/pictures/picture-13-1347368850.jpg?itok=lz_uGf7g" /> */}
             <Comment.Content>
-              {/* <Popover frame={"ifc-chat-frame-window"} position={"top left"} trigger={<Comment.Author as='a'>{message.name}</Comment.Author>} content={<ProfileCard/>}/> */}
-              {!messageClubbing.info && <Comment.Author as='a'>{message.getIn(['user', 'displayName']) || message.getIn(['user', 'displayName'])}</Comment.Author>}
+              {/*  message author*/}
+              {!messageClubbing.info && <Popup
+                trigger={<Comment.Author as='a'>{message.getIn(['user', 'displayName'])}</Comment.Author>}
+                hideOnScroll
+                position='right center'
+                on='click'>
+                <Popup.Content>
+                  <ProfileCard userM={message.getIn(['user'])} id={this.props.id} type={this.props.type} />
+                </Popup.Content>
+              </Popup>}
+
+              {/*  message role*/}
               {role && <Comment.Metadata className="role">{role}</Comment.Metadata>}
               {!messageClubbing.info && <Comment.Metadata>
                 <div>{UtilityTime.getTime('1', message.get('insertedAt')*1000)}</div>
               </Comment.Metadata>}
+
               <Comment.Text>
                 {text}
+                <ReadReceipt groupChannelId ={this.props.id} message={message} />
                 {/* {customType==="action_link" && <MessageActionCard product={JSON.parse(metadata.product)} />} */}
               </Comment.Text>
-              <Comment.Actions>
-                {/* <Popover trigger={<Comment.Action>Settings</Comment.Action>} content={<MessageSettings/>}/> */}
-              </Comment.Actions>
             </Comment.Content>
           </Comment>
         </Comment.Group>

@@ -63,7 +63,6 @@ class WindowFooter extends Component {
           let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height
           let contentHeightInt = Number(contentHeight.substring(0, contentHeight.length - 2))
           let newContentHeightInt =  contentHeightInt - diff
-          // console.log(newContentHeightInt)
           this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt + "px"
           if(diff > 0){
             this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
@@ -98,24 +97,26 @@ class WindowFooter extends Component {
         message: '',
         isFile: true
       })
+      this.props.actions.read(this.props.id)
     }
   }
 
   handleFileUpload(e) {
     e.preventDefault();
-    // console.log("file uploaded", e, "group_channel", this.props.id)
     let reader = new FileReader();
     let file = e.target.files[0];
     this.props.actions.attachmentMessage(this.props.id, file)
     reader.onloadend = () => {
-      // console.log("File Reader", reader)
       this.setState({
         attachment: file,
-        // imagePreviewUrl: reader.result
       });
     }
 
     reader.readAsDataURL(file)
+  }
+
+  handleFocus = () => {
+    this.props.actions.read(this.props.id)
   }
 
   handleUpdateEmoji(emoji, e) {
@@ -142,7 +143,7 @@ class WindowFooter extends Component {
   }
 
   onStop = (recordedBlob) =>{
-    console.log('recordedBlob is: ', recordedBlob);
+
     // var fd = new FormData();
     // fd.append('fname', 'test.wav');
     // fd.append('data', recordedBlob);
@@ -163,6 +164,7 @@ class WindowFooter extends Component {
   componentDidMount() {
     // this.props.setInput(this.textInputRef);
     this.props.setFileRef(this.refs.attachmentField)
+
   }
 
   componentWillUnmount() {
@@ -193,9 +195,10 @@ class WindowFooter extends Component {
 
         </Grid.Column>
 
-        <Grid.Column width={(isFile && isAction)?9:(isFile?10:12)} style={{paddingLeft: "9px", fontSize: "13.5px"}}>
+        <Grid.Column width={(isFile && isAction)?9:(isFile?10:13)} style={{paddingLeft: "9px", fontSize: "13.5px"}}>
 
           <Textarea
+            onMouseEnter={this.handleFocus}
             className="borderNone"
             name ='message'
             minRows={1}
@@ -207,6 +210,7 @@ class WindowFooter extends Component {
             onKeyDown={this.handleKeyPress}
             inputRef={node => this.textInputRef = node}
             onHeightChange={(height, instance) => this.handleChangeHeight(height)}
+            onClick={this.handleKeyPress}
           />
           <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden"}}/>
         </Grid.Column>
@@ -228,9 +232,9 @@ class WindowFooter extends Component {
             inverted
           />
         </Grid.Column>}
-        {/* {isAction && isFile && <Grid.Column width={1}>
-          <MessageAction id={this.props.id}/>
-        </Grid.Column>} */}
+        {/* {isAction && isFile && <Grid.Column width={1}> */}
+          {/* <MessageAction id={this.props.id}/> */}
+        {/* </Grid.Column>} */}
         {/* Send Message Button */}
         {!isFile && <Grid.Column width={1}>
           <Popup
