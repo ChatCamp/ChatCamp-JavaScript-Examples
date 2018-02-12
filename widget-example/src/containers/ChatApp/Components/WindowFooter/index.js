@@ -21,6 +21,7 @@ class WindowFooter extends Component {
     footerHeight: 23,
     isFile: true,
     record: false,
+    initialLoad: true,
     isAction: (process.env.REACT_APP_CHATCAMP_ACTION === "TRUE") || (Utility.getUrlQueryParams(window.location.href)['action'] && Utility.getUrlQueryParams(window.location.href)['action'][0] && Utility.getUrlQueryParams(window.location.href)['action'][0] === "true")
   }
   constructor(props,context){
@@ -38,13 +39,17 @@ class WindowFooter extends Component {
     else{
       this.setState({mic: false})
     }
-
   }
 
   handleChange = (e) =>{
     let isFile = false;
     if(e.target.value === '') {
       isFile = true;
+      this.handleChangeHeight(this.state.initialHeight)
+      this.setState({initialLoad: true})
+    }
+    else{
+      this.setState({initialLoad: false})
     }
     if(e.target.value !== '\n'){
       this.setState({
@@ -56,14 +61,18 @@ class WindowFooter extends Component {
     }
   }
   handleChangeHeight(height){
+    if(this.state.initialLoad){
+      this.setState({initialHeight: height})
+    }
     if(!isNaN(height)){
       let diff = height - this.state.footerHeight
-      if(diff !== 0 & height !== 13){
+      if(diff !== 0 & !this.state.initialLoad){
         this.setState({footerHeight: height},function(){
-          let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height
-          let contentHeightInt = Number(contentHeight.substring(0, contentHeight.length - 2))
+          let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].offsetHeight
+          let contentHeightInt = contentHeight
           let newContentHeightInt =  contentHeightInt - diff
           this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt + "px"
+
           if(diff > 0){
             this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
           }
@@ -164,7 +173,6 @@ class WindowFooter extends Component {
   componentDidMount() {
     // this.props.setInput(this.textInputRef);
     this.props.setFileRef(this.refs.attachmentField)
-
   }
 
   componentWillUnmount() {
@@ -176,11 +184,11 @@ class WindowFooter extends Component {
     let {groupChannels, id} = this.props
     let percent = groupChannels.getIn([id, 'attachmentProgress'], 0)
     return (
-    <Segment compact={true}>
+    <Segment className="window-footer" compact={true} size={"mini"} style={{paddingBottom: "0", paddingTop: "0"}}>
       {/* <textArea className="borderNone" placeholder='Type and Send Message..' name ='message' value={message} style={{ width: "100%"}} onChange={this.handleChange} onKeyDown={this.handleKeyPress} ref={node => this.textInputRef = node} /> */}
       {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
-      <Grid>
-        <Grid.Column width={1}>
+      <Grid style={{margin: 0}}>
+        <Grid.Column style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
 
           <Popover
             isOpen={this.state.isEmojiOpen}
@@ -195,29 +203,29 @@ class WindowFooter extends Component {
 
         </Grid.Column>
 
-        <Grid.Column width={(isFile && isAction)?9:(isFile?10:13)} style={{paddingLeft: "9px", fontSize: "13.5px"}}>
+        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?9:(isFile?10:13)} style={{paddingTop: "0px", paddingBottom: "0px", fontSize: "13.5px"}}>
 
           <Textarea
             onMouseEnter={this.handleFocus}
-            className="borderNone"
+            className="window-textarea borderNone"
             name ='message'
             minRows={1}
             maxRows={5}
             placeholder={'Send Message as ' + this.props.user.get('displayName')}
             value={message}
-            style={{ width: "100%", minHeight: "23px"}}
+            style={{ width: "100%", minHeight: "23px", marginTop: "8px"}}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyPress}
             inputRef={node => this.textInputRef = node}
             onHeightChange={(height, instance) => this.handleChangeHeight(height)}
             onClick={this.handleKeyPress}
           />
-          <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden"}}/>
+          <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden", width: 0}}/>
         </Grid.Column>
         {/* Canned Responses Add */}
         {isFile && <CannedResponse id={this.props.id} />}
         {/* Attach File */}
-        {isFile && <Grid.Column width={1}>
+        {isFile && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='add' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
             content='Attach a File'
@@ -225,7 +233,7 @@ class WindowFooter extends Component {
           />
         </Grid.Column>}
         {/* Attach Media */}
-        {isFile && <Grid.Column width={1}>
+        {isFile && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
             content='Attach Media'
@@ -236,15 +244,15 @@ class WindowFooter extends Component {
           {/* <MessageAction id={this.props.id}/> */}
         {/* </Grid.Column>} */}
         {/* Send Message Button */}
-        {!isFile && <Grid.Column width={1}>
+        {!isFile && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Icon name='arrow right' size='large' onClick={() => {this.sendMessageClick()}}/>}
+            trigger={<Icon name='send outline' color={"purple"} size='large' onClick={() => {this.sendMessageClick()}}/>}
             content='Send Message'
             inverted
           />
         </Grid.Column>}
         {/* Start Recording*/}
-        {isFile && !record && <Grid.Column width={1}>
+        {isFile && !record && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
             content='Start Recording'
@@ -252,7 +260,7 @@ class WindowFooter extends Component {
           />
         </Grid.Column>}
         {/* Stop Recording*/}
-        {isFile && record && <Grid.Column width={1}>
+        {isFile && record && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
             content='Stop Recording'

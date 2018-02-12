@@ -176,7 +176,7 @@ class WindowContent extends Component {
 
       //message object
       if(text!=null) messages.push(
-        <Comment.Group key={"window-message-" + message.get('id')}>
+        <Comment.Group key={"window-message-" + message.get('id')} className={"window-message window-message-" + message.get('id')}>
           <Comment>
             {messageAvatar}
             <Comment.Content>
@@ -236,7 +236,7 @@ class WindowContent extends Component {
   }
 
     return (
-      <Segment onScroll={this.checkLoadMore.bind(this)} className="window-content" style={{overflowY: "auto", height: "375px"}} ref={node => this.handleContextRef = node}>
+      <Segment onScroll={this.checkLoadMore.bind(this)} className="window-content" ref={node => this.handleContextRef = node}>
         {messages}
         <SoundNotification groupChannelId = {this.props.id}/>
         <TitleAlert groupChannelId = {this.props.id}/>

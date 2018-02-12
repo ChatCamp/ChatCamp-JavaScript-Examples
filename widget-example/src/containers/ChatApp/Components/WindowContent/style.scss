@@ -1,10 +1,12 @@
 .ui.segment.window-content {
-  height: calc(100% - 147px);
+  height: calc(100% - 117px);
   overflow-y: auto;
   background-color: #fafafb;
   .ui.comments {
+    padding: 6px 0;
+    margin: 6px 0;
     &:hover {
-      // background-color: #eee;
+      background-color: #eee;
     }
   }
   .ui.comments .comment .metadata {

@@ -92,14 +92,14 @@ class WindowHeader extends Component {
 
     return (
 
-    <Segment size="tiny">
+    <Segment size="tiny" className="window-header">
       {/* <Header size= "tiny" as='h6'> */}
         <Grid>
           <Grid.Row color="purple" className="cc-chat-window-header">
             <Grid.Column verticalAlign="middle" width={2}>
               <Icon name="group" size="big"/>
             </Grid.Column>
-            <Grid.Column floated="left" width={8}>
+            <Grid.Column verticalAlign="middle" floated="left" width={8}>
               <Header as='h3'>
                  {this.props.groupChannels.getIn([this.props.id, 'name'], "Name")}
 
@@ -145,10 +145,10 @@ class WindowHeader extends Component {
               </Header>
             </Grid.Column>
 
-            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN") && <Grid.Column floated="right" width={2}>
+            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN") && <Grid.Column verticalAlign="middle" floated="right" width={2}>
 
                   <Popup className="headerSettings"
-                    trigger={<Icon onClick={() => {this.minimizeChannel()}} name="minus" size="big"/>}
+                    trigger={<Icon onClick={() => {this.minimizeChannel()}} name="minus" size="large"/>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
@@ -159,10 +159,10 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>}
 
-            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE") && <Grid.Column floated="right" width={2}>
+            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE") && <Grid.Column verticalAlign="middle" floated="right" width={2}>
 
                   <Popup className="headerSettings"
-                    trigger={<Icon onClick={() => {this.openChannel()}} name="chevron up" size="big"/>}
+                    trigger={<Icon onClick={() => {this.openChannel()}} name="chevron up" size="large"/>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
@@ -172,10 +172,10 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>}
 
-            <Grid.Column floated="right" width={2}>
+            <Grid.Column verticalAlign="middle" floated="right" width={2}>
 
                   <Popup className="headerSettings"
-                    trigger={<Icon name="setting" size="big"/>}
+                    trigger={<Icon name="setting" size="large"/>}
                     hideOnScroll
                     position='bottom right'
                     on='click'>
@@ -188,10 +188,10 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>
 
-            { (this.props.smartChat.get("type") === "popup") && <Grid.Column floated="right" width={2}>
+            { (this.props.smartChat.get("type") === "popup") && <Grid.Column verticalAlign="middle" floated="right" width={2}>
 
                   <Popup className="headerSettings"
-                    trigger={<Icon onClick={() => {this.closeChannel()}} name="close" size="big"/>}
+                    trigger={<Icon onClick={() => {this.closeChannel()}} name="close" size="large"/>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>

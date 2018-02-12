@@ -1,12 +1,20 @@
 .cc-chat-window-header {
   background-color: #222;
-  .ui.header, i.icon {
+  .ui.header{
     color: #FFF;
     cursor: pointer;
     .sub.header {
       color: #FFF;
       cursor: pointer;
     }
+  }
+}
+.window-header i.icon.setting {
+  color: #FFF;
+  cursor: pointer;
+  opacity: 0.8;
+  &:hover{
+    opacity: 1;
   }
 }
 
