@@ -9,7 +9,6 @@ class Emoji extends Component {
     this.state = {
       _emojiMart: null
     };
-    this.handleUpdateEmoji = this.handleUpdateEmoji.bind(this);
   }
 
   componentWillMount() {
