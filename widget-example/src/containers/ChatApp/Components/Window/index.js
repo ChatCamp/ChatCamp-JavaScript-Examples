@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/smartChat/actions'
 import { Segment } from 'semantic-ui-react'
-
-// import FrameWrapper from 'containers/ChatApp/Components/FrameWrapper'
 import WindowHeader from 'containers/ChatApp/Components/WindowHeader'
 import WindowContent from 'containers/ChatApp/Components/WindowContent'
 import WindowFooter from 'containers/ChatApp/Components/WindowFooter'
@@ -18,7 +16,6 @@ class Window extends Component {
 
   render () {
     let frameContent = []
-    let frame = []
     let popupRightAdjustment = "0";
     let customClass = "ifc-chat-frame-window"
     let visibleContent = null;
@@ -34,7 +31,7 @@ class Window extends Component {
 
       }
     }
-    
+
     if(!this.props.loading) {
       if(this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN" ){
 

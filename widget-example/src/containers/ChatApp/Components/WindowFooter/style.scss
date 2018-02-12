@@ -10,11 +10,14 @@
   width: 0
 }
 
-.window-footer i.icon {
+.window-footer {
+  height: 48px;
+ i.icon {
   cursor: pointer;
   color: #222;
   opacity: 0.5;
   &:hover {
     opacity: 1;
   }
+}
 }

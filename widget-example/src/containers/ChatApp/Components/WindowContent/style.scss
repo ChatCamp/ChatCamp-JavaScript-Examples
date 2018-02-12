@@ -1,5 +1,4 @@
 .ui.segment.window-content {
-  height: calc(100% - 117px);
   overflow-y: auto;
   background-color: #fafafb;
   .ui.comments {
@@ -16,6 +15,12 @@
   .ui.comments .comment .metadata.role {
     float: initial;
   }
+}
+.ui.segment.window-content.cc-popup {
+  height: calc(100% - 103px);
+}
+.ui.segment.window-content.cc-embed {
+  height: calc(100% - 117px);
 }
 
 .message-content {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
 import client from 'Client'
-import Utility from 'utility/Utility'
 
 
 class DesktopNotification extends Component {

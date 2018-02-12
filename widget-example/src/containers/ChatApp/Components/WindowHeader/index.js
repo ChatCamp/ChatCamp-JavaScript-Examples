@@ -2,19 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
-import Immutable from 'immutable';
-import { Icon, Header, Segment, Grid, Popup, List, Image } from 'semantic-ui-react'
-import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
-import UtilityTime from 'utility/UtilityTime'
+import { Icon, Header, Segment, Grid, Popup, List} from 'semantic-ui-react'
 import './style.css'
-import _ from 'lodash'
+import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipantsList'
 
-import status from 'utility/status'
 
 class WindowHeader extends Component {
   state = {
-    settingsHover: true,
-    settingsContent: "User Settings"
   }
 
   handleItemClick = () => {
@@ -32,135 +26,92 @@ class WindowHeader extends Component {
     this.props.actions.groupChannelsMinimize(this.props.id)
   }
 
+  ifPopUp = () => {
+    if (this.props.smartChat.get("type") === "popup"){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+  ifP2P = () => {
+    if(this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0") === 2){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+  ifPopUpOpen = () => {
+    if (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN"){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+  ifPopUpMinimize = () => {
+    if (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE"){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
   render () {
-
-    let statusColor ={
-      color: status.getColorFromStatusCode(this.props.headerStatus)
-    }
-
-    let statusSign = 'circle';
-    if(this.props.type === 'room'){
-      statusSign = 'hashtag'
-    }
 
     let triggerComponent = <Header.Subheader as='div'>
       {this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")} Participants
     </Header.Subheader>
 
-    let inlineListStyle = {
-      width: "300px"
-    }
-    let inlineStyleDisplay ={
-      display: "table-cell"
-    }
+    let embedParticipants = <Popup
+      trigger={triggerComponent}
+      hideOnScroll
+      position='bottom left'
+      on='click'>
+      <Popup.Header>Participants</Popup.Header>
+      <Popup.Content>
+        <GroupParticipantsList id={this.props.id} groupChannels={this.props.groupChannels}/>
+      </Popup.Content>
+    </Popup>
 
-    let inlineStyleHeight ={
-      lineHeight: "36px"
-    }
-    let inlineStyleHeightName ={
-      lineHeight: "36px",
-      maxWidth: "140px",
-      whiteSpace: "nowrap",
-      overflowX: "hidden"
-    }
-    let inlineStyleHeightNameAdmin ={
-      lineHeight: "36px",
-      maxWidth: "20px",
-      whiteSpace: "nowrap",
-      overflowX: "hidden",
-      fontSize:"17px"
-    }
-    let inlineStyleHeightImage ={
-      lineHeight: "36px",
-      height: "36px",
-      position: "relative"
-    }
+    let participantsCount = <span className="header-count" >&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>2</span>
 
-
-
-    let getStatusStyle = (statusCode) => {
-      return {
-        top: "-25px",
-        left: "43px",
-        position: "relative",
-        border: "1px solid",
-        borderColor: "#fff",
-        backgroundColor: status.getColorFromStatusCode(statusCode)
-      }
-    }
-
+    let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
 
     return (
-
-    <Segment size="tiny" className="window-header">
-      {/* <Header size= "tiny" as='h6'> */}
+      <Segment size="tiny" className="window-header">
         <Grid>
           <Grid.Row color="purple" className="cc-chat-window-header">
-            <Grid.Column verticalAlign="middle" width={2}>
-              <Icon name="group" size="big"/>
+            <Grid.Column verticalAlign="middle" loated="left" width={1}>
+              <Header as="h3">#</Header>
             </Grid.Column>
-            <Grid.Column verticalAlign="middle" floated="left" width={8}>
+
+            <Grid.Column verticalAlign="middle" floated="left" width={11}>
               <Header as='h3'>
-                 {this.props.groupChannels.getIn([this.props.id, 'name'], "Name")}
-
-                  <Popup
-                    trigger={triggerComponent}
-                    hideOnScroll
-                    position='bottom left'
-                    on='click'>
-                    <Popup.Header>Participants</Popup.Header>
-                    <Popup.Content>
-
-                      <List style={inlineListStyle}>
-                        {this.props.groupChannels.getIn([this.props.id, 'participants'], Immutable.Map()).map((user, id) => {
-                          return (
-                            <List.Item key={"participant-content-list-" + user.id}>
-
-
-                              {/* <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.userName} />} /> */}
-                              <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
-                                <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={user.displayName} />}/>
-                                {/* <Icon name="circle"/> */}
-                                {/* <Label style={getStatusStyle('1')} circular floating empty /> */}
-                              </List.Content>
-
-                              <List.Content style={inlineStyleHeightName} verticalAlign='middle' floated="left">
-                                <List.Header>{user.displayName}</List.Header>
-                              </List.Content>
-                              {/*  show admin from metadata*/}
-                              { this.props.groupChannels.getIn([this.props.id, 'metadata'], Immutable.Map()) && this.props.groupChannels.getIn([this.props.id, 'metadata'], Immutable.Map()).admins &&  _.includes(JSON.parse(this.props.groupChannels.getIn([this.props.id, 'metadata'], Immutable.Map()).admins), user.id) && <List.Content style={inlineStyleHeightNameAdmin} verticalAlign='middle' floated="left">
-                                <Icon name="check circle outline" color="black"/>
-                              </List.Content>}
-                              <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-                                {user.isOnline? <Icon name='circle' color="green" /> : <div>{user.lastSeen === 0? "Not Joined":UtilityTime.getTime('3', user.lastSeen*1000)}</div>}
-
-                              </List.Content>
-                            </List.Item>)
-                        })}
-                      </List>
-
-                    </Popup.Content>
-                  </Popup>
-
+                {groupChannelName}
+                { this.ifPopUp() && !this.ifP2P() && participantsCount}
+                {!this.ifPopUp()  && embedParticipants}
               </Header>
             </Grid.Column>
 
-            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN") && <Grid.Column verticalAlign="middle" floated="right" width={2}>
-
-                  <Popup className="headerSettings"
+            { this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+              <Popup className="headerSettings"
                     trigger={<Icon onClick={() => {this.minimizeChannel()}} name="minus" size="large"/>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
-
-                    <Popup.Content>
-                      Minimize
-                    </Popup.Content>
-                  </Popup>
+                <Popup.Content>
+                  Minimize
+                </Popup.Content>
+              </Popup>
             </Grid.Column>}
 
-            { (this.props.smartChat.get("type") === "popup") && (this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE") && <Grid.Column verticalAlign="middle" floated="right" width={2}>
-
+            { this.ifPopUp() && (this.ifPopUpMinimize()) && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
                   <Popup className="headerSettings"
                     trigger={<Icon onClick={() => {this.openChannel()}} name="chevron up" size="large"/>}
                     hideOnScroll
@@ -172,8 +123,7 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>}
 
-            <Grid.Column verticalAlign="middle" floated="right" width={2}>
-
+            <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
                   <Popup className="headerSettings"
                     trigger={<Icon name="setting" size="large"/>}
                     hideOnScroll
@@ -188,7 +138,7 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>
 
-            { (this.props.smartChat.get("type") === "popup") && <Grid.Column verticalAlign="middle" floated="right" width={2}>
+            { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
 
                   <Popup className="headerSettings"
                     trigger={<Icon onClick={() => {this.closeChannel()}} name="close" size="large"/>}
@@ -201,7 +151,6 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>}
           </Grid.Row>
-
         </Grid>
     </Segment>
     )
