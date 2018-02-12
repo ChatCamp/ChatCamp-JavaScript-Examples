@@ -170,6 +170,15 @@ class WindowFooter extends Component {
     // reader.readAsDataURL(file)
   }
 
+  ifPopUp = () => {
+    if (this.props.smartChat.get("type") === "popup"){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
   componentDidMount() {
     // this.props.setInput(this.textInputRef);
     this.props.setFileRef(this.refs.attachmentField)
@@ -233,7 +242,7 @@ class WindowFooter extends Component {
           />
         </Grid.Column>}
         {/* Attach Media */}
-        {isFile && <Grid.Column verticalAlign="middle" width={1}>
+        {isFile && !this.ifPopUp() && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
             content='Attach Media'

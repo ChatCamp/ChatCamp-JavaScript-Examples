@@ -24,7 +24,7 @@ class Window extends Component {
 
     //only for popup chat
     if(this.props.smartChat.get("type") === "popup"){
-      popupRightAdjustment = String(450*this.props.position + 20*(this.props.position + 1)) + "px"
+      popupRightAdjustment = String(345*this.props.position + 20*(this.props.position + 1)) + "px"
       mainClass = "chatcamp-popup ifc-chat-window-container";
       if(this.props.groupChannelsState.getIn([this.props.id, "state"]) === "MINIMIZE"){
         mainClass = "chatcamp-popup ifc-chat-window-container chatcamp-popup-minimize";
