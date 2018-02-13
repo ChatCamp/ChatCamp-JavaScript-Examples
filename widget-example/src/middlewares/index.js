@@ -43,7 +43,7 @@ export const iFlyMiddleWare = store => {
         });
         store.dispatch({
           type: SET_SMART_CHAT_TYPE,
-          data: {type: "popup"} //popup or embed
+          data: {type: "embed"} //popup or embed
         });
 
       for(let i in allGroupChannels){
