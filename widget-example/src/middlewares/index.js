@@ -28,8 +28,8 @@ export const iFlyMiddleWare = store => {
 
   let userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
 
-  client.customConnect(userId, "localhost", "9080", function(e, user) {
-  // client.connect(userId, function(e, user) {
+  // client.customConnect(userId, "localhost", "9080", function(e, user) {
+  client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
 
