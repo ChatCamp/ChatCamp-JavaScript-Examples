@@ -84,12 +84,25 @@ class WindowContent extends Component {
 
   }
 
+  ifPopUp = () => {
+    if (this.props.smartChat.get("type") === "popup"){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
   render () {
     const contextWindow = document.getElementById("ifc-" + this.props.id)
     const { contextRef } = this.state
 
     let messages = [];
     let oldMessage = {}
+    let windowContent = "window-content cc-embed"
+    if(this.ifPopUp()){
+      windowContent = "window-content cc-popup"
+    }
 
     if(this.props.groupChannels.getIn([this.props.id, 'errorType'], false) === GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED) {
       messages.push(<Confirm
@@ -176,7 +189,7 @@ class WindowContent extends Component {
 
       //message object
       if(text!=null) messages.push(
-        <Comment.Group key={"window-message-" + message.get('id')}>
+        <Comment.Group key={"window-message-" + message.get('id')} className={"window-message window-message-" + message.get('id')}>
           <Comment>
             {messageAvatar}
             <Comment.Content>
@@ -236,7 +249,7 @@ class WindowContent extends Component {
   }
 
     return (
-      <Segment onScroll={this.checkLoadMore.bind(this)} className="window-content" style={{overflowY: "auto", height: "375px"}} ref={node => this.handleContextRef = node}>
+      <Segment onScroll={this.checkLoadMore.bind(this)} className={windowContent} ref={node => this.handleContextRef = node}>
         {messages}
         <SoundNotification groupChannelId = {this.props.id}/>
         <TitleAlert groupChannelId = {this.props.id}/>

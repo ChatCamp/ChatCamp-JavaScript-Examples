@@ -1,7 +1,5 @@
 import React from 'react'
-import { Button, Grid, Header, Popup } from 'semantic-ui-react'
-
-const timeoutLength = 2500
+import { Popup } from 'semantic-ui-react'
 
 class Popover extends React.Component {
   state = { isOpen: false }
@@ -21,7 +19,6 @@ class Popover extends React.Component {
   render() {
     return (
           <Popup
-            // frame={"ifc-" +this.props.frame}
             trigger={this.props.trigger}
             content={this.props.content}
             on='click'
