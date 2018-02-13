@@ -26,6 +26,16 @@ class WindowHeader extends Component {
     this.props.actions.groupChannelsMinimize(this.props.id)
   }
 
+  p2pOtherParticipant = () => {
+    let id = this.props.user.get("id")
+    let participants = this.props.groupChannels.getIn([this.props.id, 'participants'])
+    for(let i in participants){
+      if(participants[i].id !== id){
+          return participants[i]
+      }
+    }
+  }
+
   ifPopUp = () => {
     if (this.props.smartChat.get("type") === "popup"){
       return true
@@ -36,7 +46,7 @@ class WindowHeader extends Component {
   }
 
   ifP2P = () => {
-    if(this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0") === 2){
+    if(this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0") === 2 && this.props.groupChannels.getIn([this.props.id, 'isDistinct'], false) === true){
       return true
     }
     else{
@@ -80,15 +90,26 @@ class WindowHeader extends Component {
     </Popup>
 
     let participantsCount = <span className="header-count" >&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>2</span>
-
+    let status = <Header as="h3">#</Header>
     let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
+    if(this.ifPopUp() && this.ifP2P()){
+      let other = this.p2pOtherParticipant()
+      groupChannelName = other.displayName
+      if(other.isOnline){
+        status = <Icon name="circle" size="large"/>
+      }
+      else {
+        status = <Icon name="circle outline" size="large"/>
+      }
+
+    }
 
     return (
       <Segment size="tiny" className="window-header">
         <Grid>
           <Grid.Row color="purple" className="cc-chat-window-header">
             <Grid.Column verticalAlign="middle" width={1}>
-              <Header as="h3">#</Header>
+              {status}
             </Grid.Column>
 
             <Grid.Column verticalAlign="middle" floated="left" width={11}>
