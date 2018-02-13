@@ -87,7 +87,7 @@ class WindowHeader extends Component {
       <Segment size="tiny" className="window-header">
         <Grid>
           <Grid.Row color="purple" className="cc-chat-window-header">
-            <Grid.Column verticalAlign="middle" loated="left" width={1}>
+            <Grid.Column verticalAlign="middle" floated="left" width={1}>
               <Header as="h3">#</Header>
             </Grid.Column>
 
