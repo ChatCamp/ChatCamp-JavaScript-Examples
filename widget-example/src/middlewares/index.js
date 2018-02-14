@@ -29,14 +29,14 @@ export const iFlyMiddleWare = store => {
   }
   window.cc.startChat = startChat
 
-  client.customConnect(userId, "localhost", "9080", function(e, user) {
-  // client.connect(userId, function(e, user) {
+  // client.customConnect(userId, "localhost", "9080", function(e, user) {
+  client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
 
         let groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
         var allGroupChannels = []
-        // allGroupChannels[0] = groupChannelId1
+        allGroupChannels[0] = groupChannelId1
         // allGroupChannels[1] = "5a7b1aeacf725e6c5c8e1fa7"
         let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
         allGroupChannels = allGroupChannels.concat(storeChannels)
@@ -47,7 +47,7 @@ export const iFlyMiddleWare = store => {
         });
         store.dispatch({
           type: SET_SMART_CHAT_TYPE,
-          data: {type: "popup"} //popup or embed
+          data: {type: "embed"} //popup or embed
         });
 
       for(let i in allGroupChannels){

@@ -13,7 +13,7 @@ class SmartChat extends Component {
     let number = 0
 
     this.props.groupChannels.map((window, id) => {
-      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" ){
+      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined ){
         windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
       }
     })
