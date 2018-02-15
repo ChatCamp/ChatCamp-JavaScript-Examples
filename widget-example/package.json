@@ -6,7 +6,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "bootstrap-sass": "^3.3.7",
-    "chatcamp": "file:../../chatcamp-websdk",
+    "chatcamp": "^0.1.15",
     "emoji-mart": "^1.0.1",
     "flow-bin": "^0.49.1",
     "halogen": "^0.2.0",
