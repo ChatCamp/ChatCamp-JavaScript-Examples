@@ -27,7 +27,7 @@ export const iFlyMiddleWare = store => {
       groupChannelsId: groupChannelId
     })
   }
-  window.cc.startChat = startChat
+  client.startChat = startChat
 
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
   client.connect(userId, function(e, user) {
