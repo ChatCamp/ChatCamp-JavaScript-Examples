@@ -16,8 +16,13 @@ import {
 import Utility from 'utility/Utility'
 
 export const iFlyMiddleWare = store => {
-
-  let userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
+  let userId;
+  if(window.ChatCampData && window.ChatCampData.userId){
+    userId = window.ChatCampData.userId
+  }
+  if(Utility.getUrlQueryParams(window.location.href)['userId'] && Utility.getUrlQueryParams(window.location.href)['userId'][0]) {
+    userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
+  }
 
   // to expose startchat to other platforms
   let startChat = (groupChannelId) => {
@@ -27,13 +32,13 @@ export const iFlyMiddleWare = store => {
       groupChannelsId: groupChannelId
     })
   }
-  client.startChat = startChat
 
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
   client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
-
+      window.ChatCampUI = {}
+        window.ChatCampUI.startChat = startChat
         let groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
         var allGroupChannels = []
         allGroupChannels[0] = groupChannelId1
