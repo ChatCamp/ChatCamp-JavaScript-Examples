@@ -22,7 +22,7 @@ import ProcessMessage from 'utility/ProcessMessage';
 import DetectBrowser from 'utility/DetectBrowser';
 
 import _ from 'lodash'
-// import MessageActionCard from '../MessageActionCard'
+import MessageActionCard from '../MessageActionCard'
 
 // import ReactList from 'react-list';
 // import { Scrollbars } from 'react-custom-scrollbars';
@@ -213,7 +213,7 @@ class WindowContent extends Component {
               <Comment.Text>
                 {text}
                 <ReadReceipt groupChannelId ={this.props.id} message={message} />
-                {/* {customType==="action_link" && <MessageActionCard product={JSON.parse(metadata.product)} />} */}
+                {customType==="action_link" && <MessageActionCard product={JSON.parse(metadata.product)} />}
               </Comment.Text>
             </Comment.Content>
           </Comment>

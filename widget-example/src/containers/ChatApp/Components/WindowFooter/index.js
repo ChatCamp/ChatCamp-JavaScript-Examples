@@ -8,7 +8,7 @@ import Emoji from '../Emoji'
 import UnicodeToImg from 'utility/UnicodeToImg'
 import Popover from '../Popover'
 import Textarea from 'react-textarea-autosize';
-// import MessageAction from '../MessageAction'
+import MessageAction from '../MessageAction'
 import CannedResponse from '../CannedResponse'
 import Utility from 'utility/Utility';
 import DetectBrowser from 'utility/DetectBrowser';
@@ -249,9 +249,9 @@ class WindowFooter extends Component {
             inverted
           />
         </Grid.Column>}
-        {/* {isAction && isFile && <Grid.Column width={1}> */}
-          {/* <MessageAction id={this.props.id}/> */}
-        {/* </Grid.Column>} */}
+        {isAction && isFile && <Grid.Column width={1}>
+          <MessageAction id={this.props.id}/>
+        </Grid.Column>}
         {/* Send Message Button */}
         {!isFile && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
