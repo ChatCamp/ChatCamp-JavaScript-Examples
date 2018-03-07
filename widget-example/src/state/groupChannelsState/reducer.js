@@ -23,7 +23,7 @@ export function groupChannelsState (state = initialState, action) {
       }
       return state.setIn([action.groupChannelsId,"state"], final)
     case GROUP_CHANNELS_CLOSE:
-      return state.setIn([action.groupChannelsId,"state"], "CLOSE")
+      return state.removeIn([action.groupChannelsId])
     case GROUP_CHANNELS_OPEN:
       return state.setIn([action.groupChannelsId,"state"], "OPEN")
     case GROUP_CHANNELS_MINIMIZE:

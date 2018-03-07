@@ -220,7 +220,8 @@ class WindowFooter extends Component {
             name ='message'
             minRows={1}
             maxRows={5}
-            placeholder={'Send Message as ' + this.props.user.get('displayName')}
+            // placeholder={'Send Message as ' + this.props.user.get('displayName')}
+            placeholder={'Send Message'}
             value={message}
             style={{ width: "100%", minHeight: "23px", marginTop: "8px"}}
             onChange={this.handleChange}

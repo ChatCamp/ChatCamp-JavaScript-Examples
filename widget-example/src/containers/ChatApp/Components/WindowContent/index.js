@@ -20,6 +20,7 @@ import UnicodeToImg from 'utility/UnicodeToImg'
 import UtilityTime from 'utility/UtilityTime'
 import ProcessMessage from 'utility/ProcessMessage';
 import DetectBrowser from 'utility/DetectBrowser';
+import client from 'Client'
 
 import _ from 'lodash'
 import MessageActionCard from '../MessageActionCard'
@@ -31,7 +32,7 @@ import MessageActionCard from '../MessageActionCard'
 class WindowContent extends Component {
 
   state = {
-    messages : [],
+    cacheMessages : {},
     isLoading: false
   }
 
@@ -84,6 +85,39 @@ class WindowContent extends Component {
 
   }
 
+  componentDidMount() {
+    // this.cacheMessages = []
+    let node = ReactDOM.findDOMNode(this);
+    if(node) {
+      node.scrollTop = node.scrollHeight;
+    }
+
+    // let t = this
+    // let currentChannelId = this.props.id
+    // let channelListener = new client.ChannelListener();
+    // channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
+    //   if(currentChannelId === groupChannel.id){
+    //     console.log("heyaaaaa1111", message)
+    //     this.serialize = message.serialize()
+    //     console.log("heyaaaaa2222", this.serialize)
+    //     console.log("heyaaaaa333", message.__proto__, JSON.stringify(message.__proto__))
+    //     let m = client.Message.deSerialize(this.serialize)
+    //     console.log("heyaaaaa", m,m.getText)
+    //     // console.log(m.getText())
+    //   }
+    // }
+    // client.addChannelListener("WindowContent", channelListener)
+    // client.GroupChannel.get(this.props.id, function(error, groupChannel) {
+    //   let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
+    //   previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+    //
+    //   })
+
+    // })
+
+
+  }
+
   ifPopUp = () => {
     if (this.props.smartChat.get("type") === "popup"){
       return true
@@ -132,13 +166,17 @@ class WindowContent extends Component {
       )
     }
     // Iterate in Messages from props and Display them
+
     if(this.props.groupChannels.getIn([this.props.id, 'messages'], false)){
     this.props.groupChannels.getIn([this.props.id, 'messages'], false).map((message, key) => {
       message = Map(message)
       //handle message clubbing
       let messageClubbing = this.handleClubbing(message,oldMessage)
       oldMessage = _.clone(message)
-
+      // if(this.cacheMessages[message.get("id")]){
+      //   console.log("heyaaaaa")
+      //   console.log(this.cacheMessages[message.get("id")].getText())
+      // }
       let text = null
       if(message.get('type') === "attachment") {
         let attachment = message.getIn(['attachment'])

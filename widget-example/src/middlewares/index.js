@@ -39,9 +39,12 @@ export const iFlyMiddleWare = store => {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
       window.ChatCampUI = {}
         window.ChatCampUI.startChat = startChat
-        let groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
+        let groupChannelId1
         var allGroupChannels = []
-        allGroupChannels[0] = groupChannelId1
+        if(Utility.getUrlQueryParams(window.location.href)['groupChannelId'] && Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]) {
+          groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
+          allGroupChannels[0] = groupChannelId1
+        }
         // allGroupChannels[1] = "5a7b1aeacf725e6c5c8e1fa7"
         let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
         allGroupChannels = allGroupChannels.concat(storeChannels)
@@ -52,7 +55,7 @@ export const iFlyMiddleWare = store => {
         });
         store.dispatch({
           type: SET_SMART_CHAT_TYPE,
-          data: {type: "embed"} //popup or embed
+          data: {type: "popup"} //popup or embed
         });
 
       for(let i in allGroupChannels){
@@ -97,7 +100,10 @@ export const iFlyMiddleWare = store => {
   let _startGroupChannel = (groupChannelId) => {
     client.GroupChannel.get(groupChannelId, function(error, groupChannel) {
       if(error==null) {
-
+        // store.dispatch({
+        //   type: SET_SMART_CHAT_TYPE,
+        //   data: {type: "popup"} //popup or embed
+        // });
         store.dispatch({
           type: GROUP_CHANNELS_GET_SUCCESS,
           groupChannel: groupChannel
@@ -180,6 +186,16 @@ export const iFlyMiddleWare = store => {
         });
       }
     });
+    // let channelListener = new client.ChannelListener();
+    // channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
+    //   console.log("Listener", groupChannel, message)
+    //   store.dispatch({
+    //     type: GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
+    //     groupChannel: groupChannel,
+    //     message: message
+    //   });
+    // }
+    // client.addChannelListener("t1", channelListener)
   }
 
 
