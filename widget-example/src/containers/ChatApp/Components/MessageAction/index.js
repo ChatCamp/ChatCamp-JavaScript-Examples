@@ -48,7 +48,7 @@ class MessageAction extends Component {
             "BrandID": 40
         }
     ],
-    selectedProductId: null,
+    selectedProductId: 44,
     message: 'Check this out!',
     modalOpen: false
   }
@@ -72,14 +72,21 @@ class MessageAction extends Component {
   handleButtonClick = (e) => {
     let {message, selectedProductId, products} = this.state
     let product = null
-    for(let i in products) {
-      if(products[i]["ProductID"] === selectedProductId) {
-        product = products[i]
-        break
+
+    if(selectedProductId){
+      for(let i in products) {
+        if(products[i]["ProductID"] === selectedProductId) {
+          product = products[i]
+          break
+        }
       }
+      this.props.actions.actionMessage(this.props.id, message, product)
+      this.handleClose()
     }
-    this.props.actions.actionMessage(this.props.id, message, product)
-    this.handleClose()
+    else if(!selectedProductId){
+      alert("Please, select a product")
+    }
+
   }
 
   handleOpen = () => this.setState({ modalOpen: true })
@@ -112,7 +119,7 @@ class MessageAction extends Component {
         <Modal.Header>Share Product</Modal.Header>
         <Modal.Content>
           <Modal.Description>
-            <Dropdown placeholder='Select a Product' fluid selection search options={options} onChange={this.handleClick}/>
+            <Dropdown placeholder='Select a Product' fluid selection search options={options} onChange={this.handleClick} defaultValue={options[0].value}/>
           </Modal.Description>
           <Segment>
           <Grid>

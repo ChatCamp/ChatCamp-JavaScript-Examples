@@ -10,41 +10,46 @@ let ProcessMessage = {
     //return DC144('<div/>').html(value).text();
   },
   MediaRender: function(text) {
-    var renderImageInline = '1';
-    var a = this.checkHyperlink(text);
-    var pos= 0,final_string = "",prefix = "";
-    if(a){
-    for(var i =0 ; i < a.length ;i++){
-      pos= text.indexOf(a[i]) + a[i].length;
-      prefix = "";
-      if(pos > text.length){
-        pos = text.length;
+    if(text){
+      var renderImageInline = '1';
+      var a = this.checkHyperlink(text);
+      var pos= 0,final_string = "",prefix = "";
+      if(a){
+      for(var i =0 ; i < a.length ;i++){
+        pos= text.indexOf(a[i]) + a[i].length;
+        prefix = "";
+        if(pos > text.length){
+          pos = text.length;
+        }
+        if(!(a[i].indexOf("http://") == 0 || a[i].indexOf("https://") == 0)){
+          prefix = "http://";
+        }
+        var temp_img_check = a[i];
+        var temp_matches;
+        //if(Drupal.settings.drupalchat.renderImageInline === '1') {
+          temp_matches = temp_img_check.match(/youtu(be\.com\/watch\?v=|\.be\/)([A-Za-z0-9._%-]*)/);
+        //}
+        if((renderImageInline === '1') && (((/\.(gif|jpg|jpeg|tiff|png)\?dl=0$/i).test(temp_img_check)) || ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(temp_img_check)))) {
+          final_string  = final_string + text.substring(0,pos).replace(a[i], "<a class='ifc-render-inline-image-wrapper' target = '_blank'><img class='ifc-render-inline-image ifc-render-image-in-modal' src='" + prefix + a[i] + "' title='0, " + a[i] + "' />" + "</a>" );
+        }
+        else if((renderImageInline === '1') && temp_matches) {
+          final_string  = final_string + text.substring(0,pos).replace(a[i], '<span class="ifc-youtube-embed-video-wrapper"><iframe width="100%" src="//www.youtube.com/embed/'+temp_matches[2]+'" frameborder="0" allowfullscreen style="width:100%;height:100%"></iframe></span>'+'<a class="ifc-youtube-embed-video-link" target = "_blank" href="' + prefix + a[i] + '">' + a[i] + '</a>');
+        }
+        else {
+          final_string  = final_string + text.substring(0,pos).replace(a[i], '<a class="ifc-url-render" target = "_blank" href="' + prefix + a[i] + '">' + a[i] + '</a>' );
+        }
+        text = text.substring(pos,text.length);
       }
-      if(!(a[i].indexOf("http://") == 0 || a[i].indexOf("https://") == 0)){
-        prefix = "http://";
+      if(text.length != 0){
+        final_string = final_string + text;
       }
-      var temp_img_check = a[i];
-      var temp_matches;
-      //if(Drupal.settings.drupalchat.renderImageInline === '1') {
-        temp_matches = temp_img_check.match(/youtu(be\.com\/watch\?v=|\.be\/)([A-Za-z0-9._%-]*)/);
-      //}
-      if((renderImageInline === '1') && (((/\.(gif|jpg|jpeg|tiff|png)\?dl=0$/i).test(temp_img_check)) || ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(temp_img_check)))) {
-        final_string  = final_string + text.substring(0,pos).replace(a[i], "<a class='ifc-render-inline-image-wrapper' target = '_blank'><img class='ifc-render-inline-image ifc-render-image-in-modal' src='" + prefix + a[i] + "' title='0, " + a[i] + "' />" + "</a>" );
-      }
-      else if((renderImageInline === '1') && temp_matches) {
-        final_string  = final_string + text.substring(0,pos).replace(a[i], '<span class="ifc-youtube-embed-video-wrapper"><iframe width="100%" src="//www.youtube.com/embed/'+temp_matches[2]+'" frameborder="0" allowfullscreen style="width:100%;height:100%"></iframe></span>'+'<a class="ifc-youtube-embed-video-link" target = "_blank" href="' + prefix + a[i] + '">' + a[i] + '</a>');
-      }
-      else {
-        final_string  = final_string + text.substring(0,pos).replace(a[i], '<a class="ifc-url-render" target = "_blank" href="' + prefix + a[i] + '">' + a[i] + '</a>' );
-      }
-      text = text.substring(pos,text.length);
+      return final_string;
     }
-    if(text.length != 0){
-      final_string = final_string + text;
+    return text;
     }
-    return final_string;
-  }
-  return text;
+    else {
+      return ""
+    }
   },
 
   checkHyperlink: function(text){

@@ -17,27 +17,35 @@ class MessageActionCard extends Component {
   render () {
     let {product} = this.props;
     let boundItemClick = this.handleCardClick.bind(this, product)
-    return (<Card onClick={boundItemClick}>
-      <Image src={JSON.parse(product.ImageURL)[0]} />
-      <Card.Content>
-        <Card.Header>
-          {product.Name}
-        </Card.Header>
-        <Card.Meta>
-          <span className='date'>
-            Code: {product.Code}
-          </span>
-        </Card.Meta>
-        <Card.Description>
-          {product.LongDescription}
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <a>
-          <Icon name='rupee' />{product.ShippingCost}  Shipping Cost
-        </a>
-      </Card.Content>
-    </Card>)
+    let finalValue = null
+    if(product){
+      finalValue = <Card onClick={boundItemClick}>
+        <Image src={JSON.parse(product.ImageURL)[0]} />
+        <Card.Content>
+          <Card.Header>
+            {product.Name}
+          </Card.Header>
+          <Card.Meta>
+            <span className='date'>
+              Code: {product.Code}
+            </span>
+          </Card.Meta>
+          <Card.Description>
+            {product.LongDescription}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <a>
+            <Icon name='rupee' />{product.ShippingCost}  Shipping Cost
+          </a>
+        </Card.Content>
+      </Card>
+    }
+    return (
+      <div>
+        {finalValue}
+      </div>
+    )
   }
 
 }
