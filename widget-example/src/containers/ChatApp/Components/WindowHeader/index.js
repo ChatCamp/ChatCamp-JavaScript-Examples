@@ -89,7 +89,18 @@ class WindowHeader extends Component {
       </Popup.Content>
     </Popup>
 
-    let participantsCount = <span className="header-count" >&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>2</span>
+    let triggerComponentPopup = <span className="header-count" >&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>{this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")}</span>
+    let participantsCount = <Popup
+      trigger={triggerComponentPopup}
+      hideOnScroll
+      position='bottom left'
+      on='click'>
+      <Popup.Header>Participants</Popup.Header>
+      <Popup.Content>
+        <GroupParticipantsList id={this.props.id} groupChannels={this.props.groupChannels}/>
+      </Popup.Content>
+    </Popup>
+    
     let status = <Header as="h3">#</Header>
     let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
     if(this.ifPopUp() && this.ifP2P()){
