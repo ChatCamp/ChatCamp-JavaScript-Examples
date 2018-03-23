@@ -11,11 +11,16 @@ class SmartChat extends Component {
   render () {
     let windows = [];
     let number = 0
-
+    // let windowWidth = window.innerWidth
     this.props.groupChannels.map((window, id) => {
+      // console.log("inner width", windowWidth , Math.floor(windowWidth/368))
+      // if(number === Math.floor(windowWidth/368)){
+      //   number = 0
+      // }
       if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined ){
         windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
       }
+
     })
 
     return (

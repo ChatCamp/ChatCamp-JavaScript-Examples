@@ -24,6 +24,14 @@ export const iFlyMiddleWare = store => {
     userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
   }
 
+  // let accessToken;
+  // if(window.ChatCampData && window.ChatCampData.accessToken){
+  //   accessToken = window.ChatCampData.accessToken
+  // }
+  // if(Utility.getUrlQueryParams(window.location.href)['accessToken'] && Utility.getUrlQueryParams(window.location.href)['accessToken'][0]) {
+  //   accessToken = Utility.getUrlQueryParams(window.location.href)['accessToken'][0]
+  // }
+
   // to expose startchat to other platforms
   let startChat = (groupChannelId) => {
     _startGroupChannel(groupChannelId)
@@ -33,7 +41,9 @@ export const iFlyMiddleWare = store => {
     })
   }
 
+  // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
+  // client.connect(userId, accessToken, function(e, user) {
   client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
@@ -66,6 +76,15 @@ export const iFlyMiddleWare = store => {
         let channelListener = new client.ChannelListener();
         channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
           console.log("Listener", groupChannel, message)
+          // automatic opening of chat in case of new message
+          let state = store.getState().groupChannelsState.getIn([groupChannel.id, "state"])
+          if(state !== "OPEN" && store.getState().smartChat.getIn(["type"]) === "popup"){
+            _startGroupChannel(groupChannel.id)
+            store.dispatch({
+              type: GROUP_CHANNELS_OPEN,
+              groupChannelsId: groupChannel.id
+            })
+          }
           store.dispatch({
             type: GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
             groupChannel: groupChannel,
