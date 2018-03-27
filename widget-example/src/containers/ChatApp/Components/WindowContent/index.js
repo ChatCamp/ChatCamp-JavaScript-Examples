@@ -265,11 +265,11 @@ class WindowContent extends Component {
       messages.push(
         <Comment.Group key={"window-message-typing-" + (new Date()).getTime()}>
           <Comment>
-            <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['display_name']}/>} />
+            <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']}/>} />
             {/* <Comment.Avatar src="https://iflychat.com/sites/default/files/styles/thumbnail/public/pictures/picture-13-1347368850.jpg?itok=lz_uGf7g" /> */}
             <Comment.Content>
               {/* <Popover frame={"ifc-chat-frame-window"} position={"top left"} trigger={<Comment.Author as='a'>{message.name}</Comment.Author>} content={<ProfileCard/>}/> */}
-              <Comment.Author as='a'>{this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['display_name']}</Comment.Author>
+              <Comment.Author as='a'>{this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']}</Comment.Author>
               <Comment.Metadata>
                 <div></div>
               </Comment.Metadata>
