@@ -11,6 +11,18 @@ class WindowHeader extends Component {
   state = {
   }
 
+  findFirstHidden(){
+    let first = false;
+    this.props.groupChannels.map((window, id) => {
+      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN"){
+        if(!first){
+          first = window.get('id')
+        }
+      }
+    })
+    return first
+  }
+
   handleItemClick = () => {
     this.props.fileRef.click()
   }
@@ -21,6 +33,9 @@ class WindowHeader extends Component {
 
   closeChannel = () => {
     this.props.actions.groupChannelsClose(this.props.id)
+    if(this.findFirstHidden()){
+      this.props.actions.groupChannelsOpen(this.findFirstHidden())
+    }
   }
   minimizeChannel = () => {
     this.props.actions.groupChannelsMinimize(this.props.id)
@@ -100,7 +115,7 @@ class WindowHeader extends Component {
         <GroupParticipantsList id={this.props.id} groupChannels={this.props.groupChannels}/>
       </Popup.Content>
     </Popup>
-    
+
     let status = <Header as="h3">#</Header>
     let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
     if(this.ifPopUp() && this.ifP2P()){

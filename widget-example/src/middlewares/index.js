@@ -10,7 +10,8 @@ import {
   SET_SMART_CHAT_TYPE,
   GROUP_CHANNELS_OPEN,
   GROUP_CHANNELS_MINIMIZE,
-  GROUP_CHANNELS_CREATE
+  GROUP_CHANNELS_CREATE,
+  GROUP_CHANNELS_HIDE
 } from 'state/action-types'
 
 import Utility from 'utility/Utility'
@@ -24,13 +25,13 @@ export const iFlyMiddleWare = store => {
     userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
   }
 
-  // let accessToken;
-  // if(window.ChatCampData && window.ChatCampData.accessToken){
-  //   accessToken = window.ChatCampData.accessToken
-  // }
-  // if(Utility.getUrlQueryParams(window.location.href)['accessToken'] && Utility.getUrlQueryParams(window.location.href)['accessToken'][0]) {
-  //   accessToken = Utility.getUrlQueryParams(window.location.href)['accessToken'][0]
-  // }
+  let accessToken;
+  if(window.ChatCampData && window.ChatCampData.accessToken){
+    accessToken = window.ChatCampData.accessToken
+  }
+  if(Utility.getUrlQueryParams(window.location.href)['accessToken'] && Utility.getUrlQueryParams(window.location.href)['accessToken'][0]) {
+    accessToken = Utility.getUrlQueryParams(window.location.href)['accessToken'][0]
+  }
 
   // to expose startchat to other platforms
   let startChat = (groupChannelId) => {
@@ -43,8 +44,8 @@ export const iFlyMiddleWare = store => {
 
   // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
-  // client.connect(userId, accessToken, function(e, user) {
-  client.connect(userId, function(e, user) {
+  client.connect(userId, accessToken, function(e, user) {
+  // client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
       window.ChatCampUI = {}
@@ -78,12 +79,38 @@ export const iFlyMiddleWare = store => {
           console.log("Listener", groupChannel, message)
           // automatic opening of chat in case of new message
           let state = store.getState().groupChannelsState.getIn([groupChannel.id, "state"])
+          let groupChannelsState = store.getState().groupChannelsState
+          let groupChannels = store.getState().groupChannels
+            let count = 0
+            let first = false;
+            let max = Math.floor(window.innerWidth/368)
+            groupChannels.map((window, id) => {
+              if(groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN"){
+                  count++
+                  first = true
+              }
+            })
           if(state !== "OPEN" && store.getState().smartChat.getIn(["type"]) === "popup"){
             _startGroupChannel(groupChannel.id)
-            store.dispatch({
-              type: GROUP_CHANNELS_OPEN,
-              groupChannelsId: groupChannel.id
-            })
+            if(first){
+              store.dispatch({
+                type: GROUP_CHANNELS_HIDE,
+                groupChannelsId: groupChannel.id
+              })
+            }
+            else if(count === max){
+              store.dispatch({
+                type: GROUP_CHANNELS_HIDE,
+                groupChannelsId: groupChannel.id
+              })
+            }
+            else{
+              store.dispatch({
+                type: GROUP_CHANNELS_OPEN,
+                groupChannelsId: groupChannel.id
+              })
+            }
+
           }
           store.dispatch({
             type: GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
@@ -151,10 +178,8 @@ export const iFlyMiddleWare = store => {
         // Check if the current user is participants of this groupChannelLeave
         let isCurrentUserAcceptedParticipant = false;
         let isCurrentUserParticipant = false;
-        console.log(client.user.id)
         for (let i in groupChannel.participants) {
           let participant = groupChannel.participants[i]
-          console.log(participant.id, client.user.id)
           if(participant.id === client.user.id) {
             isCurrentUserParticipant = true
             if(participant.status === "accepted") {

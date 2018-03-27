@@ -3,7 +3,8 @@ import {
   GROUP_CHANNELS_CREATE,
   GROUP_CHANNELS_CLOSE,
   GROUP_CHANNELS_OPEN,
-  GROUP_CHANNELS_MINIMIZE
+  GROUP_CHANNELS_MINIMIZE,
+  GROUP_CHANNELS_HIDE
 } from 'state/action-types'
 
 
@@ -28,6 +29,8 @@ export function groupChannelsState (state = initialState, action) {
       return state.setIn([action.groupChannelsId,"state"], "OPEN")
     case GROUP_CHANNELS_MINIMIZE:
       return state.setIn([action.groupChannelsId,"state"], "MINIMIZE")
+    case GROUP_CHANNELS_HIDE:
+      return state.setIn([action.groupChannelsId,"state"], "HIDDEN")
     default:
       return state
   }
