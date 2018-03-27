@@ -63,7 +63,7 @@ class HiddenChatWindow extends Component {
       popupRightAdjustment = String(345*this.props.position + 20*(this.props.position + 1)) + "px"
     }
     return (
-      <Popup hoverable trigger={<Button style={{right: popupRightAdjustment}} className={mainClass} icon='add' />} content={finalData}/>
+      <Popup hoverable trigger={<Button style={{right: popupRightAdjustment}} className={mainClass} icon='comment' />} content={finalData}/>
     )
   }
 }
