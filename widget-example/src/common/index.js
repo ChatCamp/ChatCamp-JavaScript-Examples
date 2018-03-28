@@ -19,7 +19,7 @@ const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  whitelist: ['groupChannelsState']
+  whitelist: ['groupChannelsState', 'user']
 }
 
 
