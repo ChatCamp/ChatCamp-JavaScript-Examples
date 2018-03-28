@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-// import { ConnectedRouter as Router } from 'react-router-redux';
-import {isLoggedIn, getAppId} from 'state/auth/selectors'
 import { PersistGate } from 'redux-persist/integration/react'
 import ChatApp from 'containers/ChatApp'
+import Utility from 'utility/Utility'
+import {
+  GROUP_CHANNELS_CLOSE
+} from 'state/action-types'
 export default class Root extends Component {
   // static propTypes = {
   //   store: PropTypes.object,
@@ -52,7 +54,32 @@ export default class Root extends Component {
     let store = storePersistor.store
     let persistor = storePersistor.persistor
 
-    const appId = getAppId(store.getState())
+    const onBeforeLift = () => {
+      // take some action before the gate lifts. store has hydrated but app is not loaded yet
+      let appId = process.env.REACT_APP_CHATCAMP_APP_ID
+
+      if(Utility.getUrlQueryParams(window.location.href)['appId'] && Utility.getUrlQueryParams(window.location.href)['appId'][0]) {
+        appId = Utility.getUrlQueryParams(window.location.href)['appId'][0]
+      }
+
+      let userId;
+      if(window.ChatCampData && window.ChatCampData.userId){
+        userId = window.ChatCampData.userId
+      }
+      if(Utility.getUrlQueryParams(window.location.href)['userId'] && Utility.getUrlQueryParams(window.location.href)['userId'][0]) {
+        userId = Utility.getUrlQueryParams(window.location.href)['userId'][0]
+      }
+
+      // if user id or app id doesnt match then delete the groupchannelsState
+      if(userId !== store.getState().user.get("id") || appId !== store.getState().user.get("appId")){
+        let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
+        for(let i in storeChannels)
+        store.dispatch({
+          type: GROUP_CHANNELS_CLOSE,
+          groupChannelsId: storeChannels[i]
+        })
+      }
+    }
     // const authProtection = this.authCheck.bind(this);
     // const routesWithAuthProtection = routes(authProtection, appId);
 
@@ -62,7 +89,7 @@ export default class Root extends Component {
     // )
     return (
       <Provider key={Math.random()} store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={null} onBeforeLift={onBeforeLift} persistor={persistor}>
         {/* <Router key={Math.random()} history={history}> */}
           <ChatApp key={Math.random()} appId={"iFlyChatAppDiv"}/>
         {/* </Router> */}

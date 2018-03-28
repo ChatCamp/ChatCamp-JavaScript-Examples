@@ -42,9 +42,9 @@ export const iFlyMiddleWare = store => {
     })
   }
 
-  // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
+  client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
-  client.connect(userId, accessToken, function(e, user) {
+  // client.connect(userId, accessToken, function(e, user) {
   // client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
@@ -56,7 +56,8 @@ export const iFlyMiddleWare = store => {
           groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
           allGroupChannels[0] = groupChannelId1
         }
-        // allGroupChannels[1] = "5a7b1aeacf725e6c5c8e1fa7"
+        
+        user["appId"] = client.app.id
         let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
         allGroupChannels = allGroupChannels.concat(storeChannels)
 

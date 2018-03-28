@@ -11,6 +11,7 @@ export function user (state = initialState, action) {
   switch (action.type) {
     case CHAT_CONNECT_SUCCESS:
       return Map({
+				appId: action.user.appId,
         id: action.user.id,
         displayName: action.user.displayName,
         avatarUrl: action.user.avatarUrl,
