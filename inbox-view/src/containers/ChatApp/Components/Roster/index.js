@@ -33,6 +33,7 @@ class Roster extends Component {
   p2pOtherParticipant = (gid) => {
     let id = this.props.user.get("id")
     let participants = this.props.groupChannels.getIn([gid, 'participants'])
+    console.log(participants)
     for(let i in participants){
       if(participants[i].id !== id){
           return participants[i]
@@ -140,9 +141,13 @@ class Roster extends Component {
         user.name = "Name"
         user.status = "A"
         let groupChannelName = rosterItem.getIn(['name'])
-        if(this.ifPopUp() && this.ifP2P(id)){
+        console.log("id", id)
+        if(id && this.ifPopUp() && this.ifP2P(id)){
           let other = this.p2pOtherParticipant(id)
-          groupChannelName = other.displayName
+          console.log(other)
+          if(other){
+            groupChannelName = other.displayName
+          }
         }
 
         //   })
