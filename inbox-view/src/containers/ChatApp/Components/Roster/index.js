@@ -158,7 +158,7 @@ class Roster extends Component {
 
             <List.Content className={"list-item-time"} style={inlineStyleHeight} floated='right' verticalAlign='middle'>
               {/* <Icon name='ellipsis vertical' /> */}
-              {UtilityTime.getTime('3', rosterItem.getIn(['lastMessage']).insertedAt*1000)}
+              {(rosterItem.getIn(['lastMessage']))? UtilityTime.getTime('3', rosterItem.getIn(['lastMessage']).insertedAt*1000) : ""}
             </List.Content>
 
             <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
