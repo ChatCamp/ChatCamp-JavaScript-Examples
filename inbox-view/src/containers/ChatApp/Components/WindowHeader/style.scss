@@ -1,0 +1,70 @@
+.cc-chat-window-header {
+  background-color: #222;
+  .ui.header{
+    color: #FFF;
+    cursor: pointer;
+    .sub.header {
+      color: #FFF;
+      cursor: pointer;
+    }
+  }
+}
+.header-actions {
+  padding-left: 0 !important;
+  margin-left: 0.1rem!important;
+  margin-right: 0.2rem!important;
+  i.icon {
+    color: #FFF;
+    cursor: pointer;
+    opacity: 0.8;
+    &:hover{
+      opacity: 1;
+    }
+  }
+}
+
+.header-count{
+  opacity: 0.6;
+  font-size: 14px;
+  font-style: normal;
+  i.user{
+    margin-right: 0 !important
+  }
+}
+
+
+.backgroundNone{
+  background: none!important;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+.header-blink {
+  animation: blinker 1s linear infinite;
+  animation: blinker 1s linear 10;
+}
+
+.headerSettings .item .content{
+  cursor: pointer
+}
+#ifc-app .row.cc-chat-window-header {
+  background-color: #3f46ad!important
+}
+.cc-window-header-status{
+  width: 24px;
+}
+.cc-window-header-name{
+  padding-left: 0!important;
+  .header{
+    -webkit-font-smoothing :  antialiased;
+  }
+}
+.cc-window-header-name-subtext{
+  font-size: 12px!important;
+  font-style: italic;
+  padding-left: 2px!important;
+  padding-top: 2px!important;
+  color: #ddd!important;
+}
