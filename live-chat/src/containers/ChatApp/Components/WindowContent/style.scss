@@ -1,0 +1,100 @@
+.window-message{
+
+  display: block;
+  float: right;
+  width: 100%;
+}
+.window-message-operator{
+  padding: 1px 0!important;
+  margin: 1px 0!important;
+  .message-content {
+      .message-bubble{
+        background-color: #f4f7f9;
+        color: #263238;
+      }
+  }
+}
+.window-message-user {
+  padding: 1px 20px 1px 0!important;
+  margin: 1px 0!important;
+  .comment .content{
+    max-width: 90%;
+    float: right!important;
+    display: inline-block!important;
+  }
+  .message-content {
+    float: right;
+      .message-bubble{
+        background-color: #3f46ad;
+        color: #fff;
+      }
+  }
+}
+.ui.segment.window-content {
+  overflow-y: auto;
+  background-color: #fff;
+  .author{
+    font-size: 11px;
+    padding-left: 4px;
+    color: #555;
+    cursor: normal;
+    -webkit-font-smoothing: antialiased;
+    &hover{
+      color: #555;
+      cursor: normal;
+    }
+  }
+  .ui.comments {
+    padding: 6px 0;
+    margin: 6px 0;
+    // &:hover {
+    //   background-color: #eee;
+    // }
+  }
+  .ui.comments .comment .metadata {
+    float: right;
+  }
+
+  .ui.comments .comment .metadata.role {
+    float: initial;
+  }
+}
+.ui.segment.window-content.cc-popup {
+  height: calc(100% - 157px);
+}
+.ui.segment.window-content.cc-embed {
+  height: calc(100% - 117px);
+}
+
+.message-content {
+    // width: 93%;
+    margin-right: 0;
+    padding-right: 0;
+    display: inline-block;
+    .message-bubble{
+      display: table;
+      width: auto;
+      background-color: #f4f7f9;
+      color: #263238;
+      padding: 15px 22px;
+      border-radius: 8px;
+    }
+}
+
+.message-read-receipt {
+    width: 5%;
+    display: inline-block;
+}
+
+.chatcamp-operator-avatar {
+  // border: 1px solid #98ccfd;
+  background: #3f46ad;
+  border-radius: 36px;
+  width: 36px!important;
+  height: 36px!important;
+  padding: 8px;
+  img{
+    width: 17px!important;
+    height: 17px!important;
+  }
+}

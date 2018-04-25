@@ -1,0 +1,204 @@
+@import './Components/WindowHeader/style.scss';
+@import './Components/WindowFooter/style.scss';
+@import './Components/Window/style.scss';
+@import './Components/WindowContent/style.scss';
+@import './Components/HiddenChatWindow/style.scss';
+@import './Components/WelcomeBubble/style.scss';
+@import 'loaders.css/src/animations/ball-beat.scss';
+
+.loader-hidden {
+  display: none;
+}
+.loader-active {
+  display: block;
+}
+
+.iflychat-popup{
+  display: block;
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+#ifc-app-container{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // bottom: 0;
+  // right: 0;
+  @media screen and (max-width: 750px) {
+    height: 100%;
+  }
+}
+#ifc-app{
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  // bottom: 0;
+  // right: 0;
+  @media screen and (max-width: 750px) {
+    height: 100%;
+  }
+}
+
+.ifc-chat-list-container{
+  display: block;
+  float: left;
+  position: relative;
+  height: 20px;
+  bottom: 20px;
+  width: 320px;
+  margin: 0 20px 0 0;
+   @media screen and (max-width: 750px) {
+     height: 100%;
+     width: 100%;
+     margin: 0;
+     bottom: 0;
+   }
+}
+
+.ifc-chat-window-container{
+  display: block;
+  float: left;
+  position: relative;
+  // height: 20px;
+  // bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  // margin: 20px;
+   @media screen and (max-width: 750px) {
+     height: 100%;
+     width: 100%;
+     margin: 0;
+     bottom: 0;
+     position: absolute;
+   }
+
+}
+// .ifc-chat-window *::-webkit-scrollbar {
+//     width: 8px;
+//     height: 8px;
+// }
+// .ifc-chat-window *::-webkit-scrollbar-thumb {
+//     -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+// }
+// .ifc-chat-window *::-webkit-scrollbar-button {
+//     width: 0;
+//     height: 0;
+//     display: none;
+// }
+// .ifc-chat-window *::-webkit-scrollbar-corner {
+//     background-color: transparent;
+// }
+// .ifc-chat-window ::-webkit-scrollbar-thumb{
+//     background-color: rgba(0,0,0,.2);
+// }
+
+body > div:first-child, body > div:first-child > div:first-child {
+  height: inherit; }
+
+body a {
+  cursor: pointer;
+}
+
+// Custom Changes
+
+// .ifc-chat-window-container {
+//     margin: 0;
+//     max-width: none;
+//     height: auto;
+// 	position: static;
+// }
+//
+// .cc-chat-window-header {
+//     background: #eef0f3;
+//     padding-left: 40px !important;
+// }
+//
+// .cc-chat-window-header .ui.header, .cc-chat-window-header .ui.header .sub.header, .cc-chat-window-header i.icon, .cc-chat-window-header i.icon .sub.header {
+//     color: #303841;
+// }
+//
+// .ui.segment.window-content {
+//     background-color: #eef0f3;
+//     padding-left: 40px;
+// }
+//
+// .ifc-chat-window-container .ui.grid>.row> .middle{
+//     width: 30px !important;
+//     padding: 0;
+// }
+//
+//
+// .ifc-chat-window-container .ui.grid>.row> .left {
+//     margin: 0;
+//     width: auto !important;
+// }
+//
+// .ifc-chat-window-container .ui.grid>.row> .right {
+//     margin: 0;
+//     position: absolute;
+//     width: 30px !important;
+//     padding: 0;
+//     right: 20px;
+//     top: 16px;
+// }
+//
+// .ui.segment.window-content .ui.comments {
+//     max-width: none !important;
+// }
+//
+// .ui.comments .comment .text > div {
+//     background: #fff;
+//     display: inline-block;
+//     padding: 5px 10px;
+//     border-radius: 3px;
+//     position: relative;
+//     box-shadow: 1px 2px 1px rgba(0,0,0,0.1);
+// }
+//
+// .ui.comments .comment .text > div:before {
+//     position: absolute;
+//     content: '';
+//     left: -10px;
+//     top: 5px;
+//     border: 5px solid transparent;
+//     border-right-color: #fff;
+// }
+//
+// .ui.compact.segment .ten {
+//     width: 68.25% !important;
+// }
+//
+// .ui.compact.segment .ten
+//  textarea {
+//     height: 25px !important;
+//     font-size: 16px;
+// }
+//
+// @media(max-width: 767px){
+//     .ui.compact.segment .ten{width: 67% !important;}
+// }
+//
+// .ifc-chat-window .compact.segment {
+//     border: none;
+//     color: #d6dce1;
+// }
+//
+// .ifc-chat-window .compact.segment i.icon {
+//     font-size: 2em;
+// }
+//
+// .ui.compact.segment input[type="file"] {
+//     display: none;
+// }
+//
+// .ifc-chat-window .compact.segment > div {
+//     height: 78px;
+// }
+//
+// .ui.compact.segment .ten textarea:hover, .ui.compact.segment .ten textarea:focus {
+//     outline: none;
+// }

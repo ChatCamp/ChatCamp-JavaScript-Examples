@@ -1,0 +1,29 @@
+.ifc-chat-window {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px 20px 8px 8px!important;
+  // -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+  // -moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+  // box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+  box-shadow: 0 5px 40px rgba(0,0,0,.16)!important;
+  @media screen and (max-width: 750px) {
+    height: 100%;
+  }
+}
+
+#ifc-app .chatcamp-popup {
+  max-width: 380px;
+  height: 560px;
+  position: fixed;
+  bottom : 0;
+  right: 20px;
+}
+
+#ifc-app .chatcamp-popup-customer-widget{
+  bottom: 35px;
+  border-radius: 20px!important;
+}
+
+#ifc-app .chatcamp-popup-minimize{
+  height: auto
+}
