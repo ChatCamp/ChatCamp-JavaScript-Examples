@@ -238,10 +238,10 @@ class WindowContent extends Component {
       }
       let classes = "window-message window-message-receive"
 
-      if(message.getIn(['user', 'id']) === "1"){
+      if(message.getIn(['user', 'id']) === this.props.user.get("id")){
         classes = "window-message window-message-self"
       }
-      
+
 
       //message object
       if(text!=null) messages.push(
