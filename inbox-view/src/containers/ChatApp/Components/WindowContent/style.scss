@@ -2,6 +2,9 @@
   display: block;
   float: right;
   width: 100%;
+  .content{
+    max-width: 65%!important;
+  }
 }
 .window-message-receive{
   padding: 1px 0!important;
@@ -23,7 +26,6 @@
   padding: 1px 20px 1px 0!important;
   margin: 1px 0!important;
   .comment .content{
-    max-width: 90%;
     float: right!important;
     display: inline-block!important;
     .author{
@@ -32,6 +34,9 @@
     }
     .text{
       -webkit-font-smoothing :  antialiased;
+      a{
+        color: #fff!important;
+      }
     }
   }
   .message-content {
@@ -46,9 +51,7 @@
     margin-left: 0.6em!important;
 
   }
-  a{
-    color: #fff!important;
-  }
+
 }
 
 .ui.segment.window-content {
