@@ -24,7 +24,7 @@ class LeftPanel extends Component {
 
    panels.push({title: "RECENT CHATS " + "(" + getInboxSize + ")", content: {content: (<Roster type="inbox"/>), key: "inbox" }})
 
-   // panels.push({title: "ACTIVE USERS " + "(" + getOnlineUsersCount + ")", content: {content: (<Roster type="users"/>), key: "users" }})
+   panels.push({title: "USERS " + "(" + getOnlineUsersCount + ")", content: {content: (<Roster type="users"/>), key: "users" }})
 
    return(
      <div className="chatcamp-left-panel">

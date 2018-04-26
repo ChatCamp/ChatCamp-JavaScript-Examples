@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
+import * as actions1 from 'state/groupChannels/actions'
 import { Icon, Header, Segment, Grid, Popup, List, Image} from 'semantic-ui-react'
+import UnicodeToImg from 'utility/UnicodeToImg'
 import './style.css'
 import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipantsList'
 
@@ -36,6 +38,11 @@ class WindowHeader extends Component {
     if(this.findFirstHidden()){
       this.props.actions.groupChannelsOpen(this.findFirstHidden())
     }
+  }
+  startVideo = () => {
+    let roomId = this.props.user.get("appId") + "_" + this.props.id
+    let message = UnicodeToImg.colonToUnicode(UnicodeToImg.checkIfEmoji("Click the link to join video chat -  https://api.iflychat.com/asset/apps/video-v2/?room=" + roomId))
+    this.props.actions1.userMessage(this.props.id, message)
   }
   minimizeChannel = () => {
     this.props.actions.groupChannelsMinimize(this.props.id)
@@ -119,7 +126,9 @@ class WindowHeader extends Component {
     let sourceURL = "http://localhost:3000/"
     let source_online =  sourceURL + "icons8-connection-status-on-96.png"
     let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
-    let status = <Header as="h3">#</Header>
+    let source_video =  sourceURL + "icons8-video-call-64.png"
+    let source_hash =  sourceURL + "icons8-hashtag-50.png"
+    let status = <Image className= "cc-window-header-hash" src={source_hash} />
     let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
     if(this.ifPopUp() && this.ifP2P()){
       let other = this.p2pOtherParticipant()
@@ -179,6 +188,19 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>}
 
+            { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+
+                  <Popup className="headerSettings"
+                    trigger={<Image onClick={() => {this.startVideo()}} className= "cc-window-header-video" src={source_video} />}
+                    hideOnScroll
+                    position='bottom right'
+                    on='hover' inverted>
+                    <Popup.Content>
+                      Video Chat
+                    </Popup.Content>
+                  </Popup>
+            </Grid.Column>}
+
             <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
                   <Popup className="headerSettings"
                     trigger={<Icon name="setting" size="large"/>}
@@ -206,6 +228,8 @@ class WindowHeader extends Component {
                     </Popup.Content>
                   </Popup>
             </Grid.Column>}
+
+
           </Grid.Row>
         </Grid>
     </Segment>
@@ -220,7 +244,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch),
+    actions1: bindActionCreators(actions1, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

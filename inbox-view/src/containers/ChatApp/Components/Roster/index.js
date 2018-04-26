@@ -6,6 +6,7 @@ import {List, Label, Icon, Image } from 'semantic-ui-react'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
 import status from 'utility/status'
 import UtilityTime from 'utility/UtilityTime'
+import client from 'Client'
 
 
 // import './style.css'
@@ -41,16 +42,30 @@ class Roster extends Component {
     }
   }
 
-  onUserClick = (id) => {
+  onInboxClick = (id) => {
     let currentId =  this.props.groupChannelsState.keySeq().toArray()[0]
     if(id !== currentId){
       window.ChatCampUI.startChat(id)
       this.props.actions.groupChannelsClose(currentId)
     }
+  }
+
+  onUserClick = (id) => {
+    let currentId =  this.props.groupChannelsState.keySeq().toArray()[0]
+    let that = this
+    client.GroupChannel.create("New Group", [id, this.props.user.get("id")], true ,function(error, newGroupChannel) {
+      if(newGroupChannel.id !== currentId){
+        window.ChatCampUI.startChat(newGroupChannel.id)
+        that.props.actions.groupChannelsClose(currentId)
+      }
+    })
 
   }
 
   render () {
+    let sourceURL = "http://localhost:3000/"
+    let source_online =  sourceURL + "icons8-connection-status-on-96.png"
+    let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
     let roster = []
     let inlineStyleDisplay ={
       display: "table-cell"
@@ -78,8 +93,15 @@ class Roster extends Component {
     if(this.props.type === "users"){
       this.props.userList.map((rosterItem) => {
         if(rosterItem.getIn(['id']) !== this.props.user.getIn(['id'])){
+          let onlineStatus
+          if(rosterItem.getIn(['isOnline'])){
+            onlineStatus = <Image className= "cc-user-list-status" src={source_online} />
+          }
+          else {
+            onlineStatus = <Image className= "cc-user-list-status" src={source_offline} />
+          }
           roster.push(
-            <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.props.onUserClick(rosterItem.getIn(['id']))}>
+            <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onUserClick(rosterItem.getIn(['id']))}>
 
               {/* <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
                 <Icon name='ellipsis vertical' />
@@ -89,10 +111,11 @@ class Roster extends Component {
               <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
                 <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} />}/>
                 {/* <Icon name="circle"/> */}
-                <Label style={getStatusStyle('A')} circular floating empty />
+                {onlineStatus}
+                {/* <Label style={getStatusStyle('A')} circular floating empty /> */}
               </List.Content>
 
-              <List.Content style={inlineStyleHeight} verticalAlign='middle'>
+              <List.Content className="cc-user-list-name" style={inlineStyleHeight} verticalAlign='middle'>
                 <List.Header>{rosterItem.getIn(['displayName'])}</List.Header>
               </List.Content>
 
@@ -141,10 +164,8 @@ class Roster extends Component {
         user.name = "Name"
         user.status = "A"
         let groupChannelName = rosterItem.getIn(['name'])
-        console.log("id", id)
         if(id && this.ifPopUp() && this.ifP2P(id)){
           let other = this.p2pOtherParticipant(id)
-          console.log(other)
           if(other){
             groupChannelName = other.displayName
           }
@@ -153,8 +174,7 @@ class Roster extends Component {
         //   })
 
         roster.push(
-          // <List.Item className={"list-inbox"} key={"roster-key-" + rosterItem.id } onClick={() => this.props.onUserClick(user.id)}>
-          <List.Item className={topClass} key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onUserClick(rosterItem.getIn(['id']))}>
+          <List.Item className={topClass} key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onInboxClick(rosterItem.getIn(['id']))}>
 
             <List.Content className={"list-item-time"} style={inlineStyleHeight} floated='right' verticalAlign='middle'>
               {/* <Icon name='ellipsis vertical' /> */}
