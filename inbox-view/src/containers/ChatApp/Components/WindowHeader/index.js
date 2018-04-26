@@ -41,7 +41,7 @@ class WindowHeader extends Component {
   }
   startVideo = () => {
     let roomId = this.props.user.get("appId") + "_" + this.props.id
-    let message = UnicodeToImg.colonToUnicode(UnicodeToImg.checkIfEmoji("Click the link to join video chat -  https://api.iflychat.com/asset/apps/video-v2/?room=" + roomId))
+    let message = UnicodeToImg.colonToUnicode(UnicodeToImg.checkIfEmoji("Click the link to join video chat -  https://cdn.iflychat.com/apps/video-v2/?room=" + roomId))
     this.props.actions1.userMessage(this.props.id, message)
   }
   minimizeChannel = () => {
@@ -123,7 +123,7 @@ class WindowHeader extends Component {
       </Popup.Content>
     </Popup>
     let onlineStatus;
-    let sourceURL = "http://localhost:3000/"
+    let sourceURL = process.env.PUBLIC_URL + "/"
     let source_online =  sourceURL + "icons8-connection-status-on-96.png"
     let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
     let source_video =  sourceURL + "icons8-video-call-64.png"

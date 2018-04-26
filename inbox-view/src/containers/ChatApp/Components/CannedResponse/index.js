@@ -15,7 +15,7 @@ class CannedResponse extends Component {
   }
 
   render() {
-    let sourceURL = "http://localhost:3000/"
+    let sourceURL = process.env.PUBLIC_URL + "/"
     let source =  sourceURL + "icons8-fantasy-filled-100.png"
 
     let options = [
