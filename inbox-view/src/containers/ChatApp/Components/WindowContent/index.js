@@ -230,7 +230,7 @@ class WindowContent extends Component {
 
       //user avatar
       let messageAvatar;
-      if(message.getIn(['user', 'avatarUrl'])){
+      if(message.getIn(['user', 'avatarUrl']) && !messageClubbing.info){
         messageAvatar = <Comment.Avatar src={message.getIn(['user', 'avatarUrl'])} />
       }
       else{
