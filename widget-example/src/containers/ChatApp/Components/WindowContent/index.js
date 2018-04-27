@@ -33,7 +33,18 @@ class WindowContent extends Component {
 
   state = {
     cacheMessages : {},
-    isLoading: false
+    isLoading: false,
+    cardState: {"$id": "2",
+    "ProductID": 44,
+    "Name": "Streaker Fitbit",
+    "Code": "SF001",
+    "ImageURL": "[\"https://pbs.twimg.com/profile_images/621318447335665664/_cRrRqZZ_400x400.jpg\"]",
+    "ShortDescription": "Streaker Fitbit",
+    "LongDescription": "Streaker Fitbit",
+    "CategoryID": 45,
+    "ShippingCost": 0,
+    "Status": 1,
+    "BrandID": 40}
   }
 
   handleInviteCancel() {
@@ -51,7 +62,7 @@ class WindowContent extends Component {
       return {info: false, color: ""}
     }
     else if(oldMessage.getIn(['user', 'id']) === currentMessage.getIn(['user', 'id'])){
-      if(currentMessage.insertedAt - oldMessage.insertedAt < 300){
+      if(currentMessage.get('insertedAt') - oldMessage.get('insertedAt') < 300){
         return {info: true, color: "#FFF"}
       }
       else{
@@ -181,25 +192,25 @@ class WindowContent extends Component {
       if(message.get('type') === "attachment") {
         let attachment = message.getIn(['attachment'])
         // if(!message.getIn(['attachment', 'url'], false)) {
-          text = <div className="message-content" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
+          text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
           if(attachment.get('type').substring(0,5) === "image") {
-            text = <Image className="message-content" src={attachment.get('url')} />
+            text = <Image className="message-bubble" src={attachment.get('url')} />
           }
           if(attachment.get('type').substring(0,5) === "audio"){
             if(!DetectBrowser.detectIE()){
-              text = <audio className="message-content" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
+              text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
 
             }
             else{
               // IE render link instead of audio player
-              text = <div className="message-content" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
+              text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
             }
           }
         // }
       }
       else {
         // if(!message.getIn(['text'], false)) {
-          text = <div className="message-content" dangerouslySetInnerHTML={{ __html: UnicodeToImg.unicodeToImgTag(ProcessMessage.MediaRender(message.getIn(['text'], "hello")), undefined, true)}}></div>
+          text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: UnicodeToImg.unicodeToImgTag(ProcessMessage.MediaRender(message.getIn(['text'], "hello")), undefined, true)}}></div>
         // }
       }
 
@@ -222,12 +233,18 @@ class WindowContent extends Component {
         messageAvatar = <Comment.Avatar src={message.getIn(['user', 'avatarUrl'])} />
       }
       else{
-        messageAvatar = <Comment.Avatar as={() => <AvatarWrapper color={messageClubbing.color} className="avatar" name={message.getIn(['user', 'displayName']) }/>} />
+        messageAvatar = <Comment.Avatar as={() => <AvatarWrapper color={messageClubbing.color} className="avatar" name={message.getIn(['user', 'displayName']) } size={30}/>} />
       }
+      let classes = "window-message window-message-receive"
+
+      if(message.getIn(['user', 'id']) === this.props.user.get('id')){
+        classes = "window-message window-message-self"
+      }
+
 
       //message object
       if(text!=null) messages.push(
-        <Comment.Group key={"window-message-" + message.get('id')} className={"window-message window-message-" + message.get('id')}>
+        <Comment.Group key={"window-message-" + message.get('id')} className={classes + " window-message-" + message.get('id')}>
           <Comment>
             {messageAvatar}
             <Comment.Content>
@@ -243,15 +260,15 @@ class WindowContent extends Component {
               </Popup>}
 
               {/*  message role*/}
-              {role && <Comment.Metadata className="role">{role}</Comment.Metadata>}
-              {!messageClubbing.info && <Comment.Metadata>
+              {false && role && <Comment.Metadata className="role">{role}</Comment.Metadata>}
+              {false && !messageClubbing.info && <Comment.Metadata>
                 <div>{UtilityTime.getTime('1', message.get('insertedAt')*1000)}</div>
               </Comment.Metadata>}
 
               <Comment.Text>
-                {text}
-                <ReadReceipt groupChannelId ={this.props.id} message={message} />
-                {customType==="action_link" && <MessageActionCard product={JSON.parse(metadata.product)} />}
+                <div className="message-content">{text}</div>
+                {/* <ReadReceipt groupChannelId ={this.props.id} message={message} /> */}
+                {/* {customType==="action_link" && <FlightCard product={JSON.parse(metadata.product)} />} */}
               </Comment.Text>
             </Comment.Content>
           </Comment>
@@ -259,13 +276,14 @@ class WindowContent extends Component {
       )
     })
 
+
     //Show if someone is typing
     if(this.props.groupChannels.getIn([this.props.id, 'typing'], false)
     && this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['id'] !== this.props.user.get('id')) {
       messages.push(
         <Comment.Group key={"window-message-typing-" + (new Date()).getTime()}>
           <Comment>
-            <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']}/>} />
+            <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']} size={30}/>} />
             {/* <Comment.Avatar src="https://iflychat.com/sites/default/files/styles/thumbnail/public/pictures/picture-13-1347368850.jpg?itok=lz_uGf7g" /> */}
             <Comment.Content>
               {/* <Popover frame={"ifc-chat-frame-window"} position={"top left"} trigger={<Comment.Author as='a'>{message.name}</Comment.Author>} content={<ProfileCard/>}/> */}
@@ -289,6 +307,7 @@ class WindowContent extends Component {
     return (
       <Segment onScroll={this.checkLoadMore.bind(this)} className={windowContent} ref={node => this.handleContextRef = node}>
         {messages}
+        {/* <FlightCard product={this.state.cardState} /> */}
         <SoundNotification groupChannelId = {this.props.id}/>
         <TitleAlert groupChannelId = {this.props.id}/>
         <DesktopNotification groupChannelId = {this.props.id}/>

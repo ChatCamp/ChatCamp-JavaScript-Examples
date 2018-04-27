@@ -1,5 +1,9 @@
 .cc-chat-window-header {
   background-color: #222;
+  .cc-window-header-status-main{
+    padding:0!important;
+    margin: 0 10px 0 8px;
+  }
   .ui.header{
     color: #FFF;
     cursor: pointer;
@@ -11,12 +15,15 @@
 }
 .header-actions {
   padding-left: 0 !important;
+  padding-right: 0 !important;
   margin-left: 0.1rem!important;
   margin-right: 0.2rem!important;
   i.icon {
     color: #FFF;
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.9;
+    margin-bottom: 2px!important;
+    font-size: 1.3em!important;
     &:hover{
       opacity: 1;
     }
@@ -48,4 +55,38 @@
 
 .headerSettings .item .content{
   cursor: pointer
+}
+#ifc-app .row.cc-chat-window-header {
+  background-color: #3f46ad!important
+}
+.cc-window-header-status{
+  width: 24px;
+}
+.cc-window-header-minus{
+  width: 16px;
+  cursor: pointer;
+}
+.cc-window-header-max{
+  width: 18px;
+  cursor: pointer;
+}
+.cc-window-header-close{
+  width: 16px;
+  cursor: pointer;
+}
+.cc-window-header-hash{
+  width: 24px;
+}
+.cc-window-header-name{
+  padding-left: 0!important;
+  .header{
+    -webkit-font-smoothing :  antialiased;
+  }
+}
+.cc-window-header-name-subtext{
+  font-size: 12px!important;
+  font-style: italic;
+  padding-left: 2px!important;
+  padding-top: 2px!important;
+  color: #ddd!important;
 }

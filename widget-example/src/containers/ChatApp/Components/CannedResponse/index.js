@@ -35,12 +35,13 @@ class CannedResponse extends Component {
     ]
 
     return (
-      <Grid.Column width={1}>
+      <Grid.Column width={1} className="cc-canned-response">
 
         <Popup
           trigger={<Dropdown
                       name="canned_response"
                       icon="wizard"
+                      pointing = "right"
                       upward>
                       <Dropdown.Menu>
                         <Dropdown.Header content='Canned Responses' />

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
-import { Segment, Grid, Icon, Progress, Popup } from 'semantic-ui-react'
+import { Segment, Grid, Icon, Progress, Popup, Image } from 'semantic-ui-react'
 import './style.css'
 import Emoji from '../Emoji'
 import UnicodeToImg from 'utility/UnicodeToImg'
@@ -192,16 +192,21 @@ class WindowFooter extends Component {
     const { message, isFile, isAction, record } = this.state
     let {groupChannels, id} = this.props
     let percent = groupChannels.getIn([id, 'attachmentProgress'], 0)
+    let sourceURL = "http://localhost:3000/"
+    let source =  sourceURL + "icons8-attach-60.png"
+    let source_send = sourceURL + "icons8-sent-60.png"
+    let source_emoji = sourceURL + "icons8-happy-100.png"
+
     return (
     <Segment className="window-footer" compact={true} size={"mini"} style={{paddingBottom: "0", paddingTop: "0"}}>
       {/* <textArea className="borderNone" placeholder='Type and Send Message..' name ='message' value={message} style={{ width: "100%"}} onChange={this.handleChange} onKeyDown={this.handleKeyPress} ref={node => this.textInputRef = node} /> */}
       {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
       <Grid style={{margin: 0}}>
-        <Grid.Column style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
+        <Grid.Column className="chatcamp-widget-emoji-main" style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
 
           <Popover
             isOpen={this.state.isEmojiOpen}
-            trigger={<Icon name='smile' size='large' />}
+            trigger={<Image className="chatcamp-widget-emoji" src={source_emoji} />}
             content={<Emoji
                       className="backgroundNone"
                       key="ifc-chat-window-panel"
@@ -212,7 +217,7 @@ class WindowFooter extends Component {
 
         </Grid.Column>
 
-        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?9:(isFile?10:13)} style={{paddingTop: "0px", paddingBottom: "0px", fontSize: "13.5px"}}>
+        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} style={{paddingTop: "0px", paddingBottom: "0px", fontSize: "13.5px"}}>
 
           <Textarea
             onMouseEnter={this.handleFocus}
@@ -221,7 +226,7 @@ class WindowFooter extends Component {
             minRows={1}
             maxRows={5}
             // placeholder={'Send Message as ' + this.props.user.get('displayName')}
-            placeholder={'Send Message'}
+            placeholder={'Send Message...'}
             value={message}
             style={{ width: "100%", minHeight: "23px", marginTop: "8px"}}
             onChange={this.handleChange}
@@ -235,34 +240,35 @@ class WindowFooter extends Component {
         {/* Canned Responses Add */}
         {isFile && <CannedResponse id={this.props.id} />}
         {/* Attach File */}
-        {isFile && <Grid.Column verticalAlign="middle" width={1}>
+        {isFile && <Grid.Column className="chatcamp-widget-attach-main" verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Icon name='add' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
+            trigger={<Image className="chatcamp-widget-attach" src={source} onClick={() => {this.sendAttachmentClick()}}/>}
             content='Attach a File'
             inverted
           />
         </Grid.Column>}
         {/* Attach Media */}
-        {isFile && !this.ifPopUp() && <Grid.Column verticalAlign="middle" width={1}>
+        {false && isFile && !this.ifPopUp() && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
             content='Attach Media'
             inverted
           />
         </Grid.Column>}
-        {isAction && isFile && <Grid.Column width={1}>
+        { isAction && isFile && <Grid.Column width={1}>
           <MessageAction id={this.props.id}/>
         </Grid.Column>}
         {/* Send Message Button */}
-        {!isFile && <Grid.Column verticalAlign="middle" width={1}>
+        {!isFile && <Grid.Column className="chatcamp-widget-send-main" verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Icon name='send outline' color={"purple"} size='large' onClick={() => {this.sendMessageClick()}}/>}
+            // trigger={<Icon name='send outline' color={"purple"} size='large' onClick={() => {this.sendMessageClick()}}/>}
+            trigger={<Image className="chatcamp-widget-send" src={source_send} onClick={() => {this.sendMessageClick()}}/>}
             content='Send Message'
             inverted
           />
         </Grid.Column>}
         {/* Start Recording*/}
-        {isFile && !record && <Grid.Column verticalAlign="middle" width={1}>
+        {false && isFile && !record && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
             content='Start Recording'
@@ -270,7 +276,7 @@ class WindowFooter extends Component {
           />
         </Grid.Column>}
         {/* Stop Recording*/}
-        {isFile && record && <Grid.Column verticalAlign="middle" width={1}>
+        {false && isFile && record && <Grid.Column verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
             content='Stop Recording'

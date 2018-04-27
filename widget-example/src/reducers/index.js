@@ -16,7 +16,10 @@ import {onlineUsers} from 'state/onlineUsers/reducer'
 
 import {smartChat} from 'state/smartChat/reducer'
 import {groupChannelsState} from 'state/groupChannelsState/reducer'
+import {groupChannelsList} from 'state/groupChannelsList/reducer'
 import {user} from 'state/user/reducer'
+import {userList} from 'state/userList/reducer'
+
 
 export const rootReducer = combineReducers({
   auth,
@@ -27,5 +30,7 @@ export const rootReducer = combineReducers({
   onlineUsers,
   smartChat,
   groupChannelsState,
-  user
+  groupChannelsList,
+  user,
+  userList
 })

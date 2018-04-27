@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
-import { Icon, Header, Segment, Grid, Popup, List} from 'semantic-ui-react'
+import { Icon, Header, Segment, Grid, Popup, List, Image} from 'semantic-ui-react'
 import './style.css'
 import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipantsList'
 
@@ -52,7 +52,7 @@ class WindowHeader extends Component {
   }
 
   ifPopUp = () => {
-    if (this.props.smartChat.get("type") === "popup"){
+    if (this.props.smartChat.get("type") === "popup" || this.props.smartChat.get("type") === "inbox"){
       return true
     }
     else{
@@ -115,17 +115,29 @@ class WindowHeader extends Component {
         <GroupParticipantsList id={this.props.id} groupChannels={this.props.groupChannels}/>
       </Popup.Content>
     </Popup>
-
-    let status = <Header as="h3">#</Header>
+    let onlineStatus;
+    let sourceURL = "http://localhost:3000/"
+    let source_online =  sourceURL + "icons8-connection-status-on-96.png"
+    let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
+    let source_close =  sourceURL + "icons8-delete-64.png"
+    let source_minus =  sourceURL + "icons8-minus-48-white.png"
+    let source_max =  sourceURL + "icons8-chevron-up-52-white.png"
+    let source_hash =  sourceURL + "icons8-hashtag-50.png"
+    // let status = <Header as="h3">#</Header>
+    let status = <Image className= "cc-window-header-hash" src={source_hash} />
     let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
     if(this.ifPopUp() && this.ifP2P()){
       let other = this.p2pOtherParticipant()
       groupChannelName = other.displayName
       if(other.isOnline){
-        status = <Icon name="circle" size="large"/>
+        // status = <Icon name="circle" size="large"/>
+        onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Available'}</Header.Subheader>
+        status = <Image className= "cc-window-header-status" src={source_online} />
       }
       else {
-        status = <Icon name="circle outline" size="large"/>
+        // status = <Icon name="circle outline" size="large"/>
+        onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Offline'}</Header.Subheader>
+        status = <Image className= "cc-window-header-status" src={source_offline} />
       }
 
     }
@@ -134,21 +146,23 @@ class WindowHeader extends Component {
       <Segment size="tiny" className="window-header">
         <Grid>
           <Grid.Row color="purple" className="cc-chat-window-header">
-            <Grid.Column verticalAlign="middle" width={1}>
+            <Grid.Column className="cc-window-header-status-main" verticalAlign="middle" width={1}>
               {status}
             </Grid.Column>
 
-            <Grid.Column verticalAlign="middle" floated="left" width={11}>
-              <Header as='h3'>
+            <Grid.Column className="cc-window-header-name" verticalAlign="middle" floated="left" width={10}>
+              <Header as='h4'>
                 {groupChannelName}
                 { this.ifPopUp() && !this.ifP2P() && participantsCount}
-                {!this.ifPopUp()  && embedParticipants}
+                {/* {!this.ifPopUp()  && embedParticipants} */}
+                {/* {this.ifPopUp() && !this.ifP2P() && embedParticipants} */}
+                {/* {this.ifPopUp() && this.ifP2P() && onlineStatus} */}
               </Header>
             </Grid.Column>
 
-            { this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+            {  this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
               <Popup className="headerSettings"
-                    trigger={<Icon onClick={() => {this.minimizeChannel()}} name="minus" size="large"/>}
+                    trigger={<Image onClick={() => {this.minimizeChannel()}} className= "cc-window-header-minus" src={source_minus} />}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
@@ -160,7 +174,7 @@ class WindowHeader extends Component {
 
             { this.ifPopUp() && (this.ifPopUpMinimize()) && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
                   <Popup className="headerSettings"
-                    trigger={<Icon onClick={() => {this.openChannel()}} name="chevron up" size="large"/>}
+                    trigger={<Image onClick={() => {this.openChannel()}} className= "cc-window-header-max" src={source_max} />}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
@@ -188,7 +202,7 @@ class WindowHeader extends Component {
             { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
 
                   <Popup className="headerSettings"
-                    trigger={<Icon onClick={() => {this.closeChannel()}} name="close" size="large"/>}
+                    trigger={<Image onClick={() => {this.closeChannel()}} className= "cc-window-header-close" src={source_close} />}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>

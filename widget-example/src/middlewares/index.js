@@ -11,7 +11,10 @@ import {
   GROUP_CHANNELS_OPEN,
   GROUP_CHANNELS_MINIMIZE,
   GROUP_CHANNELS_CREATE,
-  GROUP_CHANNELS_HIDE
+  GROUP_CHANNELS_HIDE,
+  GROUP_CHANNELS_LIST_SUCCESS,
+  GROUP_CHANNELS_MY_LIST_SUCCESS,
+  USER_LIST_SUCCESS
 } from 'state/action-types'
 
 import Utility from 'utility/Utility'
@@ -42,9 +45,9 @@ export const iFlyMiddleWare = store => {
     })
   }
 
-  // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
+  client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
-  client.connect(userId, accessToken, function(e, user) {
+  // client.connect(userId, accessToken, function(e, user) {
   // client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
@@ -56,7 +59,7 @@ export const iFlyMiddleWare = store => {
           groupChannelId1 = Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]
           allGroupChannels[0] = groupChannelId1
         }
-        
+
         user["appId"] = client.app.id
         let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
         allGroupChannels = allGroupChannels.concat(storeChannels)
@@ -137,6 +140,40 @@ export const iFlyMiddleWare = store => {
         }
 
         client.addChannelListener("t", channelListener)
+
+        var groupChannelListQuery = client.GroupChannel.createGroupChannelListQuery();
+        groupChannelListQuery.get(function(error, groupChannelList){
+	         if(error == null){
+  	          console.log("My Group Channels List Retreived", groupChannelList)
+              store.dispatch({
+                type: GROUP_CHANNELS_LIST_SUCCESS,
+                groupChannels: groupChannelList
+              });
+              store.dispatch({
+                type: GROUP_CHANNELS_MY_LIST_SUCCESS,
+                groupChannels: groupChannelList
+              });
+              // if(oneChannel === undefined){
+              //   // store.dispatch({
+              //   //   type: GROUP_CHANNELS_OPEN,
+              //   //   groupChannelsId: groupChannelList[0].id
+              //   // });
+              //   _startGroupChannel(groupChannelList[0].id)
+              // }
+            }
+        })
+
+        var userListQuery = client.createUserListQuery();
+        userListQuery.load(function(error, userList){
+	         if(error == null){
+  	          console.log("My user List Retreived", userList)
+              store.dispatch({
+                type: USER_LIST_SUCCESS,
+                userList: userList
+              });
+            }
+        })
+
       // });
     }
     else {

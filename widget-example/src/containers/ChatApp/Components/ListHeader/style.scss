@@ -1,0 +1,27 @@
+.cc-list-header{
+background-color: #3f46ad!important;
+width: 100%;
+text-align: center;
+border-radius: 0!important;
+border-right: 2px solid #fff!important;
+
+// margin:0!important;
+// box-shadow: none!important;
+  .cc-list-header-text{
+    font-size: 15px;
+    color: #fff;
+    display: inline-block;
+    margin-left: 9px!important;
+    font-weight: normal;
+  }
+}
+.cc-widget{
+  border: none!important;
+  margin-bottom: 0!important;
+  margin-top: 0!important;
+  padding: 13px!important;
+}
+.cc-list-header-image{
+  display: inline-block!important;
+  width: 20px!important;
+}

@@ -8,7 +8,8 @@ import {
   GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
   GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
   GROUP_CHANNELS_INVITE_ACCEPTED_SUCCESS,
-  GROUP_CHANNELS_INVALID_PARTICIPANT
+  GROUP_CHANNELS_INVALID_PARTICIPANT,
+  GROUP_CHANNELS_LIST_SUCCESS
 } from 'state/action-types'
 
 
@@ -29,6 +30,26 @@ export function groupChannels (state = initialState, action) {
         .setIn([action.groupChannel.getId(), 'participantsCount'], action.groupChannel.participants.length)
         .setIn([action.groupChannel.getId(), 'readReceipt'], action.groupChannel.readReceipt)
         .setIn([action.groupChannel.getId(), 'isDistinct'], action.groupChannel.isDistinct)
+
+        case GROUP_CHANNELS_LIST_SUCCESS:
+            let channels = Map()
+            for(let i in action.groupChannels) {
+              let g = Map(action.groupChannels[i])
+              oldGroup = state.getIn([action.groupChannels[i].getId()], Immutable.Map())
+              g = g.merge(oldGroup)
+              channels = channels.setIn([action.groupChannels[i].getId()], g)
+              .setIn([action.groupChannels[i].getId(), 'typing'], action.groupChannels[i].isTyping())
+              .setIn([action.groupChannels[i].getId(), 'typingParticipants'], action.groupChannels[i].getTypingParticipants())
+              .setIn([action.groupChannels[i].getId(), 'participantsCount'], action.groupChannels[i].participantsCount)
+              .setIn([action.groupChannels[i].getId(), 'readReceipt'], action.groupChannels[i].readReceipt)
+              .setIn([action.groupChannels[i].getId(), 'unreadMessageCount'], action.groupChannels[i].unreadMessageCount)
+              .setIn([action.groupChannels[i].getId(), 'isDistinct'], action.groupChannels[i].isDistinct)
+            }
+
+            let channelMap = channels;
+            let oldChannels = state
+            return channelMap.merge(oldChannels)
+
     case GROUP_CHANNELS_GET_ERROR:
     return state
       .setIn([action.groupChannelId, "id"], action.groupChannelId)
