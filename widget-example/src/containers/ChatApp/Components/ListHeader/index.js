@@ -11,7 +11,7 @@ class ListHeader extends Component {
   }
 
   render () {
-    let sourceURL = "http://localhost:3000/"
+    let sourceURL = process.env.PUBLIC_URL + "/"
     let source =  sourceURL + "icons8-sms-100.png"
 
    return(

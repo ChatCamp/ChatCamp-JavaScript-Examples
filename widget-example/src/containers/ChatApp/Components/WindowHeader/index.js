@@ -116,7 +116,7 @@ class WindowHeader extends Component {
       </Popup.Content>
     </Popup>
     let onlineStatus;
-    let sourceURL = "http://localhost:3000/"
+    let sourceURL = process.env.PUBLIC_URL + "/"
     let source_online =  sourceURL + "icons8-connection-status-on-96.png"
     let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
     let source_close =  sourceURL + "icons8-delete-64.png"

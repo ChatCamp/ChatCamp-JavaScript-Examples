@@ -192,7 +192,7 @@ class WindowFooter extends Component {
     const { message, isFile, isAction, record } = this.state
     let {groupChannels, id} = this.props
     let percent = groupChannels.getIn([id, 'attachmentProgress'], 0)
-    let sourceURL = "http://localhost:3000/"
+    let sourceURL = process.env.PUBLIC_URL + "/"
     let source =  sourceURL + "icons8-attach-60.png"
     let source_send = sourceURL + "icons8-sent-60.png"
     let source_emoji = sourceURL + "icons8-happy-100.png"
