@@ -177,9 +177,16 @@ class WindowContent extends Component {
       )
     }
     // Iterate in Messages from props and Display them
+    let messageList;
+    if(this.props.type === "group"){
+      messageList = this.props.groupChannels.getIn([this.props.id, 'messages'], false)
+    }
+    else if(this.props.type === "open"){
+      messageList = this.props.openChannels.getIn([this.props.id, 'messages'], false)
+    }
 
-    if(this.props.groupChannels.getIn([this.props.id, 'messages'], false)){
-    this.props.groupChannels.getIn([this.props.id, 'messages'], false).map((message, key) => {
+    if(messageList){
+    messageList.map((message, key) => {
       message = Map(message)
       //handle message clubbing
       let messageClubbing = this.handleClubbing(message,oldMessage)

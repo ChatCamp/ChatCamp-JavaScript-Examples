@@ -109,6 +109,11 @@ export const iFlyMiddleWare = store => {
         _startGroupChannel(groupChannelId)
       }
 
+      for(let i in allOpenChannels){
+        let openChannelId = allOpenChannels[i]
+        _startOpenChannel(openChannelId)
+      }
+
         let channelListener = new client.ChannelListener();
         channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
           console.log("Listener", groupChannel, message)
