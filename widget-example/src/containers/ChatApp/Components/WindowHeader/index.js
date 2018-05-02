@@ -20,6 +20,15 @@ class WindowHeader extends Component {
         }
       }
     })
+    if(!first){
+      this.props.openChannels.map((window, id) => {
+        if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN"){
+          if(!first){
+            first = window.get('id')
+          }
+        }
+      })
+    }
     return first
   }
 
@@ -28,17 +37,37 @@ class WindowHeader extends Component {
   }
 
   openChannel = () => {
-    this.props.actions.groupChannelsOpen(this.props.id)
+    if(this.props.type === "group"){
+      this.props.actions.groupChannelsOpen(this.props.id)
+    }
+    else if(this.props.type === "open"){
+      this.props.actions.openChannelsOpen(this.props.id)
+    }
   }
 
   closeChannel = () => {
-    this.props.actions.groupChannelsClose(this.props.id)
+    if(this.props.type === "group"){
+      this.props.actions.groupChannelsClose(this.props.id)
+    }
+    else if(this.props.type === "open"){
+      this.props.actions.openChannelsClose(this.props.id)
+    }
     if(this.findFirstHidden()){
-      this.props.actions.groupChannelsOpen(this.findFirstHidden())
+      if(this.props.groupChannelsState.getIn([this.findFirstHidden(), "type"]) === "group"){
+        this.props.actions.groupChannelsOpen(this.findFirstHidden())
+      }
+      else if(this.props.groupChannelsState.getIn([this.findFirstHidden(), "type"]) === "open"){
+        this.props.actions.openChannelsOpen(this.findFirstHidden())
+      }
     }
   }
   minimizeChannel = () => {
-    this.props.actions.groupChannelsMinimize(this.props.id)
+    if(this.props.type === "group"){
+      this.props.actions.groupChannelsMinimize(this.props.id)
+    }
+    else if(this.props.type === "open"){
+      this.props.actions.openChannelsMinimize(this.props.id)
+    }
   }
 
   p2pOtherParticipant = () => {
@@ -125,11 +154,20 @@ class WindowHeader extends Component {
     let source_hash =  sourceURL + "icons8-hashtag-50.png"
     // let status = <Header as="h3">#</Header>
     let status = <Image className= "cc-window-header-hash" src={source_hash} />
-    let groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
+    let groupChannelName
+    if(this.props.type === "open"){
+      groupChannelName = this.props.openChannels.getIn([this.props.id, 'name'], "Name")
+    }
+    else if(this.props.type === "group"){
+      groupChannelName = this.props.groupChannels.getIn([this.props.id, 'name'], "Name")
+    }
+
     if(this.ifPopUp() && this.ifP2P()){
       let other = this.p2pOtherParticipant()
-      groupChannelName = other.displayName
-      if(other.isOnline){
+      if(other){
+        groupChannelName = other.displayName
+      }
+      if(other && other.isOnline){
         // status = <Icon name="circle" size="large"/>
         onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Available'}</Header.Subheader>
         status = <Image className= "cc-window-header-status" src={source_online} />
@@ -153,7 +191,7 @@ class WindowHeader extends Component {
             <Grid.Column className="cc-window-header-name" verticalAlign="middle" floated="left" width={10}>
               <Header as='h4'>
                 {groupChannelName}
-                { this.ifPopUp() && !this.ifP2P() && participantsCount}
+                { (this.props.type === "group") && this.ifPopUp() && !this.ifP2P() && participantsCount}
                 {/* {!this.ifPopUp()  && embedParticipants} */}
                 {/* {this.ifPopUp() && !this.ifP2P() && embedParticipants} */}
                 {/* {this.ifPopUp() && this.ifP2P() && onlineStatus} */}

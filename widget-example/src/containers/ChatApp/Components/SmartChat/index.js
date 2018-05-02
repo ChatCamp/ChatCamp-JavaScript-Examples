@@ -32,6 +32,21 @@ class SmartChat extends Component {
         showHidden = true
       }
     })
+    this.props.openChannels.map((window, id) => {
+      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
+        if(number < Math.floor(windowWidth/368)){
+        // if(number < 3){
+          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
+        }
+        else{
+          showHidden = true
+          that.props.actions.groupChannelsHide(window.get('id'))
+        }
+      }
+      else if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN") {
+        showHidden = true
+      }
+    })
     console.log("windows", windows)
     return (
       <div id="ifc-app">

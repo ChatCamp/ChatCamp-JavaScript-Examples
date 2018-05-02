@@ -19,9 +19,12 @@ class LeftPanel extends Component {
    const panels = []
    const getInboxSize = this.props.groupChannelsList.size
    const getOnlineUsersCount = this.props.userList.size
+   const chatrooms = this.props.openChannels.size
 
   //  panels.push({title: "CHATROOMS " + "(" + getTotalRooms + ")", content: {content: ("hello"), key: "rooms" }})
   console.log("in panel")
+  panels.push({title: "CHATROOMS " + "(" + chatrooms + ")", content: {content: (<Roster type="chatrooms"/>), key: "chatroom" }})
+
    panels.push({title: "RECENT CHATS " + "(" + getInboxSize + ")", content: {content: (<Roster type="inbox"/>), key: "inbox" }})
 
    panels.push({title: "USERS " + "(" + getOnlineUsersCount + ")", content: {content: (<Roster type="users"/>), key: "users" }})

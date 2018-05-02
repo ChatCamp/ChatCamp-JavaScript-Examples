@@ -51,6 +51,10 @@ class Roster extends Component {
     }
   }
 
+  onChatRoomClick = (id) => {
+    window.ChatCampUIKit.startChat(id, "open")
+  }
+
   onUserClick = (id) => {
     let currentId =  this.props.groupChannelsState.keySeq().toArray()[0]
     // let that = this
@@ -110,7 +114,8 @@ class Roster extends Component {
 
               {/* <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.userName} />} /> */}
               <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
-                <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} />}/>
+                {!rosterItem.getIn(['avatarUrl']) && <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} />}/>}
+                {rosterItem.getIn(['avatarUrl']) && <Image src={rosterItem.getIn(["avatarUrl"])} />}
                 {/* <Icon name="circle"/> */}
                 {onlineStatus}
                 {/* <Label style={getStatusStyle('A')} circular floating empty /> */}
@@ -125,30 +130,31 @@ class Roster extends Component {
         }
       })
     }
-    //
-    // if(this.props.type === "rooms"){
-    //   for(let i in this.props.rooms){
-    //     roster.push(
-    //       <List.Item key={"roster-key-" + this.props.rooms[i].id } onClick={() => this.props.onRoomClick(this.props.rooms[i].id)}>
-    //
-    //         <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-    //           <Icon name='ellipsis vertical' />
-    //         </List.Content>
-    //
-    //         <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
-    //           <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={"#"} />}/>
-    //           {/* <Icon name="circle"/> */}
-    //           {/* <Label style={inlineStyleHeightStatus} circular floating color={"red"} empty /> */}
-    //         </List.Content>
-    //
-    //         <List.Content style={inlineStyleHeight} verticalAlign='middle'>
-    //           <List.Header>{this.props.rooms[i].name}</List.Header>
-    //         </List.Content>
-    //
-    //        </List.Item>
-    //     )
-    //   }
-    // }
+
+    if(this.props.type === "chatrooms" && this.props.openChannels.size > 0){
+      this.props.openChannels.map((rosterItem) => {
+        console.log("channels", rosterItem, rosterItem.getIn(['id']))
+        roster.push(
+          <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onChatRoomClick(rosterItem.getIn(['id']))}>
+
+            {/* <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
+              <Icon name='ellipsis vertical' />
+            </List.Content> */}
+
+            <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
+              <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={"#"} />}/>
+              {/* <Icon name="circle"/> */}
+              {/* <Label style={inlineStyleHeightStatus} circular floating color={"red"} empty /> */}
+            </List.Content>
+
+            <List.Content style={inlineStyleHeight} verticalAlign='middle'>
+              <List.Header>{rosterItem.getIn(['name'])}</List.Header>
+            </List.Content>
+
+           </List.Item>
+        )
+      })
+    }
     let inboxValues = this.props.groupChannelsList.toArray()
     if(this.props.type === "inbox" && inboxValues){
       for(let i in inboxValues){
@@ -171,17 +177,12 @@ class Roster extends Component {
         if(rosterItem){
           groupChannelName = rosterItem.getIn(['name'])
 
-
-        console.log("id", id)
         if(id && this.ifPopUp() && this.ifP2P(id)){
           let other = this.p2pOtherParticipant(id)
-          console.log(other)
           if(other){
             groupChannelName = other.displayName
           }
         }
-
-        //   })
 
         roster.push(
           // <List.Item className={"list-inbox"} key={"roster-key-" + rosterItem.id } onClick={() => this.props.onUserClick(user.id)}>

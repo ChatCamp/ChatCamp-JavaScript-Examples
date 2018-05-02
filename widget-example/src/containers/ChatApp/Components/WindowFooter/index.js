@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
+import * as actions1 from 'state/openChannels/actions'
 import { Segment, Grid, Icon, Progress, Popup, Image } from 'semantic-ui-react'
 import './style.css'
 import Emoji from '../Emoji'
@@ -56,7 +57,9 @@ class WindowFooter extends Component {
         message: e.target.value,
         isFile: isFile
       },function(){
-        this.props.actions.startTyping(this.props.id)
+        if(this.props.type === "group"){
+          this.props.actions.startTyping(this.props.id)
+        }
       })
     }
   }
@@ -101,12 +104,21 @@ class WindowFooter extends Component {
   sendMessage = () => {
     if((this.state.message !== '')){
       let message = UnicodeToImg.colonToUnicode(UnicodeToImg.checkIfEmoji(this.state.message))
-      this.props.actions.userMessage(this.props.id, message)
-      this.setState({
-        message: '',
-        isFile: true
-      })
-      this.props.actions.read(this.props.id)
+      if(this.props.type === "group"){
+        this.props.actions.userMessage(this.props.id, message)
+        this.setState({
+          message: '',
+          isFile: true
+        })
+        this.props.actions.read(this.props.id)
+      }
+      else if(this.props.type === "open"){
+        this.props.actions1.userMessage(this.props.id, message)
+        this.setState({
+          message: '',
+          isFile: true
+        })
+      }
     }
   }
 
@@ -125,7 +137,9 @@ class WindowFooter extends Component {
   }
 
   handleFocus = () => {
-    this.props.actions.read(this.props.id)
+    if(this.props.type === "group"){
+      this.props.actions.read(this.props.id)
+    }
   }
 
   handleUpdateEmoji(emoji, e) {
@@ -304,7 +318,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch), //binds all the actions with dispatcher and returns them
+    actions1: bindActionCreators(actions1, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

@@ -56,6 +56,7 @@
 
 .ui.segment.window-content {
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: #fff;
   .ui.comments {
     padding: 6px 0;
@@ -86,12 +87,13 @@
 //     display: inline-block;
 // }
 .message-content {
-    // width: 93%;
+    max-width: 100%;
     margin-right: 0;
     padding-right: 0;
     display: inline-block;
     .message-bubble{
-      display: table;
+      word-wrap: break-word;
+      white-space: pre-wrap;
       width: auto;
       background-color: #f4f7f9;
       color: #263238;

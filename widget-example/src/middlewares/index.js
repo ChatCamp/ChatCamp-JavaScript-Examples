@@ -14,6 +14,12 @@ import {
   GROUP_CHANNELS_HIDE,
   GROUP_CHANNELS_LIST_SUCCESS,
   GROUP_CHANNELS_MY_LIST_SUCCESS,
+  OPEN_CHANNELS_LIST_SUCCESS,
+  OPEN_CHANNELS_OPEN,
+  OPEN_CHANNELS_MINIMIZE,
+  OPEN_CHANNELS_CREATE,
+  OPEN_CHANNELS_GET_SUCCESS,
+  OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
   USER_LIST_SUCCESS
 } from 'state/action-types'
 
@@ -45,14 +51,29 @@ export const iFlyMiddleWare = store => {
     })
   }
 
-  // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
+  let startChannelChat = (channelId, channelType) => {
+    if(channelType == "group"){
+      startChat(channelId)
+    }
+    else{
+      _startOpenChannel(channelId)
+      store.dispatch({
+        type: OPEN_CHANNELS_OPEN,
+        openChannelsId: channelId
+      })
+    }
+  }
+
+  client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
   // client.customConnect(userId, "localhost", "9080", function(e, user) {
-  client.connect(userId, accessToken, function(e, user) {
+  // client.connect(userId, accessToken, function(e, user) {
   // client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
-      window.ChatCampUI = {}
+        window.ChatCampUI = {}
         window.ChatCampUI.startChat = startChat
+        window.ChatCampUIKit = {}
+        window.ChatCampUIKit.startChat = startChannelChat
         let groupChannelId1
         var allGroupChannels = []
         if(Utility.getUrlQueryParams(window.location.href)['groupChannelId'] && Utility.getUrlQueryParams(window.location.href)['groupChannelId'][0]) {
@@ -61,8 +82,18 @@ export const iFlyMiddleWare = store => {
         }
 
         user["appId"] = client.app.id
+        let allOpenChannels = [];
         let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
-        allGroupChannels = allGroupChannels.concat(storeChannels)
+        store.getState().groupChannelsState.map((rosterItem, index) => {
+          if(rosterItem.getIn(["type"]) === "open"){
+            allOpenChannels.push(index)
+          }
+          else if(rosterItem.getIn(["type"]) === "group"){
+            allGroupChannels.push(index)
+          }
+        })
+        console.log("all channels", allOpenChannels, allGroupChannels)
+        // allGroupChannels = allGroupChannels.concat(storeChannels)
 
         store.dispatch({
           type: CHAT_CONNECT_SUCCESS,
@@ -123,6 +154,14 @@ export const iFlyMiddleWare = store => {
           });
         }
 
+        channelListener.onOpenChannelMessageReceived = function(openChannel, message) {
+          store.dispatch({
+            type: OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
+            openChannel: openChannel,
+            message: message
+          });
+        }
+
         channelListener.onGroupChannelTypingStatusChanged = function(groupChannel) {
           console.log("Typing Status", groupChannel, groupChannel.getTypingParticipants())
           store.dispatch({
@@ -160,6 +199,17 @@ export const iFlyMiddleWare = store => {
               //   // });
               //   _startGroupChannel(groupChannelList[0].id)
               // }
+            }
+        })
+
+        var openChannelListQuery = client.OpenChannel.createOpenChannelListQuery();
+        openChannelListQuery.get(function(error, openChannelList){
+	         if(error == null){
+  	          console.log("My Open Channels List Retreived", openChannelList)
+              store.dispatch({
+                type: OPEN_CHANNELS_LIST_SUCCESS,
+                openChannels: openChannelList
+              });
             }
         })
 
@@ -268,16 +318,88 @@ export const iFlyMiddleWare = store => {
         });
       }
     });
-    // let channelListener = new client.ChannelListener();
-    // channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
-    //   console.log("Listener", groupChannel, message)
-    //   store.dispatch({
-    //     type: GROUP_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
-    //     groupChannel: groupChannel,
-    //     message: message
-    //   });
-    // }
-    // client.addChannelListener("t1", channelListener)
+  }
+
+  let _startOpenChannel = (openChannelId) => {
+    client.OpenChannel.get(openChannelId, function(error, openChannel) {
+      if(error==null) {
+        // store.dispatch({
+        //   type: SET_SMART_CHAT_TYPE,
+        //   data: {type: "popup"} //popup or embed
+        // });
+        client.OpenChannel.get(openChannelId, function(error, openChannel) {
+          // groupChannel.stopTyping()
+          openChannel.join(function(error, message) {
+
+          })
+        })
+        store.dispatch({
+          type: OPEN_CHANNELS_GET_SUCCESS,
+          openChannel: openChannel
+        });
+        let state = store.getState().groupChannelsState.getIn([openChannel.id, "state"])
+        if(state === "OPEN"){
+          store.dispatch({
+            type: OPEN_CHANNELS_OPEN,
+            openChannelsId: openChannel.id
+          })
+        }
+        else if(state === "MINIMIZE"){
+          store.dispatch({
+            type: OPEN_CHANNELS_MINIMIZE,
+            openChannelsId: openChannel.id
+          })
+        }
+        else if( state === undefined){
+          store.dispatch({
+            type: OPEN_CHANNELS_CREATE,
+            openChannelsId: openChannel.id
+          })
+        }
+
+        //
+        // if(isCurrentUserParticipant && isCurrentUserAcceptedParticipant) {
+        //   let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
+        //   previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+        //     store.dispatch({
+        //       type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
+        //       groupChannel: groupChannel,
+        //       messages: messages
+        //     });
+        //   })
+        //
+        //   setInterval(function(){
+        //     groupChannel.sync(function(error,groupChannel){
+        //       if(error == null){
+        //         store.dispatch({
+        //           type: GROUP_CHANNELS_GET_SUCCESS,
+        //           groupChannel: groupChannel
+        //         });
+        //       }
+        //     })
+        //   }, 30000)
+        // }
+        // else if(isCurrentUserParticipant && !isCurrentUserAcceptedParticipant){
+        //   store.dispatch({
+        //     type: GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
+        //     groupChannel: groupChannel
+        //   });
+        // }
+        // else {
+        //   store.dispatch({
+        //     type: GROUP_CHANNELS_INVALID_PARTICIPANT,
+        //     groupChannel: groupChannel
+        //   });
+        // }
+      }
+      else {
+        // store.dispatch({
+        //   type: OPEN_CHANNELS_GET_ERROR,
+        //   error: error,
+        //   groupChannelId: groupChannelId
+        // });
+      }
+    });
   }
 
 
