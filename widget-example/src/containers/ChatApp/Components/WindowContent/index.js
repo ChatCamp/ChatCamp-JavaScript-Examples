@@ -77,7 +77,14 @@ class WindowContent extends Component {
   checkLoadMore = (e) => {
     let node = ReactDOM.findDOMNode(this);
     if(node.scrollTop === 0) {
-      this.props.actions.getHistory(this.props.id, this.props.groupChannels.getIn([this.props.id, 'messages'], false).first().id)
+      let firstID;
+      if(this.props.type === "group"){
+          firstID = this.props.groupChannels.getIn([this.props.id, 'messages'], false).first().id
+      }
+      else if(this.props.type === "open"){
+        firstID = this.props.openChannels.getIn([this.props.id, 'messages'], false).first().id
+      }
+      this.props.actions.getHistory(this.props.id, firstID)
     }
     return false
   }
