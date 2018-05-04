@@ -208,7 +208,7 @@ export const iFlyMiddleWare = store => {
                 // }
               }
           })
-          setTimeout(function() { pollGroupChannelList() }, 30*1000)
+          // setTimeout(function() { pollGroupChannelList() }, 30*1000)
         }
 
         pollGroupChannelList()
@@ -224,16 +224,21 @@ export const iFlyMiddleWare = store => {
             }
         })
 
-        var userListQuery = client.createUserListQuery();
-        userListQuery.load(function(error, userList){
-	         if(error == null){
-  	          console.log("My user List Retreived", userList)
-              store.dispatch({
-                type: USER_LIST_SUCCESS,
-                userList: userList
-              });
-            }
-        })
+        function pollUserList() {
+          var userListQuery = client.createUserListQuery();
+          userListQuery.load(function(error, userList){
+  	         if(error == null){
+    	          console.log("My user List Retreived", userList)
+                store.dispatch({
+                  type: USER_LIST_SUCCESS,
+                  userList: userList
+                });
+              }
+
+          })
+          setTimeout(function() { pollUserList() }, 30*1000)
+        }
+        pollUserList()
 
       // });
     }
