@@ -121,7 +121,7 @@ class Roster extends Component {
                 {/* <Label style={getStatusStyle('A')} circular floating empty /> */}
               </List.Content>
 
-              <List.Content className="cc-user-list-name" style={inlineStyleHeight} verticalAlign='middle'>
+              <List.Content className="cc-user-list-name" verticalAlign='middle'>
                 <List.Header>{rosterItem.getIn(['displayName'])}</List.Header>
               </List.Content>
 
@@ -147,7 +147,7 @@ class Roster extends Component {
               {/* <Label style={inlineStyleHeightStatus} circular floating color={"red"} empty /> */}
             </List.Content>
 
-            <List.Content style={inlineStyleHeight} verticalAlign='middle'>
+            <List.Content className="cc-chatroom-list-name" verticalAlign='middle'>
               <List.Header>{rosterItem.getIn(['name'])}</List.Header>
             </List.Content>
 

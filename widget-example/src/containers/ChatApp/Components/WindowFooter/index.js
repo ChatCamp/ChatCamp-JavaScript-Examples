@@ -215,7 +215,7 @@ class WindowFooter extends Component {
     <Segment className="window-footer" compact={true} size={"mini"} style={{paddingBottom: "0", paddingTop: "0"}}>
       {/* <textArea className="borderNone" placeholder='Type and Send Message..' name ='message' value={message} style={{ width: "100%"}} onChange={this.handleChange} onKeyDown={this.handleKeyPress} ref={node => this.textInputRef = node} /> */}
       {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
-      <Grid style={{margin: 0}}>
+      <Grid style={{margin: 0, height: "100%"}}>
         <Grid.Column className="chatcamp-widget-emoji-main" style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
 
           <Popover
