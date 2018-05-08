@@ -245,16 +245,16 @@ class WindowContent extends Component {
 
       //user avatar
       let messageAvatar;
-      if(message.getIn(['user', 'avatarUrl'])){
-        messageAvatar = <Comment.Avatar src={message.getIn(['user', 'avatarUrl'])} />
-      }
-      else{
-        messageAvatar = <Comment.Avatar as={() => <AvatarWrapper color={messageClubbing.color} className="avatar" name={message.getIn(['user', 'displayName']) } size={30}/>} />
-      }
+      messageAvatar = <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={message.getIn(['user', 'displayName']) } size={30} src={message.getIn(['user', 'avatarUrl'])}/>} />
+
       let classes = "window-message window-message-receive"
 
       if(message.getIn(['user', 'id']) === this.props.user.get('id')){
         classes = "window-message window-message-self"
+      }
+
+      if(messageClubbing.info){
+        classes = classes + " message-clubbing"
       }
 
 
@@ -262,7 +262,7 @@ class WindowContent extends Component {
       if(text!=null) messages.push(
         <Comment.Group key={"window-message-" + message.get('id')} className={classes + " window-message-" + message.get('id')}>
           <Comment>
-            {messageAvatar}
+            {!messageClubbing.info && messageAvatar}
             <Comment.Content>
               {/*  message author*/}
               {!messageClubbing.info && <Popup
@@ -299,8 +299,7 @@ class WindowContent extends Component {
       messages.push(
         <Comment.Group key={"window-message-typing-" + (new Date()).getTime()}>
           <Comment>
-            <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']} size={30}/>} />
-            {/* <Comment.Avatar src="https://iflychat.com/sites/default/files/styles/thumbnail/public/pictures/picture-13-1347368850.jpg?itok=lz_uGf7g" /> */}
+            <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']} size={30} src={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['avatarUrl']}/>} />
             <Comment.Content>
               {/* <Popover frame={"ifc-chat-frame-window"} position={"top left"} trigger={<Comment.Author as='a'>{message.name}</Comment.Author>} content={<ProfileCard/>}/> */}
               <Comment.Author as='a'>{this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']}</Comment.Author>

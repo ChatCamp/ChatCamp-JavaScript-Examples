@@ -24,7 +24,7 @@ class ProfileCard extends Component {
         <Grid style={{width: "300px"}}>
         <Grid.Row>
           <Grid.Column width={3}>
-            <Image as={()=> <AvatarWrapper className="image" name={userM.getIn(["displayName"])} />}/>
+            <Image as={()=> <AvatarWrapper className="image" name={userM.getIn(["displayName"])} src = {userM.getIn(["avatarUrl"])} size={30} />}/>
           </Grid.Column>
           <Grid.Column width={6} verticalAlign='middle'>
             {userM.getIn(["displayName"])}

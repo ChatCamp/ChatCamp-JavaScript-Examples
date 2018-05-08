@@ -98,6 +98,13 @@
   }
 }
 
+.window-message-self.message-clubbing{
+  .comment{
+    .content{
+      padding-right: 30px!important;
+    }
+  }
+}
 .ui.segment.window-content {
   overflow-y: auto;
   overflow-x: hidden;

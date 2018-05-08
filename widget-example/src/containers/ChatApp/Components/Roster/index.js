@@ -114,8 +114,8 @@ class Roster extends Component {
 
               {/* <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.userName} />} /> */}
               <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
-                {!rosterItem.getIn(['avatarUrl']) && <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} />}/>}
-                {rosterItem.getIn(['avatarUrl']) && <Image src={rosterItem.getIn(["avatarUrl"])} />}
+                {<Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} src={rosterItem.getIn(['avatarUrl'])} />}/>}
+                {/* {rosterItem.getIn(['avatarUrl']) && <Image src={rosterItem.getIn(["avatarUrl"])} />} */}
                 {/* <Icon name="circle"/> */}
                 {onlineStatus}
                 {/* <Label style={getStatusStyle('A')} circular floating empty /> */}
@@ -174,15 +174,18 @@ class Roster extends Component {
         user.name = "Name"
         user.status = "A"
         let groupChannelName
+        let avatar
         if(rosterItem){
           groupChannelName = rosterItem.getIn(['name'])
-
+          avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} />}/>
         if(id && this.ifPopUp() && this.ifP2P(id)){
           let other = this.p2pOtherParticipant(id)
           if(other){
             groupChannelName = other.displayName
+            avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} src = {other.avatarUrl} />}/>
           }
         }
+
 
         roster.push(
           // <List.Item className={"list-inbox"} key={"roster-key-" + rosterItem.id } onClick={() => this.props.onUserClick(user.id)}>
@@ -194,8 +197,7 @@ class Roster extends Component {
             </List.Content>
 
             <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
-              <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} />}/>
-              {/* <Label style={getStatusStyle(user.status)} circular floating empty /> */}
+              {avatar}
             </List.Content>
 
             <List.Content style={inlineStyleHeight} verticalAlign='middle'>
