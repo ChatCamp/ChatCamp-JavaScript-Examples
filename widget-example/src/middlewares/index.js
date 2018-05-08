@@ -19,6 +19,7 @@ import {
   OPEN_CHANNELS_MINIMIZE,
   OPEN_CHANNELS_CREATE,
   OPEN_CHANNELS_GET_SUCCESS,
+  OPEN_CHANNELS_GET_HISTORY_SUCCESS,
   OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
   USER_LIST_SUCCESS
 } from 'state/action-types'
@@ -64,10 +65,10 @@ export const iFlyMiddleWare = store => {
     }
   }
 
-  client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
-  // client.customConnect(userId, "localhost", "9080", function(e, user) {
+  // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
+  // client.connect(userId, "localhost", "9080", function(e, user) {
   // client.connect(userId, accessToken, function(e, user) {
-  // client.connect(userId, function(e, user) {
+  client.connect(userId, function(e, user) {
     if(e==null) {
       // client.updateUserDisplayName(userId, "ws://192.168.2.145", "9080", function(e, user) {
         window.ChatCampUI = {}
@@ -185,27 +186,32 @@ export const iFlyMiddleWare = store => {
 
         client.addChannelListener("t", channelListener)
 
-        var groupChannelListQuery = client.GroupChannel.createGroupChannelListQuery();
-        groupChannelListQuery.get(function(error, groupChannelList){
-	         if(error == null){
-  	          console.log("My Group Channels List Retreived", groupChannelList)
-              store.dispatch({
-                type: GROUP_CHANNELS_LIST_SUCCESS,
-                groupChannels: groupChannelList
-              });
-              store.dispatch({
-                type: GROUP_CHANNELS_MY_LIST_SUCCESS,
-                groupChannels: groupChannelList
-              });
-              // if(oneChannel === undefined){
-              //   // store.dispatch({
-              //   //   type: GROUP_CHANNELS_OPEN,
-              //   //   groupChannelsId: groupChannelList[0].id
-              //   // });
-              //   _startGroupChannel(groupChannelList[0].id)
-              // }
-            }
-        })
+        function pollGroupChannelList() {
+          var groupChannelListQuery = client.GroupChannel.createGroupChannelListQuery();
+          groupChannelListQuery.get(function(error, groupChannelList){
+  	         if(error == null){
+    	          console.log("My Group Channels List Retreived", groupChannelList)
+                store.dispatch({
+                  type: GROUP_CHANNELS_LIST_SUCCESS,
+                  groupChannels: groupChannelList
+                });
+                store.dispatch({
+                  type: GROUP_CHANNELS_MY_LIST_SUCCESS,
+                  groupChannels: groupChannelList
+                });
+                // if(oneChannel === undefined){
+                //   // store.dispatch({
+                //   //   type: GROUP_CHANNELS_OPEN,
+                //   //   groupChannelsId: groupChannelList[0].id
+                //   // });
+                //   _startGroupChannel(groupChannelList[0].id)
+                // }
+              }
+          })
+          // setTimeout(function() { pollGroupChannelList() }, 30*1000)
+        }
+
+        pollGroupChannelList()
 
         var openChannelListQuery = client.OpenChannel.createOpenChannelListQuery();
         openChannelListQuery.get(function(error, openChannelList){
@@ -218,16 +224,21 @@ export const iFlyMiddleWare = store => {
             }
         })
 
-        var userListQuery = client.createUserListQuery();
-        userListQuery.load(function(error, userList){
-	         if(error == null){
-  	          console.log("My user List Retreived", userList)
-              store.dispatch({
-                type: USER_LIST_SUCCESS,
-                userList: userList
-              });
-            }
-        })
+        function pollUserList() {
+          var userListQuery = client.createUserListQuery();
+          userListQuery.load(function(error, userList){
+  	         if(error == null){
+    	          console.log("My user List Retreived", userList)
+                store.dispatch({
+                  type: USER_LIST_SUCCESS,
+                  userList: userList
+                });
+              }
+
+          })
+          setTimeout(function() { pollUserList() }, 30*1000)
+        }
+        pollUserList()
 
       // });
     }
@@ -335,7 +346,14 @@ export const iFlyMiddleWare = store => {
         client.OpenChannel.get(openChannelId, function(error, openChannel) {
           // groupChannel.stopTyping()
           openChannel.join(function(error, message) {
-
+            let previousMessageListQuery = openChannel.createPreviousMessageListQuery();
+            previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+              store.dispatch({
+                type: OPEN_CHANNELS_GET_HISTORY_SUCCESS,
+                openChannel: openChannel,
+                messages: messages
+              });
+            })
           })
         })
         store.dispatch({

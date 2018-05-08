@@ -7,6 +7,7 @@ import {
   GROUP_CHANNELS_INVALID_PARTICIPANT
 } from 'state/action-types'
 import * as actions from 'state/groupChannels/actions'
+import * as openChannelsActions from 'state/openChannels/actions'
 import {Map} from 'immutable'
 import { Segment, Comment, Confirm, Message, Image, Popup } from 'semantic-ui-react'
 import {Loader} from 'react-loaders'
@@ -77,14 +78,12 @@ class WindowContent extends Component {
   checkLoadMore = (e) => {
     let node = ReactDOM.findDOMNode(this);
     if(node.scrollTop === 0) {
-      let firstID;
-      if(this.props.type === "group"){
-          firstID = this.props.groupChannels.getIn([this.props.id, 'messages'], false).first().id
+      if(this.props.type === "group") {
+        this.props.actions.getHistory(this.props.id, this.props.groupChannels.getIn([this.props.id, 'messages'], false).first().id)
       }
-      else if(this.props.type === "open"){
-        firstID = this.props.openChannels.getIn([this.props.id, 'messages'], false).first().id
+      else if(this.props.type === "open") {
+        this.props.openChannelsActions.getHistory(this.props.id, this.props.openChannels.getIn([this.props.id, 'messages'], false).first().id)
       }
-      this.props.actions.getHistory(this.props.id, firstID)
     }
     return false
   }
@@ -337,7 +336,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch), //binds all the actions with dispatcher and returns them
+    openChannelsActions: bindActionCreators(openChannelsActions, dispatch)
   }
 }
 

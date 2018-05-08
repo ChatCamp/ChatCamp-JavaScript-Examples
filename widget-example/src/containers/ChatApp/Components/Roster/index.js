@@ -35,7 +35,7 @@ class Roster extends Component {
   p2pOtherParticipant = (gid) => {
     let id = this.props.user.get("id")
     let participants = this.props.groupChannels.getIn([gid, 'participants'])
-    console.log(participants)
+    // console.log(participants)
     for(let i in participants){
       if(participants[i].id !== id){
           return participants[i]
@@ -133,7 +133,7 @@ class Roster extends Component {
 
     if(this.props.type === "chatrooms" && this.props.openChannels.size > 0){
       this.props.openChannels.map((rosterItem) => {
-        console.log("channels", rosterItem, rosterItem.getIn(['id']))
+        // console.log("channels", rosterItem, rosterItem.getIn(['id']))
         roster.push(
           <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onChatRoomClick(rosterItem.getIn(['id']))}>
 

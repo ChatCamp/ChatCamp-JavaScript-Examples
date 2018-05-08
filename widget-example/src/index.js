@@ -92,7 +92,7 @@ export const store = configureStore(initialState);
   // const RootComponent = configureRootComponent(store);
 
   const RootComponent = configureRootComponent(store);
-  ReactDOM.render(<div>{RootComponent}</div>, document.getElementById('app'));
+  ReactDOM.render(<div>{RootComponent}</div>, document.getElementById('cc-app'));
   // ReactDOM.render(<IFlyProvider client={client}>{RootComponent}</IFlyProvider>, document.getElementById('app'));
 
 // }
