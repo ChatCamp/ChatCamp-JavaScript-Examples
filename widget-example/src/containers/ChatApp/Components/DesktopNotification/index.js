@@ -14,11 +14,8 @@ class DesktopNotification extends Component {
     if (typeof Notification !== 'undefined') {
           Notification.requestPermission(function(result) {
           if (result === 'granted') {
-            console.log("granted")
-            // iFlyChatChatSdkUi.setCookieValue('iflychatNotificationPermissionv2', '1');
-          } else if (result === 'denied') {
-            console.log("denied")
-            // iFlyChatChatSdkUi.setCookieValue('iflychatNotificationPermissionv2', '2');
+          }
+          else if (result === 'denied') {
           }
         });
       }

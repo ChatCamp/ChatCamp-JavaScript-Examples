@@ -25,3 +25,11 @@ border-right: 2px solid #fff!important;
   display: inline-block!important;
   width: 20px!important;
 }
+.cc-list-header-actions{
+  width: 30px;
+  float: right;
+  cursor: pointer;
+  .cc-list-header-close{
+    width: 20px;
+  }
+}

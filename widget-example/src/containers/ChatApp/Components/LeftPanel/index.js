@@ -22,7 +22,7 @@ class LeftPanel extends Component {
    const chatrooms = this.props.openChannels.size
 
   //  panels.push({title: "CHATROOMS " + "(" + getTotalRooms + ")", content: {content: ("hello"), key: "rooms" }})
-  console.log("in panel")
+
   panels.push({title: "CHATROOMS " + "(" + chatrooms + ")", content: {content: (<Roster type="chatrooms"/>), key: "chatroom" }})
 
    panels.push({title: "RECENT CHATS " + "(" + getInboxSize + ")", content: {content: (<Roster type="inbox"/>), key: "inbox" }})
