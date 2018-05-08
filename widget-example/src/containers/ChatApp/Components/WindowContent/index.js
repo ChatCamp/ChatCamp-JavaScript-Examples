@@ -209,6 +209,9 @@ class WindowContent extends Component {
           if(attachment.get('type').substring(0,5) === "image") {
             text = <Image className="message-bubble" src={attachment.get('url')} />
           }
+          if(attachment.get('type').substring(0,5) === "video"){
+            text = <video width="320" height="240" controls><source src={attachment.get('url')} />Your browser does not support the video tag.</video>
+          }
           if(attachment.get('type').substring(0,5) === "audio"){
             if(!DetectBrowser.detectIE()){
               text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
