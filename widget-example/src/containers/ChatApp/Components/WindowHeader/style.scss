@@ -2,7 +2,7 @@
   background-color: #222;
   .cc-window-header-status-main{
     padding:0!important;
-    margin: 0 10px 0 8px;
+    margin: 3px 10px 3px 8px!important;
   }
   .ui.header{
     color: #FFF;
@@ -57,10 +57,11 @@
   cursor: pointer
 }
 #ifc-app .row.cc-chat-window-header {
-  background-color: #3f46ad!important
+  background-color: #3f46ad!important;
+  border-radius: 7px 7px 0 0;
 }
 .cc-window-header-status{
-  width: 24px;
+  width: 16px;
 }
 .cc-window-header-minus{
   width: 16px;
@@ -75,7 +76,7 @@
   cursor: pointer;
 }
 .cc-window-header-hash{
-  width: 24px;
+  width: 16px;
 }
 .cc-window-header-name{
   padding-left: 0!important;

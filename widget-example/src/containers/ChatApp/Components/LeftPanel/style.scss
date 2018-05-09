@@ -1,6 +1,7 @@
 .chatcamp-list-roster{
   height: calc(100% - 47px);
   overflow: auto;
+  background: white;
 }
 .cc-left-panel-inbox{
   // background: #3f46ad;
@@ -14,4 +15,5 @@
   -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
   -moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+  border-radius: 10px 10px 0 0!important;
 }

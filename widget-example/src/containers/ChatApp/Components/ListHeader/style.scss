@@ -19,7 +19,9 @@ border-right: 2px solid #fff!important;
   border: none!important;
   margin-bottom: 0!important;
   margin-top: 0!important;
-  padding: 13px!important;
+  padding: 12px 13px!important;
+  border: 1px solid #3f46ad!important;
+  border-radius: 7px 7px 0 0!important;
 }
 .cc-list-header-image{
   display: inline-block!important;
@@ -29,7 +31,9 @@ border-right: 2px solid #fff!important;
   width: 30px;
   float: right;
   cursor: pointer;
+  padding-top: 2.5px!important;
+  height: 16px;
   .cc-list-header-close{
-    width: 20px;
+    width: 16px;
   }
 }
