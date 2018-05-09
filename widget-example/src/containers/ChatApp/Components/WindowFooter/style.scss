@@ -12,7 +12,7 @@
 }
 
 .window-footer {
-  height: 48px;
+  min-height: 48px;
  i.icon {
   cursor: pointer;
   color: #222;
@@ -36,7 +36,7 @@
 }
 
 .window-footer {
-  height: 48px;
+  min-height: 48px;
   border-radius: 0 0 8px 8px!important;
   .window-textarea{
     outline: none;

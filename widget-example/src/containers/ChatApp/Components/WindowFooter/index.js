@@ -74,7 +74,7 @@ class WindowFooter extends Component {
           let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].offsetHeight
           let contentHeightInt = contentHeight
           let newContentHeightInt =  contentHeightInt - diff
-          this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt + "px"
+          this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt  + "px"
 
           if(diff > 0){
             this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
@@ -215,7 +215,7 @@ class WindowFooter extends Component {
     <Segment className="window-footer" compact={true} size={"mini"} style={{paddingBottom: "0", paddingTop: "0"}}>
       {/* <textArea className="borderNone" placeholder='Type and Send Message..' name ='message' value={message} style={{ width: "100%"}} onChange={this.handleChange} onKeyDown={this.handleKeyPress} ref={node => this.textInputRef = node} /> */}
       {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
-      <Grid style={{margin: 0, height: "100%"}}>
+      <Grid style={{margin: 0, height: "100%", minHeight: "48px"}}>
         <Grid.Column className="chatcamp-widget-emoji-main" style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
 
           <Popover
@@ -231,7 +231,7 @@ class WindowFooter extends Component {
 
         </Grid.Column>
 
-        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} style={{paddingTop: "0px", paddingBottom: "0px", fontSize: "13.5px"}}>
+        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} style={{paddingTop: "0px", paddingBottom: "0px", fontSize: "13.5px", minHeight: "48px"}}>
 
           <Textarea
             onMouseEnter={this.handleFocus}
@@ -242,7 +242,7 @@ class WindowFooter extends Component {
             // placeholder={'Send Message as ' + this.props.user.get('displayName')}
             placeholder={'Send Message...'}
             value={message}
-            style={{ width: "100%", minHeight: "23px", marginTop: "8px"}}
+            style={{ width: "100%", minHeight: "23px", marginTop: "12.5px"}}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyPress}
             inputRef={node => this.textInputRef = node}
