@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
+import * as groupChannelsActions from 'state/groupChannels/actions'
 import {List, Label, Icon, Image } from 'semantic-ui-react'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
 import status from 'utility/status'
@@ -35,11 +36,15 @@ class Roster extends Component {
   p2pOtherParticipant = (gid) => {
     let id = this.props.user.get("id")
     let participants = this.props.groupChannels.getIn([gid, 'participants'])
-    // console.log(participants)
-    for(let i in participants){
-      if(participants[i].id !== id){
-          return participants[i]
+    if(participants){
+      for(let i in participants){
+        if(participants[i].id !== id){
+            return participants[i]
+        }
       }
+    }
+    else{
+      this.props.groupChannelsActions.getChannel(gid)
     }
   }
 
@@ -226,7 +231,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch),
+    groupChannelsActions: bindActionCreators(groupChannelsActions, dispatch)
   }
 }
 

@@ -30,6 +30,7 @@ export function groupChannels (state = initialState, action) {
         .setIn([action.groupChannel.getId(), 'participantsCount'], action.groupChannel.participants.length)
         .setIn([action.groupChannel.getId(), 'readReceipt'], action.groupChannel.readReceipt)
         .setIn([action.groupChannel.getId(), 'isDistinct'], action.groupChannel.isDistinct)
+        .setIn([action.groupChannel.getId(), 'lastMessage'], action.groupChannel.lastMessage)
 
         case GROUP_CHANNELS_LIST_SUCCESS:
             let channels = Map()
