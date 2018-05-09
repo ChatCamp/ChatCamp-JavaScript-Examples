@@ -42,7 +42,8 @@
     max-width: 65%!important;
   }
   .author{
-    font-size: 12px!important;
+    font-size: 11px!important;
+    color: #90949c!important;
   }
 }
 .window-message-receive{
@@ -58,27 +59,34 @@
       }
   }
   .author{
-    padding-left: 2px!important;
+    padding-left: 3px!important;
+    height: 15px!important;
     -webkit-font-smoothing :  antialiased;
   }
   .text{
     -webkit-font-smoothing :  antialiased;
+  }
+  .avatar{
+    margin-top: 0!important;
   }
 }
 .window-message-self {
   padding: 1px 0px 1px 0!important;
   margin: 1px 0!important;
   .comment .content{
-    max-width: 70%;
+    margin-right: 5px!important;
     float: right!important;
     display: inline-block!important;
+    margin-bottom: 7.5px!important;
     .author{
-      padding-right: 2px!important;
+      padding-right: 4px!important;
+      height: 15px!important;
       float: right;
       -webkit-font-smoothing :  antialiased;
     }
     .text{
       -webkit-font-smoothing :  antialiased;
+      margin: 0!important;
       a{
       color: #fff!important;
       }
@@ -87,23 +95,40 @@
   .message-content {
     float: right;
       .message-bubble{
-        background-color: #3f46ad;
+        // background-color: #3f46ad;
+        background-color: #4080ff;
         color: #fff;
       }
   }
   .avatar{
     float: right!important;
-    margin-left: 0.2em!important;
+    margin-top: 0!important;
 
   }
 }
 
-.window-message-self.message-clubbing{
+.window-message-self.cc-window-message-clubbing{
   .comment{
     .content{
       padding-right: 30px!important;
     }
   }
+}
+.window-message-self.cc-window-message-first{
+  .comment{
+    .message-content{
+      margin-top: 3.5px!important;
+    }
+  }
+}
+.cc-window-message-first{
+  min-height: 58.5px!important;
+  .comment{
+    min-height: 49.5px!important;
+  }
+}
+.cc-window-message-clubbing{
+  min-height: 42.5px!important;
 }
 .ui.segment.window-content {
   overflow-y: auto;
@@ -150,7 +175,7 @@
       background-color: #f4f7f9;
       color: #263238;
       padding: 6px 10px;
-      border-radius: 5px;
+      border-radius: 13px;
     }
 }
 

@@ -254,7 +254,10 @@ class WindowContent extends Component {
       }
 
       if(messageClubbing.info){
-        classes = classes + " message-clubbing"
+        classes = classes + " cc-window-message-clubbing"
+      }
+      else{
+        classes = classes + " cc-window-message-first"
       }
 
 
