@@ -1,11 +1,14 @@
 .list-inbox-description{
-  margin-left: 50px;
+  margin-left: 0;
   font-size: 12px;
   line-height: 16px;
   max-width: 100%;
   overflow: hidden;
   max-height: 16px;
   -webkit-font-smoothing: antialiased;
+  width: 60%;
+  display: inline-block;
+  float: left;
 }
 .list-inbox-header{
   font-size: 14px;
@@ -17,6 +20,22 @@
 .list-item-time{
   font-size: 12px;
   -webkit-font-smoothing: antialiased;
+}
+.list-inbox-unread{
+  font-size: 11px;
+  -webkit-font-smoothing: antialiased;
+  display: inline!important;
+  width: 10%;
+  float: right;
+  margin: 0;
+  height: 16px;
+  background: #fa3e3e;
+  width: 16px;
+  text-align: center;
+  border-radius: 16px;
+  color: white!important;
+  margin-right: 7px!important;
+  line-height: 16px;
 }
 .cc-user-list-name{
   -webkit-font-smoothing: antialiased;

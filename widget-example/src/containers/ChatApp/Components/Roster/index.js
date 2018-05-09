@@ -200,6 +200,9 @@ class Roster extends Component {
               {/* <Icon name='ellipsis vertical' /> */}
               {(rosterItem.getIn(['lastMessage']))? UtilityTime.getTime('3', rosterItem.getIn(['lastMessage']).insertedAt*1000) : ""}
             </List.Content>
+            {/* <List.Content className={"list-item-unread"} style={inlineStyleHeight} floated='right' verticalAlign='middle'>
+              {(rosterItem.getIn(['unreadMessageCount']))}
+            </List.Content> */}
 
             <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
               {avatar}
@@ -207,8 +210,15 @@ class Roster extends Component {
 
             <List.Content style={inlineStyleHeight} verticalAlign='middle'>
               <List.Header className={"list-inbox-header"}>{groupChannelName}</List.Header>
-              <List.Description className={"list-inbox-description"}>{(rosterItem.getIn(['lastMessage'])? rosterItem.getIn(['lastMessage']).user.displayName + " : " + rosterItem.getIn(['lastMessage']).text : "")}</List.Description>
+              <List.Description className={"list-inbox-description"}>
+                {(rosterItem.getIn(['lastMessage'])? rosterItem.getIn(['lastMessage']).user.displayName + " : " + rosterItem.getIn(['lastMessage']).text : "")}
+              </List.Description>
+              {(rosterItem.getIn(['unreadMessageCount']) > 0) &&  <List.Description className={"list-inbox-unread"}>
+                {(rosterItem.getIn(['unreadMessageCount']))}
+              </List.Description>}
             </List.Content>
+
+
 
            </List.Item>
         )
