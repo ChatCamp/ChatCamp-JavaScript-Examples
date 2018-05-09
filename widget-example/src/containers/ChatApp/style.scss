@@ -108,6 +108,11 @@ body a {
   cursor: pointer;
 }
 
+.ui.modal>.content .message-bubble {
+  max-width: 100%;
+  height: auto;
+}
+
 // Custom Changes
 
 // .ifc-chat-window-container {

@@ -9,7 +9,7 @@ import {
 import * as actions from 'state/groupChannels/actions'
 import * as openChannelsActions from 'state/openChannels/actions'
 import {Map} from 'immutable'
-import { Segment, Comment, Confirm, Message, Image, Popup } from 'semantic-ui-react'
+import { Segment, Comment, Confirm, Message, Image, Popup, Modal } from 'semantic-ui-react'
 import {Loader} from 'react-loaders'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
 import ProfileCard from 'containers/ChatApp/Components/ProfileCard'
@@ -208,14 +208,40 @@ class WindowContent extends Component {
           text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
           if(attachment.get('type').substring(0,5) === "image") {
             text = <Image className="message-bubble" src={attachment.get('url')} />
+            let modal = <Modal trigger={text}>
+              <Modal.Header>Photo</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  {text}
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+            text = modal
           }
           if(attachment.get('type').substring(0,5) === "video"){
-            text = <video width="320" height="240" controls><source src={attachment.get('url')} />Your browser does not support the video tag.</video>
+            text = <video className="message-bubble" controls><source src={attachment.get('url')} />Your browser does not support the video tag.</video>
+            let modal = <Modal trigger={text}>
+              <Modal.Header>Video</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  {text}
+                </Modal.Description>
+              </Modal.Content>
+            </Modal>
+            text = modal
           }
           if(attachment.get('type').substring(0,5) === "audio"){
             if(!DetectBrowser.detectIE()){
               text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
-
+              let modal = <Modal trigger={text}>
+                <Modal.Header>Audio</Modal.Header>
+                <Modal.Content>
+                  <Modal.Description>
+                    {text}
+                  </Modal.Description>
+                </Modal.Content>
+              </Modal>
+              text = modal
             }
             else{
               // IE render link instead of audio player
