@@ -13,11 +13,15 @@ class SmartChat extends Component {
 
   render () {
     let windows = [];
-    let number = 1;
+    let number = 0;
     let showHidden = false
     let windowWidth = window.innerWidth
     let that = this
-    windows.push(<LeftPanel key={"window-left"}/>)
+    console.log("env variable",typeof(process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW))
+    if(process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "TRUE"){
+       windows.push(<LeftPanel key={"window-left"}/>)
+       number = 1
+    }
     this.props.groupChannels.map((window, id) => {
       if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
         if(number < Math.floor(windowWidth/368)){
