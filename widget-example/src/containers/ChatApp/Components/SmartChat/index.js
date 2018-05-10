@@ -7,6 +7,7 @@ import Window from 'containers/ChatApp/Components/Window'
 import LeftPanel from 'containers/ChatApp/Components/LeftPanel'
 import WelcomeBubble from 'containers/ChatApp/Components/WelcomeBubble'
 import HiddenChatWindow from 'containers/ChatApp/Components/HiddenChatWindow'
+import Utility from 'utility/Utility';
 
 
 class SmartChat extends Component {
@@ -23,9 +24,13 @@ class SmartChat extends Component {
     }
     this.props.groupChannels.map((window, id) => {
       if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
-        if(number < Math.floor(windowWidth/368)){
+        if(!Utility.mobileCheck() && number < Math.floor(windowWidth/368)){
         // if(number < 3){
           windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
+        }
+        else if(Utility.mobileCheck()){
+          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
+
         }
         else{
           showHidden = true

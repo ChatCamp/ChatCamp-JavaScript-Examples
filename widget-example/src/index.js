@@ -13,7 +13,7 @@ import client from 'Client'
 // import IFlyProvider from 'providers/iFlyProvider';
 
 // import ChatAppInit from 'utility/ChatAppInit'
-// import Utility from 'utility/Utility'
+import Utility from 'utility/Utility'
 // import iFlyChatChatSdk from 'modules/iflychat-chat-sdk'
 // import iFlyChatChatSdkUi from 'modules/iflychat-chat-sdk-ui'
 // import UnicodeToImg from 'utility/UnicodeToImg'
@@ -92,7 +92,12 @@ export const store = configureStore(initialState);
   // const RootComponent = configureRootComponent(store);
 
   const RootComponent = configureRootComponent(store);
-  ReactDOM.render(<div>{RootComponent}</div>, document.getElementById('cc-app'));
+  ReactDOM.render(<div className="cc-root">{RootComponent}</div>, document.getElementById('cc-app'));
+
+  var el = document.getElementById('cc-app');
+  if(el) {
+    el.className = Utility.mobileCheck() ? 'cc-app-mobile' : 'cc-app-desktop';
+  }
   // ReactDOM.render(<IFlyProvider client={client}>{RootComponent}</IFlyProvider>, document.getElementById('app'));
 
 // }

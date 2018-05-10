@@ -16,6 +16,12 @@
   bottom : 0;
   right: 20px;
 }
+.cc-app-mobile #ifc-app .chatcamp-popup {
+  width: 100%;
+  height: 100%;
+  max-width: initial;
+  right: 0!important;
+}
 
 #ifc-app .chatcamp-popup-minimize{
   height: auto

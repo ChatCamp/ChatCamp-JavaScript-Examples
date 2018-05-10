@@ -153,6 +153,7 @@
   height: calc(100% - 93px);
   max-height: 375px;
 }
+
 .ui.segment.window-content.cc-embed {
   height: calc(100% - 117px);
 }
@@ -192,4 +193,23 @@
 .ui.comments.window-message{
   max-width: 1200px;
   // min-height: 2em!important;
+}
+
+.cc-app-mobile {
+  .ui.segment.window-content.cc-popup {
+    height: calc(100% - 123px);
+    max-height: initial;
+  }
+  .text{
+      .message-content{
+        .message-bubble{
+          font-size: 20px;
+        }
+    }
+  }
+  .window-message{
+    .author{
+      font-size: 13px!important;
+    }
+  }
 }

@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
 import { Icon, Header, Segment, Grid, Popup, List, Image} from 'semantic-ui-react'
 import './style.css'
+import Utility from 'utility/Utility';
 import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipantsList'
 
 
@@ -51,6 +52,12 @@ class WindowHeader extends Component {
     }
     else if(this.props.type === "open"){
       this.props.actions.openChannelsClose(this.props.id)
+    }
+    if(Utility.mobileCheck() && (process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "FALSE")){
+      var el = document.getElementById('cc-app');
+      if(el) {
+        el.className += ' cc-app-mobile-min';
+      }
     }
     if(this.findFirstHidden()){
       if(this.props.groupChannelsState.getIn([this.findFirstHidden(), "type"]) === "group"){
@@ -198,7 +205,7 @@ class WindowHeader extends Component {
               </Header>
             </Grid.Column>
 
-            {  this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+            { !Utility.mobileCheck() && this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
               <Popup className="headerSettings"
                     trigger={<Image onClick={() => {this.minimizeChannel()}} className= "cc-window-header-minus" src={source_minus} />}
                     hideOnScroll
@@ -237,7 +244,7 @@ class WindowHeader extends Component {
                   </Popup>
             </Grid.Column>
 
-            { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+            { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={Utility.mobileCheck()? 2:1}>
 
                   <Popup className="headerSettings"
                     trigger={<Image onClick={() => {this.closeChannel()}} className= "cc-window-header-close" src={source_close} />}

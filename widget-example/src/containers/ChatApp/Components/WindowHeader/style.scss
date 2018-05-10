@@ -84,6 +84,26 @@
     -webkit-font-smoothing :  antialiased;
   }
 }
+.cc-app-mobile{
+  .cc-window-header-name>h4{
+    font-size: 28px;
+  }
+  .header-actions {
+    i.icon {
+      font-size: 1.8em!important;
+    }
+  }
+  .cc-window-header-close{
+    width: 24px;
+    margin-left: 1em;
+  }
+  .cc-window-header-status{
+    width: 24px;
+  }
+  .cc-window-header-name{
+    margin-left: 10px;
+  }
+}
 .cc-window-header-name-subtext{
   font-size: 12px!important;
   font-style: italic;

@@ -45,6 +45,12 @@ export const iFlyMiddleWare = store => {
 
   // to expose startchat to other platforms
   let startChat = (groupChannelId) => {
+    if(Utility.mobileCheck() && (process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "FALSE")){
+      var el = document.getElementById('cc-app');
+      if(el) {
+        el.className = 'cc-app-mobile'
+      }
+    }
     _startGroupChannel(groupChannelId)
     store.dispatch({
       type: GROUP_CHANNELS_OPEN,
@@ -131,7 +137,7 @@ export const iFlyMiddleWare = store => {
                   first = true
               }
             })
-          if(state !== "OPEN" && store.getState().smartChat.getIn(["type"]) === "popup"){
+          if(state !== "OPEN" && store.getState().smartChat.getIn(["type"]) === "popup" && !Utility.mobileCheck()){
             _startGroupChannel(groupChannel.id)
             if(first){
               store.dispatch({
@@ -146,10 +152,12 @@ export const iFlyMiddleWare = store => {
               })
             }
             else{
-              store.dispatch({
-                type: GROUP_CHANNELS_OPEN,
-                groupChannelsId: groupChannel.id
-              })
+              if(!Utility.mobileCheck()){
+                store.dispatch({
+                  type: GROUP_CHANNELS_OPEN,
+                  groupChannelsId: groupChannel.id
+                })
+              }
             }
 
           }

@@ -58,7 +58,7 @@ class WindowFooter extends Component {
         isFile: isFile
       },function(){
         if(this.props.type === "group"){
-          this.props.actions.startTyping(this.props.id)
+          // this.props.actions.startTyping(this.props.id)
         }
       })
     }
@@ -231,7 +231,7 @@ class WindowFooter extends Component {
 
         </Grid.Column>
 
-        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} style={{paddingTop: "0px", paddingBottom: "0px", fontSize: "13.5px", minHeight: "48px"}}>
+        <Grid.Column verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} className="cc-window-footer-text-main">
 
           <Textarea
             onMouseEnter={this.handleFocus}
@@ -242,7 +242,7 @@ class WindowFooter extends Component {
             // placeholder={'Send Message as ' + this.props.user.get('displayName')}
             placeholder={'Send Message...'}
             value={message}
-            style={{ width: "100%", minHeight: "23px", marginTop: "12.5px"}}
+            // style={}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyPress}
             inputRef={node => this.textInputRef = node}
