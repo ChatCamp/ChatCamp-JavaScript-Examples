@@ -311,10 +311,17 @@ class WindowContent extends Component {
               </Comment.Metadata>}
 
               <Comment.Text>
-                <div className="message-content">{text}</div>
+                <div className="message-content">
+                  {text}
+                  <ReadReceipt groupChannelId ={this.props.id} message={message} />
+                  {<div className="message-time">{UtilityTime.getTime('2', message.get('insertedAt')*1000)}</div>}
+                </div>
                 {/* <ReadReceipt groupChannelId ={this.props.id} message={message} /> */}
                 {/* {customType==="action_link" && <FlightCard product={JSON.parse(metadata.product)} />} */}
               </Comment.Text>
+              {/* <Comment.Actions>
+                <div>{"16:40"}</div>
+              </Comment.Actions> */}
             </Comment.Content>
           </Comment>
         </Comment.Group>
