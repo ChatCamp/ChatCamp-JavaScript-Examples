@@ -208,7 +208,7 @@ class WindowContent extends Component {
           text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
           if(attachment.get('type').substring(0,5) === "image") {
             text = <Image className="message-bubble" src={attachment.get('url')} />
-            let modal = <Modal trigger={text}>
+            let modal = <Modal trigger={text} closeIcon>
               <Modal.Header>Photo</Modal.Header>
               <Modal.Content>
                 <Modal.Description>
@@ -220,7 +220,7 @@ class WindowContent extends Component {
           }
           if(attachment.get('type').substring(0,5) === "video"){
             text = <video className="message-bubble" controls><source src={attachment.get('url')} />Your browser does not support the video tag.</video>
-            let modal = <Modal trigger={text}>
+            let modal = <Modal trigger={text} closeIcon>
               <Modal.Header>Video</Modal.Header>
               <Modal.Content>
                 <Modal.Description>
@@ -233,7 +233,7 @@ class WindowContent extends Component {
           if(attachment.get('type').substring(0,5) === "audio"){
             if(!DetectBrowser.detectIE()){
               text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
-              let modal = <Modal trigger={text}>
+              let modal = <Modal trigger={text} closeIcon>
                 <Modal.Header>Audio</Modal.Header>
                 <Modal.Content>
                   <Modal.Description>
