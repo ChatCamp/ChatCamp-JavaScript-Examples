@@ -333,7 +333,7 @@ class WindowContent extends Component {
     if(this.props.groupChannels.getIn([this.props.id, 'typing'], false)
     && this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['id'] !== this.props.user.get('id')) {
       messages.push(
-        <Comment.Group key={"window-message-typing-" + (new Date()).getTime()}>
+        <Comment.Group className={"window-message window-message-receive cc-window-message-first"} key={"window-message-typing-" + (new Date()).getTime()}>
           <Comment>
             <Comment.Avatar as={() => <AvatarWrapper className="avatar" name={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['displayName']} size={30} src={this.props.groupChannels.getIn([this.props.id, 'typingParticipants'])[0]['avatarUrl']}/>} />
             <Comment.Content>
@@ -343,7 +343,9 @@ class WindowContent extends Component {
                 <div></div>
               </Comment.Metadata>
               <Comment.Text>
-                <Loader type="ball-beat" color="#222" size="sm" />
+                <div className="message-content">
+                  <Loader type="ball-beat" color="#222" size="sm" />
+                </div>
               </Comment.Text>
               <Comment.Actions>
                 {/* <Popover trigger={<Comment.Action>Settings</Comment.Action>} content={<MessageSettings/>}/> */}
