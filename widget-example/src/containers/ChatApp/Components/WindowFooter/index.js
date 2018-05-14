@@ -58,7 +58,7 @@ class WindowFooter extends Component {
         isFile: isFile
       },function(){
         if(this.props.type === "group"){
-          // this.props.actions.startTyping(this.props.id)
+          this.props.actions.startTyping(this.props.id)
         }
       })
     }
