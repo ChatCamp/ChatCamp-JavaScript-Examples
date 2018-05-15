@@ -313,7 +313,7 @@ class WindowContent extends Component {
               <Comment.Text>
                 <div className="message-content">
                   {text}
-                  <ReadReceipt groupChannelId ={this.props.id} message={message} />
+                  {this.props.type === "group" && <ReadReceipt groupChannelId ={this.props.id} message={message} />}
                   {<div className="message-time">{UtilityTime.getTime('2', message.get('insertedAt')*1000)}</div>}
                 </div>
                 {/* <ReadReceipt groupChannelId ={this.props.id} message={message} /> */}

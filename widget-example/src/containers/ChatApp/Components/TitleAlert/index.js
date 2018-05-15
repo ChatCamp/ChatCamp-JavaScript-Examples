@@ -18,7 +18,9 @@ class TitleAlert extends Component {
       if(groupChannelId === groupChannel.id){
         if(user.get("id") !== message.user.id){
           if(document.hasFocus() === false) {
-            Utility.changeTitle(message.user.displayName, message.text);
+            if(message.text) {
+              Utility.changeTitle(message.user.displayName, message.text);
+            }
           }
         }
       }

@@ -1,5 +1,7 @@
 import Immutable, {Map} from 'immutable'
 import {
+  OPEN_CHANNELS_ATTACHMENT_PROGRESS,
+  OPEN_CHANNELS_ATTACHMENT_RESET,
   OPEN_CHANNELS_LIST_SUCCESS,
   OPEN_CHANNELS_GET_SUCCESS,
   OPEN_CHANNELS_GET_HISTORY_SUCCESS,
@@ -67,6 +69,12 @@ export function openChannels (state = initialState, action) {
       oldMessages = state.getIn([action.openChannel.id, 'messages'], Immutable.OrderedMap())
       return state
         .setIn([action.openChannel.id, 'messages'], oldMessages.merge(mO))
+    case OPEN_CHANNELS_ATTACHMENT_PROGRESS:
+      return state
+        .setIn([action.openChannelId, 'attachmentProgress'], action.progress)
+    case OPEN_CHANNELS_ATTACHMENT_RESET:
+      return state
+        .setIn([action.openChannelId, 'attachmentProgress'], 0)
     default:
       return state
   }

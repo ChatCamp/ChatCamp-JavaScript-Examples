@@ -126,7 +126,12 @@ class WindowFooter extends Component {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
-    this.props.actions.attachmentMessage(this.props.id, file)
+    if(this.props.type === "group"){
+      this.props.actions.attachmentMessage(this.props.id, file)
+    }
+    else {
+      this.props.actions1.attachmentMessage(this.props.id, file)
+    }
     reader.onloadend = () => {
       this.setState({
         attachment: file,
