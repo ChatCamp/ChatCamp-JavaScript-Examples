@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as actions from 'state/smartChat/actions'
+import * as actions from 'state/userList/actions'
 import { Accordion, Tab } from 'semantic-ui-react'
 import Roster from 'containers/ChatApp/Components/Roster'
 import ListHeader from 'containers/ChatApp/Components/ListHeader'
@@ -11,8 +12,21 @@ import ListHeader from 'containers/ChatApp/Components/ListHeader'
 class LeftPanel extends Component {
 
   state = {
-    fileRef: null
+    fileRef: null,
+    activeIndex:0
   }
+
+  checkLoadMore = (e) => {
+    if(this.state.activeIndex === 2){
+      let node = ReactDOM.findDOMNode(this.handleContextRef);
+      if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+        this.props.actions.getUserList(5, this.props.userList.last().get("id"))
+      }
+      return false
+    }
+  }
+
+  handleTabChange = (e, { activeIndex }) => this.setState({ activeIndex })
 
   render () {
    // const { getTotalRooms, getOnlineUsersCount } = this.props
@@ -38,7 +52,7 @@ class LeftPanel extends Component {
      <div className="chatcamp-left-panel cc-smart-chat-panel">
 
        <ListHeader />
-        <Tab panes={panes} className="chatcamp-list-roster-horizontal" menu={{ secondary: true, pointing: true }} />
+        <Tab ref={node => this.handleContextRef = node} onScroll={this.checkLoadMore.bind(this)} onTabChange={this.handleTabChange} panes={panes} className="chatcamp-list-roster-horizontal" menu={{ secondary: true, pointing: true }} />
          {/* <Accordion className="chatcamp-list-roster cc-left-panel-inbox" defaultActiveIndex={[0,1,2]} panels={panels} exclusive={false} fluid /> */}
 
      </div>
