@@ -9,6 +9,9 @@
   width: 60%;
   display: inline-block;
   float: left;
+  word-wrap: break-word;
+  white-space: pre;
+  text-overflow: ellipsis;
 }
 .list-inbox-header{
   font-size: 14px;

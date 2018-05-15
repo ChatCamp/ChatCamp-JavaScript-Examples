@@ -190,7 +190,13 @@ class Roster extends Component {
             avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} src = {other.avatarUrl} />}/>
           }
         }
-
+        let lastMessageText;
+        if(rosterItem.getIn(['lastMessage']).type === "text"){
+          lastMessageText = rosterItem.getIn(['lastMessage']).text
+        }
+        else if(rosterItem.getIn(['lastMessage']).type === "attachment"){
+          lastMessageText = "attachment"
+        }
 
         roster.push(
           // <List.Item className={"list-inbox"} key={"roster-key-" + rosterItem.id } onClick={() => this.props.onUserClick(user.id)}>
@@ -211,7 +217,7 @@ class Roster extends Component {
             <List.Content style={inlineStyleHeight} verticalAlign='middle'>
               <List.Header className={"list-inbox-header"}>{groupChannelName}</List.Header>
               <List.Description className={"list-inbox-description"}>
-                {(rosterItem.getIn(['lastMessage'])? rosterItem.getIn(['lastMessage']).user.displayName + " : " + rosterItem.getIn(['lastMessage']).text : "")}
+                {(rosterItem.getIn(['lastMessage'])? rosterItem.getIn(['lastMessage']).user.displayName + " : " + lastMessageText : "")}
               </List.Description>
               {(rosterItem.getIn(['unreadMessageCount']) > 0) &&  <List.Description className={"list-inbox-unread"}>
                 {(rosterItem.getIn(['unreadMessageCount']))}
