@@ -45,7 +45,7 @@ export const iFlyMiddleWare = store => {
 
   // to expose startchat to other platforms
   let startChat = (groupChannelId) => {
-    if(Utility.mobileCheck() && (process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "FALSE")){
+    if(Utility.mobileCheck()){
       var el = document.getElementById('cc-app');
       if(el) {
         el.className = 'cc-app-mobile'
@@ -59,7 +59,13 @@ export const iFlyMiddleWare = store => {
   }
 
   let startChannelChat = (channelId, channelType) => {
-    if(channelType == "group"){
+    if(Utility.mobileCheck()){
+      var el = document.getElementById('cc-app');
+      if(el) {
+        el.className = 'cc-app-mobile'
+      }
+    }
+    if(channelType === "group"){
       startChat(channelId)
     }
     else{
@@ -111,15 +117,18 @@ export const iFlyMiddleWare = store => {
           data: {type: "popup"} //popup or embed
         });
 
-      for(let i in allGroupChannels){
-        let groupChannelId = allGroupChannels[i]
-        _startGroupChannel(groupChannelId)
+      if(!Utility.mobileCheck()){
+        for(let i in allGroupChannels){
+          let groupChannelId = allGroupChannels[i]
+          _startGroupChannel(groupChannelId)
+        }
+
+        for(let i in allOpenChannels){
+          let openChannelId = allOpenChannels[i]
+          _startOpenChannel(openChannelId)
+        }
       }
 
-      for(let i in allOpenChannels){
-        let openChannelId = allOpenChannels[i]
-        _startOpenChannel(openChannelId)
-      }
 
         let channelListener = new client.ChannelListener();
         channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {

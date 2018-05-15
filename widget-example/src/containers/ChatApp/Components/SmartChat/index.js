@@ -47,9 +47,13 @@ class SmartChat extends Component {
         // if(number < 3){
           windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
         }
+        else if(Utility.mobileCheck()){
+          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
+
+        }
         else{
           showHidden = true
-          that.props.actions.groupChannelsHide(window.get('id'))
+          that.props.actions.openChannelsHide(window.get('id'))
         }
       }
       else if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN") {
