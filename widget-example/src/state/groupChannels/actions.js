@@ -3,7 +3,7 @@ import {
   GROUP_CHANNELS_ATTACHMENT_RESET,
 	GROUP_CHANNELS_GET_SUCCESS,
   GROUP_CHANNELS_GET_HISTORY_SUCCESS,
-  GROUP_CHANNELS_INVITE_ACCEPTED_SUCCESS
+  GROUP_CHANNELS_OPEN
 } from 'state/action-types'
 
 import client from 'Client'
@@ -15,6 +15,21 @@ export const getChannel = (groupChannelId) => dispatch => {
         type: GROUP_CHANNELS_GET_SUCCESS,
         groupChannel: groupChannel
       });
+    }
+  });
+}
+
+export const createChannel = (object) => dispatch => {
+  client.GroupChannel.create(object.groupChannelName, object.groupParticipants, object.isDistinct, function(error, groupChannel) {
+    if(!error) {
+      dispatch({
+        type: GROUP_CHANNELS_GET_SUCCESS,
+        groupChannel: groupChannel
+      });
+      dispatch({
+        type: GROUP_CHANNELS_OPEN,
+        groupChannelsId: groupChannel.id
+      })
     }
   });
 }
@@ -91,6 +106,21 @@ export const acceptInvitation = (groupChannelId) => dispatch => {
             groupChannel: groupChannel
           });
           dispatch(getHistory(groupChannelId, null))
+        });
+      }
+    })
+  })
+}
+
+export const addParticipants = (group) => dispatch => {
+  client.GroupChannel.get(group.id, function(error, groupChannel) {
+    groupChannel.inviteParticipants(group.groupParticipants, function(error) {
+      if(!error) {
+        client.GroupChannel.get(group.id, function(error, groupChannel) {
+          dispatch({
+            type: GROUP_CHANNELS_GET_SUCCESS,
+            groupChannel: groupChannel
+          });
         });
       }
     })

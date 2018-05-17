@@ -79,6 +79,12 @@ export const openChannelsOpen = (openChannelsId) => dispatch => {
 }
 
 export const openChannelsClose = (openChannelsId) => dispatch => {
+  client.OpenChannel.get(openChannelsId, function(error, openChannel) {
+    // groupChannel.stopTyping()
+    openChannel.leave(function(error, message) {
+
+    })
+  })
   dispatch({
     type: OPEN_CHANNELS_CLOSE,
     openChannelsId: openChannelsId

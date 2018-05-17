@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Image, Header, Icon, List, Dropdown, Grid, Segment } from 'semantic-ui-react'
+import { Modal, Button, Icon, Dropdown, Grid, Segment } from 'semantic-ui-react'
 import Textarea from 'react-textarea-autosize';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'

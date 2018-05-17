@@ -22,7 +22,11 @@ border-right: 2px solid #fff!important;
 }
 .cc-list-header-image{
   display: inline-block!important;
-  width: 20px!important;
+  width: 17px!important;
+  float: left;
+  margin-left: 9px;
+  cursor: pointer;
+  margin-top: 2px;
 }
 .cc-list-header-actions{
   width: 30px;
@@ -32,6 +36,14 @@ border-right: 2px solid #fff!important;
   height: 16px;
   .cc-list-header-close{
     width: 16px;
+  }
+}
+.cc-create-group-modal{
+  button.primary{
+    background-color: #3f46ad!important;
+  }
+  .buttons{
+    float: right!important;
   }
 }
 .cc-app-mobile{

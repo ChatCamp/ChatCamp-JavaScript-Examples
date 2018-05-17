@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
-import { Icon, Header, Segment, Grid, Popup, List, Image} from 'semantic-ui-react'
+import * as actionsGroupChannels from 'state/groupChannels/actions'
+import { Icon, Header, Segment, Grid, Popup, Image, Modal, Form, Label, Dropdown, Button, Message} from 'semantic-ui-react'
 import './style.css'
 import Utility from 'utility/Utility';
 import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipantsList'
@@ -10,6 +12,11 @@ import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipan
 
 class WindowHeader extends Component {
   state = {
+    groupName: "",
+    groupParticipants: [],
+    showGroupNameError: false,
+    showGroupParticipantsError: false,
+    modalOpen: false
   }
 
   findFirstHidden(){
@@ -123,12 +130,59 @@ class WindowHeader extends Component {
     }
   }
 
+  checkLoadMore = (e) => {
+    let parentNode = ReactDOM.findDOMNode(this.handleContextRef);
+    let node = parentNode.querySelector('.menu')
+    if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+      this.props.actionsUserList.getUserList(5, this.props.userList.last().get("id"))
+    }
+    return false
+  }
+
+  handleSubmit = (e) => {
+    let { groupParticipants} = this.state
+    // if(groupName !== ""){
+      if(groupParticipants.length > 0){
+        // groupParticipants.push(this.props.user.getIn(['id']))
+        this.props.actionsGroupChannels.addParticipants({id: this.props.id,  groupParticipants: groupParticipants})
+        this.setState({groupParticipants: []})
+        this.setState({modalOpen: false})
+      }
+      else{
+        this.setState({showGroupParticipantsError: true})
+      }
+    // }
+    // else{
+    //   this.setState({showGroupNameError: true})
+    // }
+  }
+
+  handleGroupChange = (event) => {
+    this.setState({showGroupNameError: false})
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  handleParticipantChange = (event, data) => {
+    this.setState({showGroupParticipantsError: false})
+    this.setState({ [data.name]: data.value })
+  }
+
+  handleClose = (event, data) => {
+    this.setState({groupName: "", groupParticipants: []})
+  }
+  buttonClick= () => {
+    this.setState({modalOpen: true})
+  }
+  handleCancel = () => {
+    this.setState({groupName: "", groupParticipants: []})
+    this.setState({modalOpen: false})
+  }
+
   render () {
 
     let triggerComponent = <Header.Subheader as='div'>
       {this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")} Participants
     </Header.Subheader>
-
     let embedParticipants = <Popup
       trigger={triggerComponent}
       hideOnScroll
@@ -159,7 +213,7 @@ class WindowHeader extends Component {
     let source_minus =  sourceURL + "icons8-minus-48-white.png"
     let source_max =  sourceURL + "icons8-chevron-up-52-white.png"
     let source_hash =  sourceURL + "icons8-hashtag-50.png"
-    // let status = <Header as="h3">#</Header>
+
     let status = <Image className= "cc-window-header-hash" src={source_hash} />
     let groupChannelName
     if(this.props.type === "open"){
@@ -186,6 +240,22 @@ class WindowHeader extends Component {
       }
 
     }
+
+    let options = []
+    let {groupName, groupParticipants, modalOpen, showGroupParticipantsError, showGroupNameError} = this.state
+    let nameError = <Message error size={"tiny"}
+      header='Group Name can not be empty'/>
+    let participantsError = <Message error size={"tiny"}
+      header='Atleast one participant must be added to the group'/>
+    this.props.userList.map((rosterItem) => {
+      if(rosterItem.getIn(['id']) !== this.props.user.getIn(['id'])){
+          let id = rosterItem.getIn(['id'])
+          let name = rosterItem.getIn(['displayName'])
+          // let image = rosterItem.getIn(['avatarUrl'])
+          // options.push({key: id, value: id, image: image, text: name  })
+          options.push({key: id, value: id, text: name  })
+      }
+    })
 
     return (
       <Segment size="tiny" className="window-header">
@@ -230,18 +300,67 @@ class WindowHeader extends Component {
             </Grid.Column>}
 
             <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
-                  <Popup className="headerSettings"
-                    trigger={<Icon name="setting" size="large"/>}
+                  {/* <Popup className="headerSettings"
+                    // trigger={<Icon name="setting" size="large"/>}
+                    trigger={<Dropdown icon='setting' floating className='icon cc-window-header-settings'>
+                              <Dropdown.Menu className="cc-window-header-settings-options">
+                                <Dropdown.Item onClick={this.handleItemClick} icon='image' text='Attach a File' />
+                                <Dropdown.Item onClick={this.buttonClick.bind()} icon='add' text='Add Participants' />
+                              </Dropdown.Menu>
+                            </Dropdown>}
                     hideOnScroll
                     position='bottom right'
-                    on='click'>
+                    on='hover' inverted>
                     <Popup.Content>
-                      <List size="large" divided relaxed="very">
-                        <List.Item icon='add' content="Attach a File" onClick={this.handleItemClick}></List.Item>
-                        <List.Item icon='image' content="Attach Media" onClick={this.handleItemClick}></List.Item>
-                      </List>
+                      {/* <List size="large" divided relaxed="very">
+                        {/* <List.Item icon='add' content="Attach a File" onClick={this.handleItemClick}></List.Item> */}
+                        {/* <List.Item icon='image' content="Attach Media" onClick={this.handleItemClick}></List.Item>
+                        <List.Item icon='add' content="Add Participants" onClick={this.buttonClick.bind()}></List.Item> */}
+                      {/* </List> */}
+                      {/* Settings
                     </Popup.Content>
-                  </Popup>
+                  </Popup> */}
+                  <Dropdown icon='setting' floating className='icon cc-window-header-settings' direction="left">
+                            <Dropdown.Menu className="cc-window-header-settings-options">
+                              <Dropdown.Item onClick={this.handleItemClick} icon='image' text='Attach a File' />
+                              <Dropdown.Item onClick={this.buttonClick.bind()} icon='add' text='Add Participants' />
+                            </Dropdown.Menu>
+                          </Dropdown>
+                  <Modal className="cc-create-group-modal" open={modalOpen} size="tiny"
+                    // trigger={}
+                   // onClose = {this.handleClose.bind(this)}
+                   >
+                   <Modal.Header>Add Participants</Modal.Header>
+                     <Modal.Content>
+                       <Modal.Description>
+                         {showGroupParticipantsError && participantsError}
+                         {/* {showGroupNameError && nameError} */}
+                         <Form>
+                           {/* <Form.Field>
+                             <Label>Group Name</Label>
+                             <Input placeholder='Type here' name= 'groupName' value={groupName} onChange={this.handleGroupChange.bind(this)} />
+                           </Form.Field> */}
+                           <Form.Field>
+                             <Label>Participants</Label>
+                             <Dropdown ref={node => this.handleContextRef = node} onScroll={this.checkLoadMore.bind(this)} placeholder='Add Participants' fluid multiple selection options={options} name= 'groupParticipants' value={groupParticipants} onChange={this.handleParticipantChange.bind(this)} />
+                         </Form.Field>
+                         <br/>
+                         <Button.Group>
+                         <Form.Button onClick={this.handleCancel.bind()}>
+                           Cancel
+                         </Form.Button>
+                         <Button.Or />
+                         <Form.Button primary onClick={this.handleSubmit.bind(this)}>
+                           Add
+                         </Form.Button>
+                       </Button.Group>
+                       <br/>
+                       <br/>
+                       </Form>
+
+                       </Modal.Description>
+                     </Modal.Content>
+                   </Modal>
             </Grid.Column>
 
             { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={Utility.mobileCheck()? 2:1}>
@@ -270,7 +389,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch) ,
+    actionsGroupChannels: bindActionCreators(actionsGroupChannels, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

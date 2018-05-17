@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Button, Image, Header, Icon, List, Dropdown, Grid, Segment, Card } from 'semantic-ui-react'
-import Textarea from 'react-textarea-autosize';
+import { Image, Icon, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
