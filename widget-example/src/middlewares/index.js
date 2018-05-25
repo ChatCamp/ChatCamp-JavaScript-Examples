@@ -22,6 +22,8 @@ import {
   OPEN_CHANNELS_GET_SUCCESS,
   OPEN_CHANNELS_GET_HISTORY_SUCCESS,
   OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
+  OPEN_CHANNELS_CLOSE,
+  OPEN_CHANNELS_REMOVE_HISTORY,
   USER_LIST_SUCCESS
 } from 'state/action-types'
 
@@ -218,6 +220,18 @@ export const iFlyMiddleWare = store => {
             type: OPEN_CHANNELS_GET_SUCCESS,
             openChannel: openChannel
           });
+
+          if(user.id === userId){
+            let previousMessageListQuery = openChannel.createPreviousMessageListQuery();
+            previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+              store.dispatch({
+                type: OPEN_CHANNELS_GET_HISTORY_SUCCESS,
+                openChannel: openChannel,
+                messages: messages
+              });
+            })
+          }
+
         }
 
         channelListener.onOpenChannelParticipantLeft = function(openChannel, user) {
@@ -226,6 +240,16 @@ export const iFlyMiddleWare = store => {
             type: OPEN_CHANNELS_GET_SUCCESS,
             openChannel: openChannel
           });
+          if(user.id === userId){
+            store.dispatch({
+              type: OPEN_CHANNELS_CLOSE,
+              openChannelsId: openChannel.id
+            })
+            store.dispatch({
+              type: OPEN_CHANNELS_REMOVE_HISTORY,
+              openChannelsId: openChannel.id
+            })
+          }
         }
 
         channelListener.onGroupChannelTypingStatusChanged = function(groupChannel) {

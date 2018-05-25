@@ -5,7 +5,8 @@ import {
   OPEN_CHANNELS_LIST_SUCCESS,
   OPEN_CHANNELS_GET_SUCCESS,
   OPEN_CHANNELS_GET_HISTORY_SUCCESS,
-  OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS
+  OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
+  OPEN_CHANNELS_REMOVE_HISTORY
 } from 'state/action-types'
 
 
@@ -75,6 +76,10 @@ export function openChannels (state = initialState, action) {
     case OPEN_CHANNELS_ATTACHMENT_RESET:
       return state
         .setIn([action.openChannelId, 'attachmentProgress'], 0)
+
+    case OPEN_CHANNELS_REMOVE_HISTORY:
+      return state
+        .removeIn([action.openChannelsId, 'messages'])
     default:
       return state
   }
