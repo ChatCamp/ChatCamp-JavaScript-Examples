@@ -12,16 +12,26 @@ class ReadReceipt extends Component {
 
   ifReadByAll(){
     let messageTime = this.props.message.get("insertedAt")
-    let currentId = this.props.user.get('id')
+    // let currentId = this.props.user.get('id')
     let read = this.props.groupChannels.getIn([this.props.groupChannelId, 'readReceipt'])
+    let participants = this.props.groupChannels.getIn([this.props.groupChannelId, 'participants'])
+
     let flag = true
-    Object.keys(read).forEach(function(key,index) {
-      if(key !== currentId){
-        if( messageTime > read[key]){
-          flag = false
-        }
+    for(let i in participants){
+      if(!read[participants[i].id]){
+        flag = false
       }
-    })
+      else if(messageTime > read[participants[i].id]){
+        flag = false
+      }
+    }
+    // Object.keys(read).forEach(function(key,index) {
+    //   if(key !== currentId){
+    //     if( messageTime > read[key]){
+    //       flag = false
+    //     }
+    //   }
+    // })
     return flag
   }
 
