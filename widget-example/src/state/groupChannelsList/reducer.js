@@ -13,7 +13,6 @@ export function groupChannelsList (state = initialState, action) {
     case GROUP_CHANNELS_MY_LIST_SUCCESS:
     let inbox = [];
     let inboxList = {}
-    console.log("groupchannels my list", action.groupChannels)
     // for(let i in action.groupChannels) {
     //   inboxList[action.groupChannels[i].id] = action.groupChannels[i]
     //   if(inbox.length > 0){

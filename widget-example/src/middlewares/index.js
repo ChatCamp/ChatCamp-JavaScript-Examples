@@ -106,7 +106,7 @@ export const iFlyMiddleWare = store => {
             allGroupChannels.push(index)
           }
         })
-        console.log("all channels", allOpenChannels, allGroupChannels)
+        // console.log("all channels", allOpenChannels, allGroupChannels)
         // allGroupChannels = allGroupChannels.concat(storeChannels)
 
         store.dispatch({
@@ -259,13 +259,18 @@ export const iFlyMiddleWare = store => {
                   type: GROUP_CHANNELS_MY_LIST_SUCCESS,
                   groupChannels: groupChannelList
                 });
-                // if(oneChannel === undefined){
-                //   // store.dispatch({
-                //   //   type: GROUP_CHANNELS_OPEN,
-                //   //   groupChannelsId: groupChannelList[0].id
-                //   // });
-                //   _startGroupChannel(groupChannelList[0].id)
-                // }
+                for(let i in groupChannelList){
+                  if(groupChannelList[i].participantsCount === 2 && groupChannelList[i].isDistinct === true){
+                    client.GroupChannel.get(groupChannelList[i].id, function(error, groupChannel) {
+                      if(!error){
+                        store.dispatch({
+                          type: GROUP_CHANNELS_GET_SUCCESS,
+                          groupChannel: groupChannel
+                        });
+                      }
+                    })
+                  }
+                }
               }
           })
           //setTimeout(function() { pollGroupChannelList() }, 30*1000)

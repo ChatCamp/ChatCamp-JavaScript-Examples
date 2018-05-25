@@ -43,9 +43,9 @@ class Roster extends Component {
         }
       }
     }
-    else{
-      this.props.groupChannelsActions.getChannel(gid)
-    }
+    // else{
+    //   this.props.groupChannelsActions.getChannel(gid)
+    // }
   }
 
   onInboxClick = (id) => {
