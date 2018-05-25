@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannelsState/actions'
 import * as actionsGroupChannels from 'state/groupChannels/actions'
+import * as actionsUserList from 'state/userList/actions'
 import { Icon, Header, Segment, Grid, Popup, Image, Modal, Form, Label, Dropdown, Button, Message} from 'semantic-ui-react'
 import './style.css'
 import Utility from 'utility/Utility';
@@ -157,6 +158,14 @@ class WindowHeader extends Component {
     // }
   }
 
+  leaveGroup = () => {
+    this.props.actionsGroupChannels.leaveParticipant({id: this.props.id})
+  }
+
+  leaveOpen = () => {
+    this.props.actions.openChannelsLeave(this.props.id)
+  }
+
   handleGroupChange = (event) => {
     this.setState({showGroupNameError: false})
     this.setState({ [event.target.name]: event.target.value })
@@ -242,9 +251,7 @@ class WindowHeader extends Component {
     }
 
     let options = []
-    let {groupName, groupParticipants, modalOpen, showGroupParticipantsError, showGroupNameError} = this.state
-    let nameError = <Message error size={"tiny"}
-      header='Group Name can not be empty'/>
+    let { groupParticipants, modalOpen, showGroupParticipantsError } = this.state
     let participantsError = <Message error size={"tiny"}
       header='Atleast one participant must be added to the group'/>
     this.props.userList.map((rosterItem) => {
@@ -253,7 +260,16 @@ class WindowHeader extends Component {
           let name = rosterItem.getIn(['displayName'])
           // let image = rosterItem.getIn(['avatarUrl'])
           // options.push({key: id, value: id, image: image, text: name  })
-          options.push({key: id, value: id, text: name  })
+          let participants = this.props.groupChannels.getIn([this.props.id, 'participants'])
+          let alreadyMember = false;
+          for(let i in participants){
+            if(participants[i].id === id){
+              alreadyMember = true;
+            }
+          }
+          if(!alreadyMember){
+            options.push({key: id, value: id, text: name  })
+          }
       }
     })
 
@@ -300,64 +316,37 @@ class WindowHeader extends Component {
             </Grid.Column>}
 
             <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
-                  {/* <Popup className="headerSettings"
-                    // trigger={<Icon name="setting" size="large"/>}
-                    trigger={<Dropdown icon='setting' floating className='icon cc-window-header-settings'>
-                              <Dropdown.Menu className="cc-window-header-settings-options">
-                                <Dropdown.Item onClick={this.handleItemClick} icon='image' text='Attach a File' />
-                                <Dropdown.Item onClick={this.buttonClick.bind()} icon='add' text='Add Participants' />
-                              </Dropdown.Menu>
-                            </Dropdown>}
-                    hideOnScroll
-                    position='bottom right'
-                    on='hover' inverted>
-                    <Popup.Content>
-                      {/* <List size="large" divided relaxed="very">
-                        {/* <List.Item icon='add' content="Attach a File" onClick={this.handleItemClick}></List.Item> */}
-                        {/* <List.Item icon='image' content="Attach Media" onClick={this.handleItemClick}></List.Item>
-                        <List.Item icon='add' content="Add Participants" onClick={this.buttonClick.bind()}></List.Item> */}
-                      {/* </List> */}
-                      {/* Settings
-                    </Popup.Content>
-                  </Popup> */}
-                  <Dropdown icon='setting' floating className='icon cc-window-header-settings' direction="left">
+                          <Dropdown icon='setting' floating className='icon cc-window-header-settings' direction="left">
                             <Dropdown.Menu className="cc-window-header-settings-options">
                               <Dropdown.Item onClick={this.handleItemClick} icon='image' text='Attach a File' />
-                              <Dropdown.Item onClick={this.buttonClick.bind()} icon='add' text='Add Participants' />
+                              {(this.props.type === "group") && <Dropdown.Item onClick={this.buttonClick.bind()} icon='add square' text='Add Participants' />}
+                              {(this.props.type === "group") &&<Dropdown.Item onClick={this.leaveGroup.bind()} icon='sign out' text='Leave Chat' />}
+                              {(this.props.type === "open") &&<Dropdown.Item onClick={this.leaveOpen.bind()} icon='sign out' text='Leave Chat' />}
                             </Dropdown.Menu>
                           </Dropdown>
-                  <Modal className="cc-create-group-modal" open={modalOpen} size="tiny"
-                    // trigger={}
-                   // onClose = {this.handleClose.bind(this)}
-                   >
+                  <Modal className="cc-create-group-modal" open={modalOpen} size="tiny">
                    <Modal.Header>Add Participants</Modal.Header>
                      <Modal.Content>
                        <Modal.Description>
                          {showGroupParticipantsError && participantsError}
-                         {/* {showGroupNameError && nameError} */}
                          <Form>
-                           {/* <Form.Field>
-                             <Label>Group Name</Label>
-                             <Input placeholder='Type here' name= 'groupName' value={groupName} onChange={this.handleGroupChange.bind(this)} />
-                           </Form.Field> */}
                            <Form.Field>
                              <Label>Participants</Label>
                              <Dropdown ref={node => this.handleContextRef = node} onScroll={this.checkLoadMore.bind(this)} placeholder='Add Participants' fluid multiple selection options={options} name= 'groupParticipants' value={groupParticipants} onChange={this.handleParticipantChange.bind(this)} />
-                         </Form.Field>
-                         <br/>
-                         <Button.Group>
-                         <Form.Button onClick={this.handleCancel.bind()}>
-                           Cancel
-                         </Form.Button>
-                         <Button.Or />
-                         <Form.Button primary onClick={this.handleSubmit.bind(this)}>
-                           Add
-                         </Form.Button>
-                       </Button.Group>
-                       <br/>
-                       <br/>
-                       </Form>
-
+                           </Form.Field>
+                           <br/>
+                           <Button.Group>
+                             <Form.Button onClick={this.handleCancel.bind()}>
+                               Cancel
+                             </Form.Button>
+                             <Button.Or />
+                             <Form.Button primary onClick={this.handleSubmit.bind(this)}>
+                               Add
+                             </Form.Button>
+                           </Button.Group>
+                           <br/>
+                           <br/>
+                         </Form>
                        </Modal.Description>
                      </Modal.Content>
                    </Modal>
@@ -390,7 +379,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch) ,
-    actionsGroupChannels: bindActionCreators(actionsGroupChannels, dispatch) //binds all the actions with dispatcher and returns them
+    actionsGroupChannels: bindActionCreators(actionsGroupChannels, dispatch),
+    actionsUserList: bindActionCreators(actionsUserList, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/userList/actions'
+import * as groupChannelsListactions from 'state/groupChannelsList/actions'
 import { Accordion, Tab } from 'semantic-ui-react'
 import Roster from 'containers/ChatApp/Components/Roster'
 import ListHeader from 'containers/ChatApp/Components/ListHeader'
@@ -22,8 +23,14 @@ class LeftPanel extends Component {
       if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
         this.props.actions.getUserList(5, this.props.userList.last().get("id"))
       }
-      return false
     }
+    else if(this.state.activeIndex === 0){
+      let node = ReactDOM.findDOMNode(this.handleContextRef);
+      if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+        this.props.groupChannelsListactions.getList( this.props.groupChannelsList.last())
+      }
+    }
+    return false
   }
 
   handleTabChange = (e, { activeIndex }) => this.setState({ activeIndex })
@@ -67,7 +74,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch),
+    groupChannelsListactions: bindActionCreators(groupChannelsListactions, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

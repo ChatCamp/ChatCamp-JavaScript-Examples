@@ -13,43 +13,66 @@ class HiddenChatWindow extends Component {
   }
 
   findLast(){
-    let last;
-    this.props.groupChannels.map((window, id) => {
-      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "OPEN"){
-        last = window.get('id')
+    let last = {};
+    this.props.groupChannelsState.map((chatwindow, id) => {
+      if(chatwindow.getIn(["state"]) === "OPEN"){
+        if(chatwindow.getIn(["type"]) === "open"){
+          last.id = id;
+          last.type =  "open";
+        }
+        else if (chatwindow.getIn(["type"]) === "group"){
+          last.id = id;
+          last.type = "group";
+        }
       }
     })
     return last
   }
 
-  itemClick = (clickedID) => {
-    let last = this.findLast()
-    this.props.actions.groupChannelsHide(last)
-    this.props.actions.groupChannelsOpen(clickedID)
+  itemClick = (clickedID, chatWindow) => {
+    let last = this.findLast();
+    if(last.type === "open"){
+      this.props.actions.openChannelsHide(last.id)
+    }
+    else if(last.type === "group"){
+      this.props.actions.groupChannelsHide(last.id)
+    }
+    if(chatWindow.getIn(["type"]) === "open"){
+      this.props.actions.openChannelsOpen(clickedID)
+    }
+    else if(chatWindow.getIn(["type"]) === "group"){
+      this.props.actions.groupChannelsOpen(clickedID)
+    }
   }
 
-  getName(window){
+  getName(id, chatWindow){
     let name;
-    if(window.get('participantsCount') === 2 && window.get('isDistinct') === true){
-      let id = this.props.user.get("id")
-      let participants = window.get('participants')
-      for(let i in participants){
-        if(participants[i].id !== id){
-            name = participants[i].displayName
+    if(chatWindow.getIn(["type"]) === "open"){
+      name = this.props.openChannels.getIn([id, "name"])
+    }
+    else if(chatWindow.getIn(["type"]) === "group"){
+      if( this.props.groupChannels.getIn([id, "participantsCount"]) === 2 && this.props.groupChannels.getIn([id, "isDistinct"]) === true){
+        let id = this.props.user.get("id")
+        let participants = this.props.groupChannels.getIn([id, "participants"])
+        for(let i in participants){
+          if(participants[i].id !== id){
+              name = participants[i].displayName
+          }
         }
       }
+      else{
+        name = this.props.groupChannels.getIn([id, "name"])
+      }
     }
-    else{
-      name = window.get('name')
-    }
+
     return name
   }
 
   render () {
     let hiddenWindows = []
-    this.props.groupChannels.map((window, id) => {
-      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN" ){
-        hiddenWindows.push(<List.Item onClick = {() => {this.itemClick(window.get('id'))}} key={"participant-content-list-" + window.get('id')}><List.Content verticalAlign='middle' floated="left"><List.Header>{this.getName(window)}</List.Header></List.Content></List.Item>)
+    this.props.groupChannelsState.map((chatWindow, id) => {
+      if(chatWindow.getIn(["state"]) === "HIDDEN" ){
+        hiddenWindows.push(<List.Item onClick = {() => {this.itemClick(id, chatWindow)}} key={"participant-content-list-" + id}><List.Content verticalAlign='middle' floated="left"><List.Header>{this.getName(id, chatWindow)}</List.Header></List.Content></List.Item>)
       }
     })
 

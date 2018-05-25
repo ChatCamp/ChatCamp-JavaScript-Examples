@@ -22,44 +22,72 @@ class SmartChat extends Component {
        windows.push(<LeftPanel key={"window-left"}/>)
        number = 1
     }
-    this.props.groupChannels.map((window, id) => {
-      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
-        if(!Utility.mobileCheck() && number < Math.floor(windowWidth/368)){
-        // if(number < 3){
-          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
-        }
-        else if(Utility.mobileCheck()){
-          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
-
-        }
-        else{
-          showHidden = true
-          that.props.actions.groupChannelsHide(window.get('id'))
-        }
-      }
-      else if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN") {
-        showHidden = true
-      }
-    })
-    this.props.openChannels.map((window, id) => {
-      if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
+    // this.props.groupChannels.map((window, id) => {
+    //   if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
+    //     if(!Utility.mobileCheck() && number < Math.floor(windowWidth/368)){
+    //     // if(number < 3){
+    //       windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
+    //     }
+    //     else if(Utility.mobileCheck()){
+    //       windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"group"} position = {number++} state={"open"}/>)
+    //
+    //     }
+    //     else{
+    //       showHidden = true
+    //       that.props.actions.groupChannelsHide(window.get('id'))
+    //     }
+    //   }
+    //   else if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN") {
+    //     showHidden = true
+    //   }
+    // })
+    // this.props.openChannels.map((window, id) => {
+    //   if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "CLOSE" && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== undefined && this.props.groupChannelsState.getIn([window.get('id'), "state"]) !== "HIDDEN" ){
+    //     if(number < Math.floor(windowWidth/368)){
+    //     // if(number < 3){
+    //       windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
+    //     }
+    //     else if(Utility.mobileCheck()){
+    //       windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
+    //
+    //     }
+    //     else{
+    //       showHidden = true
+    //       that.props.actions.openChannelsHide(window.get('id'))
+    //     }
+    //   }
+    //   else if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN") {
+    //     showHidden = true
+    //   }
+    // })
+      // console.log("start")
+    this.props.groupChannelsState.map((chatWindow, id) => {
+      // console.log("window", chatWindow.getIn(["state"]),chatWindow.getIn(["type"]), id)
+      if(chatWindow.getIn(["state"]) !== "HIDDEN" && chatWindow.getIn(["state"]) !== undefined){
         if(number < Math.floor(windowWidth/368)){
         // if(number < 3){
-          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
+          windows.push(<Window key={"window-" + id} id={id} type={chatWindow.getIn(["type"])} position = {number++} state={"open"}/>)
         }
         else if(Utility.mobileCheck()){
-          windows.push(<Window key={"window-" + window.get('id')} id={window.get('id')} type={"open"} position = {number++} state={"open"}/>)
+          windows.push(<Window key={"window-" + id} id={id} type={chatWindow.getIn(["type"])} position = {number++} state={"open"}/>)
 
         }
         else{
           showHidden = true
-          that.props.actions.openChannelsHide(window.get('id'))
+          if(chatWindow.getIn(["type"]) === "open"){
+            that.props.actions.openChannelsHide(id)
+          }
+          else if(chatWindow.getIn(["type"]) === "group"){
+            that.props.actions.groupChannelsHide(id)
+          }
         }
       }
-      else if(this.props.groupChannelsState.getIn([window.get('id'), "state"]) === "HIDDEN") {
+      else if(chatWindow.getIn(["state"]) === "HIDDEN"){
         showHidden = true
       }
     })
+    // console.log("stop")
+
 
     return (
       <div id="ifc-app">

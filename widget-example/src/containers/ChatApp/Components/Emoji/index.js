@@ -33,7 +33,7 @@ class Emoji extends Component {
                           <this.state._emojiMart
                             set={this.handleEmojiSet()}
                             onClick={this.props.clickMethod}
-                            title='Pick your emoji�'
+                            title='Pick your emoji..'
                             emojiSize={24}
                             sheetSize={64}
                            backgroundImageFn={((set, sheetSize) => 'https://cdn.iflychat.com/img/international-emoji/v3.0.0/sheet_apple_32.png')}

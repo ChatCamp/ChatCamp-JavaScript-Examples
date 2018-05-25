@@ -85,8 +85,18 @@ class WindowContent extends Component {
         this.props.openChannelsActions.getHistory(this.props.id, this.props.openChannels.getIn([this.props.id, 'messages'], false).first().id)
       }
     }
+    // send read if scrolled to bottom but not when new message is received and scroll was already at bottom.
+    if((node.clientHeight === (node.scrollHeight - node.scrollTop)) && (node.clientHeight !== (this.scrollHeight - this.scrollTop)) ) {
+      if(this.props.type === "group") {
+        this.props.actions.read(this.props.id)
+      }
+    }
     return false
   }
+
+  // shouldComponentUpdate(nextProps) {
+  //   return this.props.groupChannels !== nextProps.groupChannels
+  // }
 
   componentWillUpdate() {
     let node = ReactDOM.findDOMNode(this);
@@ -250,6 +260,9 @@ class WindowContent extends Component {
           }
         // }
       }
+      else if(message.get('type') === "announcment"){
+        text = ""
+      }
       else {
         // if(!message.getIn(['text'], false)) {
           text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: UnicodeToImg.unicodeToImgTag(ProcessMessage.MediaRender(message.getIn(['text'], "hello")), undefined, true)}}></div>
@@ -288,44 +301,49 @@ class WindowContent extends Component {
 
 
       //message object
-      if(text!=null) messages.push(
-        <Comment.Group key={"window-message-" + message.get('id')} className={classes + " window-message-" + message.get('id')}>
-          <Comment>
-            {!messageClubbing.info && messageAvatar}
-            <Comment.Content>
-              {/*  message author*/}
-              {!messageClubbing.info && <Popup
-                trigger={<Comment.Author as='a'>{message.getIn(['user', 'displayName'])}</Comment.Author>}
-                hideOnScroll
-                position='right center'
-                on='click'>
-                <Popup.Content>
-                  <ProfileCard userM={message.getIn(['user'])} id={this.props.id} type={this.props.type} />
-                </Popup.Content>
-              </Popup>}
+      if(text!=null && message.get('type') !== "announcement"){
+        messages.push(
+          <Comment.Group key={"window-message-" + message.get('id')} className={classes + " window-message-" + message.get('id')}>
+            <Comment>
+              {!messageClubbing.info && messageAvatar}
+              <Comment.Content>
+                {/*  message author*/}
+                {!messageClubbing.info && <Popup
+                  trigger={<Comment.Author as='a'>{message.getIn(['user', 'displayName'])}</Comment.Author>}
+                  hideOnScroll
+                  position='right center'
+                  on='click'>
+                  <Popup.Content>
+                    <ProfileCard userM={message.getIn(['user'])} id={this.props.id} type={this.props.type} />
+                  </Popup.Content>
+                </Popup>}
 
-              {/*  message role*/}
-              {false && role && <Comment.Metadata className="role">{role}</Comment.Metadata>}
-              {false && !messageClubbing.info && <Comment.Metadata>
-                <div>{UtilityTime.getTime('1', message.get('insertedAt')*1000)}</div>
-              </Comment.Metadata>}
+                {/*  message role*/}
+                {false && role && <Comment.Metadata className="role">{role}</Comment.Metadata>}
+                {false && !messageClubbing.info && <Comment.Metadata>
+                  <div>{UtilityTime.getTime('1', message.get('insertedAt')*1000)}</div>
+                </Comment.Metadata>}
 
-              <Comment.Text>
-                <div className="message-content">
-                  {text}
-                  {this.props.type === "group" && <ReadReceipt groupChannelId ={this.props.id} message={message} />}
-                  {<div className="message-time">{UtilityTime.getTime('2', message.get('insertedAt')*1000)}</div>}
-                </div>
-                {/* <ReadReceipt groupChannelId ={this.props.id} message={message} /> */}
-                {/* {customType==="action_link" && <FlightCard product={JSON.parse(metadata.product)} />} */}
-              </Comment.Text>
-              {/* <Comment.Actions>
-                <div>{"16:40"}</div>
-              </Comment.Actions> */}
-            </Comment.Content>
-          </Comment>
-        </Comment.Group>
-      )
+                <Comment.Text>
+                  <div className="message-content">
+                    {text}
+                    {this.props.type === "group" && <ReadReceipt groupChannelId ={this.props.id} message={message} />}
+                    {<div className="message-time">{UtilityTime.getTime('2', message.get('insertedAt')*1000)}</div>}
+                  </div>
+                  {/* <ReadReceipt groupChannelId ={this.props.id} message={message} /> */}
+                  {/* {customType==="action_link" && <FlightCard product={JSON.parse(metadata.product)} />} */}
+                </Comment.Text>
+                {/* <Comment.Actions>
+                  <div>{"16:40"}</div>
+                </Comment.Actions> */}
+              </Comment.Content>
+            </Comment>
+          </Comment.Group>
+        )
+      }
+      else if(message.get('type') === "announcement"){
+        messages.push(<div key={"window-message-" + message.get('id')} className="window-message cc-window-content-announcment">{message.get('text')}</div>)
+      }
     })
 
 

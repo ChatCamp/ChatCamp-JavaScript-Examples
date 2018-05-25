@@ -138,7 +138,6 @@ class Roster extends Component {
 
     if(this.props.type === "chatrooms" && this.props.openChannels.size > 0){
       this.props.openChannels.map((rosterItem) => {
-        // console.log("channels", rosterItem, rosterItem.getIn(['id']))
         roster.push(
           <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onChatRoomClick(rosterItem.getIn(['id']))}>
 
@@ -190,12 +189,15 @@ class Roster extends Component {
             avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} src = {other.avatarUrl} />}/>
           }
         }
-        let lastMessageText;
-        if(rosterItem.getIn(['lastMessage']).type === "text"){
+        let lastMessageText = "";
+        if(rosterItem.getIn(['lastMessage']) && rosterItem.getIn(['lastMessage']).type === "text"){
+          lastMessageText = rosterItem.getIn(['lastMessage']).user.displayName + ": " + rosterItem.getIn(['lastMessage']).text
+        }
+        else if(rosterItem.getIn(['lastMessage']) && rosterItem.getIn(['lastMessage']).type === "announcement"){
           lastMessageText = rosterItem.getIn(['lastMessage']).text
         }
-        else if(rosterItem.getIn(['lastMessage']).type === "attachment"){
-          lastMessageText = "attachment"
+        else if(rosterItem.getIn(['lastMessage']) && rosterItem.getIn(['lastMessage']).type === "attachment"){
+          lastMessageText = rosterItem.getIn(['lastMessage']).user.displayName + ": attachment"
         }
 
         roster.push(
@@ -217,7 +219,7 @@ class Roster extends Component {
             <List.Content style={inlineStyleHeight} verticalAlign='middle'>
               <List.Header className={"list-inbox-header"}>{groupChannelName}</List.Header>
               <List.Description className={"list-inbox-description"}>
-                {(rosterItem.getIn(['lastMessage'])? rosterItem.getIn(['lastMessage']).user.displayName + " : " + lastMessageText : "")}
+                {lastMessageText}
               </List.Description>
               {(rosterItem.getIn(['unreadMessageCount']) > 0) &&  <List.Description className={"list-inbox-unread"}>
                 {(rosterItem.getIn(['unreadMessageCount']))}

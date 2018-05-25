@@ -50,41 +50,30 @@ export const groupChannelsHide = (groupChannelsId) => dispatch => {
   })
 }
 export const openChannelsCreate = (openChannelsId) => dispatch => {
-  console.log("open channel join")
   client.OpenChannel.get(openChannelsId, function(error, openChannel) {
-    // groupChannel.stopTyping()
-    openChannel.join(function(error, message) {
-
+    openChannel.join(function(error) {
+      dispatch({
+        type: OPEN_CHANNELS_CREATE,
+        openChannelsId: openChannelsId
+      })
     })
   })
-  dispatch({
-    type: OPEN_CHANNELS_CREATE,
-    openChannelsId: openChannelsId
-  })
+
 }
 
 export const openChannelsOpen = (openChannelsId) => dispatch => {
-  console.log("open channel join 2")
-
   client.OpenChannel.get(openChannelsId, function(error, openChannel) {
-    // groupChannel.stopTyping()
-    openChannel.join(function(error, message) {
-
+    openChannel.join(function(error) {
+      dispatch({
+        type: OPEN_CHANNELS_OPEN,
+        openChannelsId: openChannelsId
+      })
     })
   })
-  dispatch({
-    type: OPEN_CHANNELS_OPEN,
-    openChannelsId: openChannelsId
-  })
+
 }
 
 export const openChannelsClose = (openChannelsId) => dispatch => {
-  client.OpenChannel.get(openChannelsId, function(error, openChannel) {
-    // groupChannel.stopTyping()
-    openChannel.leave(function(error, message) {
-
-    })
-  })
   dispatch({
     type: OPEN_CHANNELS_CLOSE,
     openChannelsId: openChannelsId
@@ -103,4 +92,16 @@ export const openChannelsHide = (openChannelsId) => dispatch => {
     type: OPEN_CHANNELS_HIDE,
     openChannelsId: openChannelsId
   })
+}
+
+export const openChannelsLeave = (openChannelsId) => dispatch => {
+  client.OpenChannel.get(openChannelsId, function(error, openChannel) {
+    openChannel.leave(function(error) {
+      dispatch({
+        type: OPEN_CHANNELS_CLOSE,
+        openChannelsId: openChannelsId
+      })
+    })
+  })
+
 }

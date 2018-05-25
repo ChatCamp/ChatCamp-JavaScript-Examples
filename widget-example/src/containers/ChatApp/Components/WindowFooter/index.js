@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
@@ -89,6 +90,10 @@ class WindowFooter extends Component {
     if(e.key === "Enter"){
       e.preventDefault();
       this.sendMessage()
+      // Scrolling to bottom if message is being sent
+      let node = ReactDOM.findDOMNode(this);
+      var contentNode = node.parentNode.getElementsByClassName("window-content")[0];
+      contentNode.scrollTop = contentNode.scrollHeight;
     }
   }
 
@@ -110,7 +115,6 @@ class WindowFooter extends Component {
           message: '',
           isFile: true
         })
-        this.props.actions.read(this.props.id)
       }
       else if(this.props.type === "open"){
         this.props.actions1.userMessage(this.props.id, message)
@@ -141,11 +145,6 @@ class WindowFooter extends Component {
     reader.readAsDataURL(file)
   }
 
-  handleFocus = () => {
-    if(this.props.type === "group"){
-      this.props.actions.read(this.props.id)
-    }
-  }
 
   handleUpdateEmoji(emoji, e) {
     //update emoji in text box
@@ -222,9 +221,7 @@ class WindowFooter extends Component {
       {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
       <Grid style={{margin: 0, height: "100%", minHeight: "48px"}}>
         <Grid.Column className="chatcamp-widget-emoji-main" style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
-
-          <Popover
-            isOpen={this.state.isEmojiOpen}
+          <Popup
             trigger={<Image className="chatcamp-widget-emoji" src={source_emoji} />}
             content={<Emoji
                       className="backgroundNone"
@@ -232,6 +229,10 @@ class WindowFooter extends Component {
                       showEmojiPanel={true}
                       clickMethod ={this.handleUpdateEmoji}
                     />}
+            on='click'
+            hoverable
+            size="large"
+            className="cc-popup-emoji"
           />
 
         </Grid.Column>
@@ -239,7 +240,6 @@ class WindowFooter extends Component {
         <Grid.Column verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} className="cc-window-footer-text-main">
 
           <Textarea
-            onMouseEnter={this.handleFocus}
             className="window-textarea borderNone"
             name ='message'
             minRows={1}

@@ -3,7 +3,8 @@ import {
   GROUP_CHANNELS_ATTACHMENT_RESET,
 	GROUP_CHANNELS_GET_SUCCESS,
   GROUP_CHANNELS_GET_HISTORY_SUCCESS,
-  GROUP_CHANNELS_OPEN
+  GROUP_CHANNELS_OPEN,
+  GROUP_CHANNELS_CLOSE
 } from 'state/action-types'
 
 import client from 'Client'
@@ -122,6 +123,21 @@ export const addParticipants = (group) => dispatch => {
             groupChannel: groupChannel
           });
         });
+      }
+    })
+  })
+}
+
+export const leaveParticipant = (group) => dispatch => {
+  client.GroupChannel.get(group.id, function(error, groupChannel) {
+    groupChannel.leave( function(error) {
+      console.log("errors leave",error)
+      if(!error) {
+        console.log("not errors leave",error)
+        dispatch({
+          type: GROUP_CHANNELS_CLOSE,
+          groupChannelsId: group.id
+        })
       }
     })
   })

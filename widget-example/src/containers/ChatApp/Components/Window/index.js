@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/smartChat/actions'
+import * as groupChannelsactions from 'state/groupChannels/actions'
 import { Segment } from 'semantic-ui-react'
 import WindowHeader from 'containers/ChatApp/Components/WindowHeader'
 import WindowContent from 'containers/ChatApp/Components/WindowContent'
@@ -12,6 +14,17 @@ class Window extends Component {
 
   state = {
     fileRef: null
+  }
+
+  handleFocus = () => {
+    if(this.props.type === "group"){
+      let node = ReactDOM.findDOMNode(this);
+      let contentNode = node.getElementsByClassName("window-content")[0]
+      // send read if scroll is at bottom
+      if(contentNode.scrollTop + contentNode.clientHeight === contentNode.scrollHeight){
+        this.props.groupChannelsactions.read(this.props.id)
+      }
+    }
   }
 
   render () {
@@ -53,7 +66,7 @@ class Window extends Component {
 
     }
     return (
-      <div style={{right: popupRightAdjustment}} className={mainClass}>{frameContent}</div>
+      <div onMouseEnter={this.handleFocus} style={{right: popupRightAdjustment}} className={mainClass}>{frameContent}</div>
     )
   }
 
@@ -65,7 +78,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch) //binds all the actions with dispatcher and returns them
+    actions: bindActionCreators(actions, dispatch),
+    groupChannelsactions: bindActionCreators(groupChannelsactions, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

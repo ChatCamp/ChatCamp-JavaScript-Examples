@@ -15,6 +15,7 @@ import {
   GROUP_CHANNELS_LIST_SUCCESS,
   GROUP_CHANNELS_MY_LIST_SUCCESS,
   OPEN_CHANNELS_LIST_SUCCESS,
+  GROUP_CHANNELS_LEAVE_SUCCESS,
   OPEN_CHANNELS_OPEN,
   OPEN_CHANNELS_MINIMIZE,
   OPEN_CHANNELS_CREATE,
@@ -175,6 +176,32 @@ export const iFlyMiddleWare = store => {
             groupChannel: groupChannel,
             message: message
           });
+          store.dispatch({
+            type: GROUP_CHANNELS_GET_SUCCESS,
+            groupChannel: groupChannel
+          });
+        }
+
+        channelListener.onGroupChannelParticipantJoined = function(groupChannel, user) {
+          console.log("groupchannel joined", groupChannel, user)
+          store.dispatch({
+            type: GROUP_CHANNELS_GET_SUCCESS,
+            groupChannel: groupChannel
+          });
+        }
+
+        channelListener.onGroupChannelParticipantLeft = function(groupChannel, user) {
+          console.log("groupchannel left", groupChannel, user)
+          if(user.id === userId){
+            store.dispatch({
+              type: GROUP_CHANNELS_LEAVE_SUCCESS,
+              groupChannel: groupChannel
+            });
+          }
+          store.dispatch({
+            type: GROUP_CHANNELS_GET_SUCCESS,
+            groupChannel: groupChannel
+          });
         }
 
         channelListener.onOpenChannelMessageReceived = function(openChannel, message) {
@@ -182,6 +209,22 @@ export const iFlyMiddleWare = store => {
             type: OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
             openChannel: openChannel,
             message: message
+          });
+        }
+
+        channelListener.onOpenChannelParticipantJoined = function(openChannel, user) {
+          console.log("openchannel joined", openChannel, user)
+          store.dispatch({
+            type: OPEN_CHANNELS_GET_SUCCESS,
+            openChannel: openChannel
+          });
+        }
+
+        channelListener.onOpenChannelParticipantLeft = function(openChannel, user) {
+          console.log("openchannel left", openChannel, user)
+          store.dispatch({
+            type: OPEN_CHANNELS_GET_SUCCESS,
+            openChannel: openChannel
           });
         }
 
@@ -207,7 +250,7 @@ export const iFlyMiddleWare = store => {
           var groupChannelListQuery = client.GroupChannel.createGroupChannelListQuery();
           groupChannelListQuery.get(function(error, groupChannelList){
   	         if(error == null){
-    	          console.log("My Group Channels List Retreived", groupChannelList)
+    	          // console.log("My Group Channels List Retreived", groupChannelList)
                 store.dispatch({
                   type: GROUP_CHANNELS_LIST_SUCCESS,
                   groupChannels: groupChannelList
@@ -225,7 +268,7 @@ export const iFlyMiddleWare = store => {
                 // }
               }
           })
-          // setTimeout(function() { pollGroupChannelList() }, 30*1000)
+          //setTimeout(function() { pollGroupChannelList() }, 30*1000)
         }
 
         pollGroupChannelList()
@@ -245,7 +288,6 @@ export const iFlyMiddleWare = store => {
           var userListQuery = client.createUserListQuery();
           userListQuery.load(function(error, userList){
   	         if(error == null){
-    	          console.log("My user List Retreived", userList)
                 store.dispatch({
                   type: USER_LIST_SUCCESS,
                   userList: userList
@@ -310,14 +352,17 @@ export const iFlyMiddleWare = store => {
         }
 
         if(isCurrentUserParticipant && isCurrentUserAcceptedParticipant) {
-          let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
-          previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
-            store.dispatch({
-              type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
-              groupChannel: groupChannel,
-              messages: messages
-            });
-          })
+          let messages = store.getState().groupChannels.getIn([groupChannel.id, "messages"])
+          if(!messages){
+            let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
+            previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
+              store.dispatch({
+                type: GROUP_CHANNELS_GET_HISTORY_SUCCESS,
+                groupChannel: groupChannel,
+                messages: messages
+              });
+            })
+          }
 
           setInterval(function(){
             groupChannel.sync(function(error,groupChannel){
@@ -363,6 +408,8 @@ export const iFlyMiddleWare = store => {
         client.OpenChannel.get(openChannelId, function(error, openChannel) {
           // groupChannel.stopTyping()
           openChannel.join(function(error, message) {
+            let messages = store.getState().openChannels.getIn([openChannel.id, "messages"])
+            if(!messages){
             let previousMessageListQuery = openChannel.createPreviousMessageListQuery();
             previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
               store.dispatch({
@@ -371,6 +418,7 @@ export const iFlyMiddleWare = store => {
                 messages: messages
               });
             })
+          }
           })
         })
         store.dispatch({
