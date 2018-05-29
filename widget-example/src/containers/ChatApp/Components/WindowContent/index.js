@@ -32,6 +32,8 @@ import MessageActionCard from '../MessageActionCard'
 
 class WindowContent extends Component {
 
+  updateNodeInfo = true
+
   state = {
     cacheMessages : {},
     isLoading: false,
@@ -99,9 +101,12 @@ class WindowContent extends Component {
   // }
 
   componentWillUpdate() {
-    let node = ReactDOM.findDOMNode(this);
-    this.scrollHeight = node.scrollHeight;
-    this.scrollTop = node.scrollTop;
+    if(this.updateNodeInfo) {
+      let node = ReactDOM.findDOMNode(this);
+      this.scrollHeight = node.scrollHeight;
+      this.scrollTop = node.scrollTop;
+    }
+    this.updateNodeInfo = true
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -217,7 +222,11 @@ class WindowContent extends Component {
         // if(!message.getIn(['attachment', 'url'], false)) {
           text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
           if(attachment.get('type').substring(0,5) === "image") {
-            text = <Image className="message-bubble" src={attachment.get('url')} />
+            text = <Image
+               className="message-bubble" src={attachment.get('url')} onLoad={(e) => {
+                  this.updateNodeInfo = false
+                  this.forceUpdate()
+                }} />
             let modal = <Modal trigger={text} closeIcon>
               <Modal.Header>Photo</Modal.Header>
               <Modal.Content>
