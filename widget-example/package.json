@@ -44,8 +44,8 @@
     "why-did-you-update": "0.0.8"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "build-css": "node-sass-chokidar ./src/containers/ChatApp/style.scss --include-path ./node_modules -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar ./src/containers/ChatApp/style.scss --include-path ./node_modules -o src/ --watch --recursive",
     "start-js": "cross-env NODE_PATH=src && react-scripts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "cross-env NODE_PATH=src && npm run build-css && react-scripts build",
