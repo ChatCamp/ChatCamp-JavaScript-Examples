@@ -119,9 +119,13 @@ class WindowContent extends Component {
 
   componentDidMount() {
     // this.cacheMessages = []
+    this.updateNodeInfo = true
+
     let node = ReactDOM.findDOMNode(this);
     if(node) {
-      node.scrollTop = node.scrollHeight;
+      node.scrollTop = node.scrollHeight
+      this.scrollHeight = node.scrollHeight
+      this.scrollTop = node.scrollTop
     }
 
     // let t = this
