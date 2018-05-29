@@ -31,6 +31,9 @@ box-sizing: border-box;
   margin-top: 2px;
 }
 .cc-list-header-actions{
+  *{
+    cursor: pointer;
+  }
   width: 22px;
   float: right;
   cursor: pointer;

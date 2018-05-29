@@ -5,6 +5,8 @@ import * as actions from 'state/groupChannelsState/actions'
 import * as actions1 from 'state/groupChannels/actions'
 import * as smartChatActions from 'state/smartChat/actions'
 import { Image } from 'semantic-ui-react'
+import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
+import {ICONS} from 'constants/icons'
 
 class WelcomeBubble extends Component {
 
@@ -16,7 +18,7 @@ class WelcomeBubble extends Component {
 
   render () {
     let sourceURL = "http://localhost:3000/"
-    let source =  sourceURL + "icons8-sms-100.png"
+    let source =  <ChatCampIcon icon={ICONS.CHAT} height="40px" width="40px" viewBox="0 0 60 60"/>
     let source_close = sourceURL + "icons8-delete-100.png"
 
 
@@ -29,7 +31,8 @@ class WelcomeBubble extends Component {
           <Image className="chatcamp-wb-right-icon" src={source_close}/>
         </div> */}
         <div className="chatcamp-wb-right">
-          <Image className="chatcamp-wb-right-image" src={source}/>
+          {/* <Image className="chatcamp-wb-right-image" src={source}/> */}
+          <div className="chatcamp-wb-right-image">{source}</div>
         </div>
       </div>
     )
