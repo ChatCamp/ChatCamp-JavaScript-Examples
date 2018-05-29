@@ -1,3 +1,15 @@
+.list-inbox .image div, .list-chatroom .image div, .list-users .image div{
+  display: block;
+}
+.list-inbox *, .list-chatroom *, .list-users *{
+  cursor: pointer;
+}
+.list-users>div>div{
+  display: block;
+}
+.list-users .header, .list-chatroom .header{
+  color: rgba($secondary-text, 0.87)!important;
+}
 .list-inbox-description{
   margin-left: 0;
   font-size: 12px;
@@ -12,9 +24,11 @@
   word-wrap: break-word;
   white-space: pre;
   text-overflow: ellipsis;
+  color: rgba($secondary-text, 0.70)!important;
 }
 .list-inbox-header{
   font-size: 14px;
+  color: rgba($secondary-text, 0.87)!important;
   -webkit-font-smoothing: antialiased;
 }
 .list-item-selected{
@@ -23,6 +37,7 @@
 .list-item-time{
   font-size: 12px;
   -webkit-font-smoothing: antialiased;
+  color: rgba($secondary-text, 0.48)!important;
 }
 .list-inbox-unread{
   font-size: 11px;
@@ -41,11 +56,13 @@
   line-height: 16px;
 }
 .cc-user-list-name{
+  display: block;
   -webkit-font-smoothing: antialiased;
   padding-top: 0.65em!important;
   line-height: 36px!important;
 }
 .cc-chatroom-list-name{
+  display: block;
   -webkit-font-smoothing: antialiased;
   padding-top: 0.65em!important;
   line-height: 36px!important;
@@ -54,6 +71,22 @@
   width: 18px;
   top: -15px;
   left: 20px;
+}
+.chatcamp-list-roster-horizontal{
+  .secondary.menu{
+    background-color: $secondary-background!important;
+    border-color: rgba($secondary-text, 0.15)!important;
+    .active{
+      border-color: rgba($secondary-text, 0.45)!important;
+    }
+    * {
+      color: $secondary-text!important;
+    }
+
+  }
+  .chatcamp-list-roster-horizontal-item{
+    background-color: $secondary-background!important;
+  }
 }
 .cc-app-mobile{
   .chatcamp-list-roster-horizontal{

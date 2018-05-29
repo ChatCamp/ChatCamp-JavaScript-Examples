@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Avatar from 'react-avatar';
 import { Image } from 'semantic-ui-react'
-
 class AvatarWrapper extends Component {
 
   render () {
+
     let avatar;
     let size;
     if(this.props.size){

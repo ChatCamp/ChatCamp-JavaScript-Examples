@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import UnicodeToImg from '../../../../utility/UnicodeToImg'
-import './style.css'
 import {Picker} from "emoji-mart";
 
 class Emoji extends Component {

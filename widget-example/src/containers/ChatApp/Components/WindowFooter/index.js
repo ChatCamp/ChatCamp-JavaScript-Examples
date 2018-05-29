@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
 import * as actions1 from 'state/openChannels/actions'
 import { Segment, Grid, Icon, Progress, Popup, Image } from 'semantic-ui-react'
-import './style.css'
 import Emoji from '../Emoji'
 import UnicodeToImg from 'utility/UnicodeToImg'
 import Popover from '../Popover'
@@ -14,6 +13,8 @@ import MessageAction from '../MessageAction'
 import CannedResponse from '../CannedResponse'
 import Utility from 'utility/Utility';
 import DetectBrowser from 'utility/DetectBrowser';
+import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
+import {ICONS} from 'constants/icons'
 
 class WindowFooter extends Component {
   state = {
@@ -211,9 +212,9 @@ class WindowFooter extends Component {
     let {groupChannels, id} = this.props
     let percent = groupChannels.getIn([id, 'attachmentProgress'], 0)
     let sourceURL = process.env.PUBLIC_URL + "/"
-    let source =  sourceURL + "icons8-attach-60.png"
-    let source_send = sourceURL + "icons8-sent-60.png"
-    let source_emoji = sourceURL + "icons8-happy-100.png"
+    let source =  <ChatCampIcon icon={ICONS.ATTACH} height="23px" width="23px" viewBox="0 0 32 32"/>
+    let source_send = <ChatCampIcon icon={ICONS.SEND} height="24px" width="24px" viewBox="0 0 32 32"/>
+    let source_emoji = <ChatCampIcon icon={ICONS.SMILEY} height="20px" width="20px" viewBox="0 0 50 50"/>
 
     return (
     <Segment className="window-footer" compact={true} size={"mini"} style={{paddingBottom: "0", paddingTop: "0"}}>
@@ -222,7 +223,8 @@ class WindowFooter extends Component {
       <Grid style={{margin: 0, height: "100%", minHeight: "48px"}}>
         <Grid.Column className="chatcamp-widget-emoji-main" style={{paddingLeft:"3px"}} verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Image className="chatcamp-widget-emoji" src={source_emoji} />}
+
+            trigger={<div className="chatcamp-widget-emoji">{source_emoji}</div>}
             content={<Emoji
                       className="backgroundNone"
                       key="ifc-chat-window-panel"
@@ -261,7 +263,7 @@ class WindowFooter extends Component {
         {/* Attach File */}
         {isFile && <Grid.Column className="chatcamp-widget-attach-main" verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Image className="chatcamp-widget-attach" src={source} onClick={() => {this.sendAttachmentClick()}}/>}
+            trigger={<div onClick={() => {this.sendAttachmentClick()}} className= "chatcamp-widget-attach">{source}</div>}
             content='Attach a File'
             inverted
           />
@@ -280,8 +282,7 @@ class WindowFooter extends Component {
         {/* Send Message Button */}
         {!isFile && <Grid.Column className="chatcamp-widget-send-main" verticalAlign="middle" width={1}>
           <Popup
-            // trigger={<Icon name='send outline' color={"purple"} size='large' onClick={() => {this.sendMessageClick()}}/>}
-            trigger={<Image className="chatcamp-widget-send" src={source_send} onClick={() => {this.sendMessageClick()}}/>}
+            trigger={<div onClick={() => {this.sendMessageClick()}} className= "chatcamp-widget-send">{source_send}</div>}
             content='Send Message'
             inverted
           />

@@ -8,7 +8,6 @@ import { Segment } from 'semantic-ui-react'
 import WindowHeader from 'containers/ChatApp/Components/WindowHeader'
 import WindowContent from 'containers/ChatApp/Components/WindowContent'
 import WindowFooter from 'containers/ChatApp/Components/WindowFooter'
-import './style.css'
 
 class Window extends Component {
 
@@ -17,7 +16,7 @@ class Window extends Component {
   }
 
   handleFocus = () => {
-    if(this.props.type === "group"){
+    if(this.props.type === "group" && this.props.groupChannelsState.getIn([this.props.id, "state"]) === "OPEN"){
       let node = ReactDOM.findDOMNode(this);
       let contentNode = node.getElementsByClassName("window-content")[0]
       // send read if scroll is at bottom

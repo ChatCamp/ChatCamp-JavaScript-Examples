@@ -4,7 +4,7 @@
   background: white;
 }
 .cc-left-panel-inbox{
-  // background: #3f46ad;
+  // background: $primary-backgroud;
 }
 .cc-smart-chat-panel{
   width: 350px;
@@ -21,12 +21,15 @@
 .chatcamp-list-roster-horizontal{
   height: calc(100% - 47px);
   overflow: auto;
-  background: white;
+  display: block;
+  background-color: $secondary-background!important;
   .menu{
     width: 100%!important;
     margin-bottom: 0!important;
     a.item{
       width: 33.3%!important;
+      box-sizing: border-box;
+      font-size: 13.6px;
     }
   }
 }
@@ -35,6 +38,7 @@
   margin-right: 0!important;
   margin-left: 0!important;
   width: 100%!important;
+  box-sizing: border-box;
 }
 
 .cc-app-mobile{

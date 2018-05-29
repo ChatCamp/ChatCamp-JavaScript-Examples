@@ -53,7 +53,7 @@ export function openChannels (state = initialState, action) {
 
       let channelMap = channels;
       let oldChannels = state
-      return channelMap.merge(oldChannels)
+      return oldChannels.merge(channelMap)
     case OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS:
       let mO = {};
       mO[action.message.id] = {

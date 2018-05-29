@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/userList/actions'
 import * as groupChannelsListactions from 'state/groupChannelsList/actions'
+import * as openChannelsactions from 'state/openChannels/actions'
 import { Accordion, Tab } from 'semantic-ui-react'
 import Roster from 'containers/ChatApp/Components/Roster'
 import ListHeader from 'containers/ChatApp/Components/ListHeader'
@@ -18,18 +19,33 @@ class LeftPanel extends Component {
   }
 
   checkLoadMore = (e) => {
-    if(this.state.activeIndex === 2){
-      let node = ReactDOM.findDOMNode(this.handleContextRef);
-      if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+    let node = ReactDOM.findDOMNode(this.handleContextRef);
+    if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+      if(this.state.activeIndex === 2){
         this.props.actions.getUserList(5, this.props.userList.last().get("id"))
       }
-    }
-    else if(this.state.activeIndex === 0){
-      let node = ReactDOM.findDOMNode(this.handleContextRef);
-      if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+      else if(this.state.activeIndex === 0){
         this.props.groupChannelsListactions.getList( this.props.groupChannelsList.last())
       }
+      else if(this.state.activeIndex === 1){
+        console.log("OC last", this.props.openChannels.last().get("id"))
+        this.props.openChannelsactions.getList( this.props.openChannels.last().get("id"))
+      }
     }
+
+
+    // if(this.state.activeIndex === 2){
+    //   let node = ReactDOM.findDOMNode(this.handleContextRef);
+    //   if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+    //     this.props.actions.getUserList(5, this.props.userList.last().get("id"))
+    //   }
+    // }
+    // else if(this.state.activeIndex === 0){
+    //   let node = ReactDOM.findDOMNode(this.handleContextRef);
+    //   if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
+    //     this.props.groupChannelsListactions.getList( this.props.groupChannelsList.last())
+    //   }
+    // }
     return false
   }
 
@@ -58,7 +74,7 @@ class LeftPanel extends Component {
    return(
      <div className="chatcamp-left-panel cc-smart-chat-panel">
 
-       <ListHeader />
+       <ListHeader/>
         <Tab ref={node => this.handleContextRef = node} onScroll={this.checkLoadMore.bind(this)} onTabChange={this.handleTabChange} panes={panes} className="chatcamp-list-roster-horizontal" menu={{ secondary: true, pointing: true }} />
          {/* <Accordion className="chatcamp-list-roster cc-left-panel-inbox" defaultActiveIndex={[0,1,2]} panels={panels} exclusive={false} fluid /> */}
 
@@ -75,7 +91,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(actions, dispatch),
-    groupChannelsListactions: bindActionCreators(groupChannelsListactions, dispatch) //binds all the actions with dispatcher and returns them
+    groupChannelsListactions: bindActionCreators(groupChannelsListactions, dispatch),
+    openChannelsactions: bindActionCreators(openChannelsactions, dispatch) //binds all the actions with dispatcher and returns them
   }
 }
 

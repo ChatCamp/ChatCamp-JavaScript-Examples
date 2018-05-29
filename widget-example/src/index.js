@@ -11,7 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 // import actions from 'actions/chat'
 import client from 'Client'
 // import IFlyProvider from 'providers/iFlyProvider';
-
+import './style.css'
 // import ChatAppInit from 'utility/ChatAppInit'
 import Utility from 'utility/Utility'
 // import iFlyChatChatSdk from 'modules/iflychat-chat-sdk'

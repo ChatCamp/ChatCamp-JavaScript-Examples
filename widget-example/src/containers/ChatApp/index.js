@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 // import iFlyChatChatSdk from 'modules/iflychat-chat-sdk'
 
 import SmartChat from './Components/SmartChat'
-import './style.css'
+
 
 // import ChatListLauncher from './ChatList/ChatListLauncher'
 // import ChatListView from './ChatList/ChatListView'

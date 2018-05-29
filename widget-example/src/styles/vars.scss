@@ -1,8 +1,30 @@
-// File with all scss variables. Import it in your .scss file as "styles/vars.scss"
-@import './mixins.scss';
+//APP
+$app-name: cc;
 // UI
-$sidebar-size: 150px;
-// COLORS
-$white: #fff;
-$background: #f3f3f3;
-$grey: #dbe2e8;
+
+// // COLORS
+// Light Theme
+$primary-backgroud: #3f45ad;
+$primary-text: #ffffff;
+$secondary-background: #ffffff;
+$secondary-text: #000000;
+$tertiary-background: #f4f7f9;
+$tertiary-text: #263238;
+
+// Dark Theme - Uncomment following lines for dark theme
+// $primary-backgroud: #222222;
+// $primary-text: #ffffff;
+// $secondary-background: #595959;
+// $secondary-text: #ffffff;
+// $tertiary-background: #f4f7f9;
+// $tertiary-text: #263238;
+
+
+
+
+
+
+
+// :export {
+//   tertiaryText: $tertiary-text;
+// }

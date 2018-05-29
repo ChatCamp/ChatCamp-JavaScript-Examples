@@ -1,12 +1,14 @@
 .cc-list-header{
-background-color: #3f46ad!important;
+background-color: $primary-backgroud!important;
 width: 100%;
 text-align: center;
 border-radius: 0!important;
-border-right: 2px solid #fff!important;
+border-right: 2px solid $primary-text!important;
+display: block;
+box-sizing: border-box;
   .cc-list-header-text{
     font-size: 15px;
-    color: #fff;
+    color: $primary-text;
     display: inline-block;
     margin-left: 9px!important;
     font-weight: normal;
@@ -17,30 +19,31 @@ border-right: 2px solid #fff!important;
   margin-bottom: 0!important;
   margin-top: 0!important;
   padding: 12px 13px!important;
-  border: 1px solid #3f46ad!important;
+  border: 1px solid $primary-backgroud!important;
   border-radius: 7px 7px 0 0!important;
 }
 .cc-list-header-image{
   display: inline-block!important;
-  width: 17px!important;
+  width: 2px!important;
   float: left;
   margin-left: 9px;
   cursor: pointer;
   margin-top: 2px;
 }
 .cc-list-header-actions{
-  width: 30px;
+  width: 22px;
   float: right;
   cursor: pointer;
-  padding-top: 2.5px!important;
-  height: 16px;
+  height: 24px;
   .cc-list-header-close{
-    width: 16px;
+    width: 22px;
+    height: 24px;
+    cursor: pointer;
   }
 }
 .cc-create-group-modal{
   button.primary{
-    background-color: #3f46ad!important;
+    background-color: $primary-backgroud!important;
   }
   .buttons{
     float: right!important;

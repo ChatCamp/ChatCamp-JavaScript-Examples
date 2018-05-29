@@ -5,6 +5,8 @@ import { bindActionCreators } from 'redux'
 import * as actions from 'state/smartChat/actions'
 import * as actionsUserList from 'state/userList/actions'
 import * as actionsGroupChannels from 'state/groupChannels/actions'
+import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
+import {ICONS} from 'constants/icons'
 
 import { Image, Segment, Popup, Modal, Input, Form, Label, Dropdown, Button, Message } from 'semantic-ui-react'
 class ListHeader extends Component {
@@ -80,9 +82,8 @@ class ListHeader extends Component {
 
   render () {
     let sourceURL = process.env.PUBLIC_URL + "/"
-    // let source =  sourceURL + "icons8-sms-100.png"
-    let source =  sourceURL + "icons8-edit-90.png"
-    let source_close =  sourceURL + "icons8-delete-64.png"
+    let source =  <ChatCampIcon icon={ICONS.CREATE} height="20px" width="20px" viewBox="0 0 35 35"/>
+    let source_close =  <ChatCampIcon icon={ICONS.CLOSE} height="24px" width="24px" viewBox="0 0 50 50"/>
     let options = []
     let {groupName, groupParticipants, modalOpen, showGroupParticipantsError, showGroupNameError} = this.state
     let nameError = <Message error size={"tiny"}
@@ -103,7 +104,8 @@ class ListHeader extends Component {
      <Segment className="cc-list-header cc-widget">
        <Modal className="cc-create-group-modal" open={modalOpen} size="tiny"
          trigger={<Popup className="headerSettings"
-                         trigger={<Image className="cc-list-header-image" size="tiny" src={source} onClick={this.buttonClick.bind()}/>}
+                         // trigger={<Image className="cc-list-header-image" size="tiny" src={source} onClick={this.buttonClick.bind()}/>}
+                         trigger={<div onClick={() => {this.buttonClick.bind()}} className= "cc-list-header-image">{source}</div>}
                          hideOnScroll
                          position='bottom left'
                          on='hover' inverted>
@@ -146,7 +148,7 @@ class ListHeader extends Component {
         <div className="cc-list-header-text">My Chats</div>
         { this.ifPopUp() && <div className={"cc-list-header-actions"}>
           <Popup className="headerSettings"
-            trigger={<Image onClick={() => {this.closeSmartChat()}} className= "cc-list-header-close" src={source_close} />}
+            trigger={<div onClick={() => {this.closeSmartChat()}} className= "cc-lisr-header-close">{source_close}</div>}
             hideOnScroll
             position='bottom right'
             on='hover' inverted>

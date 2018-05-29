@@ -1,41 +1,56 @@
+.window-header{
+  display: block;
+  box-sizing: border-box;
+}
 .cc-chat-window-header {
   background-color: #222;
   .cc-window-header-status-main{
     padding:0!important;
-    margin: 3px 10px 3px 8px!important;
+    margin: 0px 10px 0px 8px!important;
   }
   .ui.header{
-    color: #FFF;
+    color: $primary-text;
     cursor: pointer;
     .sub.header {
-      color: #FFF;
+      color: $primary-text;
       cursor: pointer;
     }
   }
 }
+
 .header-actions {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin-left: 0.1rem!important;
-  margin-right: 0.2rem!important;
+  margin-left: 0.15rem!important;
+  margin-right: 0.15rem!important;
+  display: block;
+  height: 22px;
+  text-align: center;
+  line-height: 24px;
   i.icon {
-    color: #FFF;
+    color: $primary-text;
     cursor: pointer;
     opacity: 0.9;
     margin-bottom: 2px!important;
     font-size: 1.3em!important;
+    margin-right: 0!important;
     &:hover{
       opacity: 1;
     }
   }
+}
+.header-actions-last {
+  padding-right: 7px!important;
 }
 
 .header-count{
   opacity: 0.6;
   font-size: 14px;
   font-style: normal;
+  cursor: pointer;
   i.user{
-    margin-right: 0 !important
+    margin-right: 0 !important;
+    cursor: pointer;
   }
 }
 
@@ -57,29 +72,44 @@
   cursor: pointer
 }
 #ifc-app .row.cc-chat-window-header {
-  background-color: #3f46ad!important;
+  background-color: $primary-backgroud!important;
   border-radius: 7px 7px 0 0;
+  box-sizing: border-box;
 }
 .cc-window-header-status{
   width: 16px;
+  box-sizing: border-box;
 }
 .cc-window-header-minus{
-  width: 16px;
   cursor: pointer;
+  display: block;
+  float: left;
+  height: 24px;
+  width: 22px;
 }
 .cc-window-header-max{
-  width: 18px;
+  display: block;
+  float: left;
+  height: 24px;
+  width: 22px;
   cursor: pointer;
+  padding-top: 2px;
 }
 .cc-window-header-close{
-  width: 16px;
   cursor: pointer;
+  display: block;
+  float: left;
+  height: 24px;
+  width: 22px;
 }
 .cc-window-header-hash{
-  width: 16px;
+  width: 22px;
+  height:22px;
+  display: block;
 }
 .cc-window-header-name{
   padding-left: 0!important;
+  box-sizing: border-box;
   .header{
     -webkit-font-smoothing :  antialiased;
   }
@@ -95,13 +125,16 @@
     font-size: 28px;
   }
   .header-actions {
+    box-sizing: border-box;
     i.icon {
       font-size: 1.8em!important;
+
     }
   }
   .cc-window-header-close{
     width: 24px;
     margin-left: 1em;
+
   }
   .cc-window-header-status{
     width: 24px;

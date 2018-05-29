@@ -1,3 +1,7 @@
+@import "src/styles/vars.scss";
+@import "./reset.scss";
+
+.#{$app-name}-root{
 @import './Components/WindowHeader/style.scss';
 @import './Components/WindowFooter/style.scss';
 @import './Components/Window/style.scss';
@@ -9,7 +13,14 @@
 @import './Components/ListHeader/style.scss';
 @import './Components/Roster/style.scss';
 @import './Components/AvatarWrapper/style.scss';
+@import './Components/ChatCampIcon/style.scss';
 @import 'loaders.css/src/animations/ball-beat.scss';
+
+
+
+// .#{$app-name}{
+
+// }
 
 .loader-hidden {
   display: none;
@@ -102,6 +113,7 @@
     // -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.10), inset 0 -1px 0 rgba(0, 0, 0, 0.07);
     background: rgba(0,0,0,0.20);
     border-radius: 7px;
+}
 }
 // .ifc-chat-window *::-webkit-scrollbar-button {
 //     width: 0;

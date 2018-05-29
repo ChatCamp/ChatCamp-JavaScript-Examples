@@ -6,9 +6,10 @@ import * as actions from 'state/groupChannelsState/actions'
 import * as actionsGroupChannels from 'state/groupChannels/actions'
 import * as actionsUserList from 'state/userList/actions'
 import { Icon, Header, Segment, Grid, Popup, Image, Modal, Form, Label, Dropdown, Button, Message} from 'semantic-ui-react'
-import './style.css'
 import Utility from 'utility/Utility';
 import GroupParticipantsList from 'containers/ChatApp/Components/GroupParticipantsList'
+import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
+import {ICONS} from 'constants/icons'
 
 
 class WindowHeader extends Component {
@@ -218,12 +219,16 @@ class WindowHeader extends Component {
     let sourceURL = process.env.PUBLIC_URL + "/"
     let source_online =  sourceURL + "icons8-connection-status-on-96.png"
     let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
-    let source_close =  sourceURL + "icons8-delete-64.png"
-    let source_minus =  sourceURL + "icons8-minus-48-white.png"
-    let source_max =  sourceURL + "icons8-chevron-up-52-white.png"
-    let source_hash =  sourceURL + "icons8-hashtag-50.png"
+    // let source_close =  sourceURL + "icons8-delete-64.png"
+    let source_close =  <ChatCampIcon icon={ICONS.CLOSE} height="24px" width="24px" viewBox="0 0 50 50"/>
+    let source_minus =  <ChatCampIcon icon={ICONS.MINIMIZE} height="24px" width="19px" viewBox="0 0 22 24"/>
+    // let source_max =  sourceURL + "icons8-chevron-up-52-white.png"
+    let source_max =  <ChatCampIcon icon={ICONS.MAXIMIZE} height="19px" width="19px" viewBox="0 0 24 24"/>
+    // let source_hash =  sourceURL + "icons8-hashtag-50.png"
+    let source_hash =  <ChatCampIcon icon={ICONS.HASHTAG} height="23px" width="23px" viewBox="0 0 50 50"/>
 
-    let status = <Image className= "cc-window-header-hash" src={source_hash} />
+    // let status = <Image className= "cc-window-header-hash" src={source_hash} />
+    let status = <div className= "cc-window-header-hash" >{source_hash}</div>
     let groupChannelName
     if(this.props.type === "open"){
       groupChannelName = this.props.openChannels.getIn([this.props.id, 'name'], "Name")
@@ -293,7 +298,7 @@ class WindowHeader extends Component {
 
             { !Utility.mobileCheck() && this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
               <Popup className="headerSettings"
-                    trigger={<Image onClick={() => {this.minimizeChannel()}} className= "cc-window-header-minus" src={source_minus} />}
+                    trigger={<div onClick={() => {this.minimizeChannel()}} className= "cc-window-header-minus">{source_minus}</div>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
@@ -305,7 +310,7 @@ class WindowHeader extends Component {
 
             { this.ifPopUp() && (this.ifPopUpMinimize()) && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
                   <Popup className="headerSettings"
-                    trigger={<Image onClick={() => {this.openChannel()}} className= "cc-window-header-max" src={source_max} />}
+                    trigger={<div onClick={() => {this.openChannel()}} className= "cc-window-header-max">{source_max}</div>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>
@@ -352,10 +357,10 @@ class WindowHeader extends Component {
                    </Modal>
             </Grid.Column>
 
-            { this.ifPopUp() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={Utility.mobileCheck()? 2:1}>
+            { this.ifPopUp() && <Grid.Column className={"header-actions header-actions-last"} verticalAlign="middle" floated="right" width={Utility.mobileCheck()? 2:1}>
 
                   <Popup className="headerSettings"
-                    trigger={<Image onClick={() => {this.closeChannel()}} className= "cc-window-header-close" src={source_close} />}
+                    trigger={<div onClick={() => {this.closeChannel()}} className= "cc-window-header-close">{source_close}</div>}
                     hideOnScroll
                     position='bottom right'
                     on='hover' inverted>

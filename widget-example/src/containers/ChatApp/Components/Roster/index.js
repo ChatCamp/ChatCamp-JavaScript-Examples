@@ -111,13 +111,7 @@ class Roster extends Component {
             onlineStatus = <Image className= "cc-user-list-status" src={source_offline} />
           }
           roster.push(
-            <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onUserClick(rosterItem.getIn(['id']))}>
-
-              {/* <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-                <Icon name='ellipsis vertical' />
-              </List.Content> */}
-
-              {/* <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.userName} />} /> */}
+            <List.Item className={"list-users"} key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onUserClick(rosterItem.getIn(['id']))}>
               <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
                 {<Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} src={rosterItem.getIn(['avatarUrl'])} />}/>}
                 {/* {rosterItem.getIn(['avatarUrl']) && <Image src={rosterItem.getIn(["avatarUrl"])} />} */}
@@ -139,16 +133,9 @@ class Roster extends Component {
     if(this.props.type === "chatrooms" && this.props.openChannels.size > 0){
       this.props.openChannels.map((rosterItem) => {
         roster.push(
-          <List.Item key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onChatRoomClick(rosterItem.getIn(['id']))}>
-
-            {/* <List.Content style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-              <Icon name='ellipsis vertical' />
-            </List.Content> */}
-
+          <List.Item className={"list-chatroom"} key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onChatRoomClick(rosterItem.getIn(['id']))}>
             <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
-              <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={"#"} />}/>
-              {/* <Icon name="circle"/> */}
-              {/* <Label style={inlineStyleHeightStatus} circular floating color={"red"} empty /> */}
+              {<Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={"#"} src={rosterItem.getIn(['avatarUrl'])} />}/>}
             </List.Content>
 
             <List.Content className="cc-chatroom-list-name" verticalAlign='middle'>
@@ -181,12 +168,12 @@ class Roster extends Component {
         let avatar
         if(rosterItem){
           groupChannelName = rosterItem.getIn(['name'])
-          avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} />}/>
+          avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={groupChannelName} src = {rosterItem.getIn(['avatarUrl'])} />}/>
         if(id && this.ifPopUp() && this.ifP2P(id)){
           let other = this.p2pOtherParticipant(id)
           if(other){
             groupChannelName = other.displayName
-            avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['name'])} src = {other.avatarUrl} />}/>
+            avatar = <Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={groupChannelName} src = {other.avatarUrl} />}/>
           }
         }
         let lastMessageText = "";

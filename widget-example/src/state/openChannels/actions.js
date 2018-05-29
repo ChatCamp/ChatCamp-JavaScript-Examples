@@ -1,7 +1,8 @@
 import {
   OPEN_CHANNELS_GET_HISTORY_SUCCESS,
   OPEN_CHANNELS_ATTACHMENT_PROGRESS,
-  OPEN_CHANNELS_ATTACHMENT_RESET
+  OPEN_CHANNELS_ATTACHMENT_RESET,
+  OPEN_CHANNELS_LIST_SUCCESS
 } from 'state/action-types'
 import client from 'Client'
 
@@ -42,5 +43,19 @@ export const getHistory = (openChannelId, messageId) => dispatch => {
         messages: messages
       });
     })
+  })
+}
+
+export const getList = (reference) => dispatch => {
+  var openListQuery = client.OpenChannel.createOpenChannelListQuery();
+  openListQuery.reference = reference
+  openListQuery.get(function(error, openChannelList){
+     if(error == null){
+       dispatch({
+         type: OPEN_CHANNELS_LIST_SUCCESS,
+         openChannels: openChannelList
+       });
+      }
+
   })
 }

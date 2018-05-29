@@ -38,16 +38,27 @@
   display: block;
   float: right;
   width: 100%;
+  .avatar{
+    div{
+      display: block;
+    }
+  }
   .content{
     max-width: 65%!important;
+    .text{
+      display: block;
+      .message-bubble{
+        display: block;
+      }
+    }
   }
   .author{
     font-size: 11px!important;
-    color: #90949c!important;
+    color: rgba($secondary-text, .45) !important;
   }
 }
 .message-time{
-  color: #90949c!important;
+  color: rgba($secondary-text, .45) !important;
   font-size: 9px;
   -webkit-font-smoothing :  antialiased;
 }
@@ -59,8 +70,8 @@
   }
   .message-content {
       .message-bubble{
-        background-color: #f4f7f9;
-        color: #263238;
+        background-color: $tertiary-background;
+        color: $tertiary-text;
       }
   }
   .message-time{
@@ -101,17 +112,28 @@
       -webkit-font-smoothing :  antialiased;
       margin: 0!important;
       a{
-      color: #fff!important;
+      color: $primary-text!important;
       }
     }
   }
   .message-content {
     float: right;
       .message-bubble{
-        // background-color: #3f46ad;
-        background-color: #4080ff;
-        color: #fff;
+        // background-color: $primary-backgroud;
+        background-color: $primary-backgroud;
+        color: $primary-text;
       }
+    .cc-read{
+      path{
+        fill: $primary-backgroud;
+      }
+    }
+    .cc-unread {
+      path{
+        fill: rgba($secondary-text, .45) !important;
+      }
+    }
+
   }
   .message-time{
     float: right;
@@ -151,7 +173,9 @@
 .ui.segment.window-content {
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #fff;
+  background-color: $secondary-background;
+  display: block;
+  box-sizing: border-box;
   .ui.comments {
     padding: 6px 0;
     margin: 6px 0;
@@ -185,7 +209,7 @@
 .cc-window-content-announcment{
   text-align: center;
   font-size: 12px;
-  color: #aaa;
+  color: rgba($secondary-text, .48) !important;
   height: 20px;
   line-height: 20px;
 }
@@ -199,10 +223,16 @@
       word-wrap: break-word;
       white-space: pre-wrap;
       width: auto;
-      background-color: #f4f7f9;
-      color: #263238;
+      background-color: $tertiary-background;
+      color: $tertiary-text;
       padding: 6px 10px;
       border-radius: 13px;
+      .ifc-url-render{
+        display: block;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        cursor: pointer;
+      }
     }
     video.message-bubble {
       max-width: 100%;

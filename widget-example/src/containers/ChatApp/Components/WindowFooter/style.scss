@@ -15,7 +15,7 @@
   min-height: 48px;
  i.icon {
   cursor: pointer;
-  color: #222;
+  color: rgba($secondary-text, .70) !important;;
   opacity: 0.5;
   // &:hover {
   //   opacity: 1;
@@ -37,18 +37,24 @@
 
 .window-footer {
   min-height: 48px;
+  background-color: $secondary-background;
   border-radius: 0 0 8px 8px!important;
   .cc-window-footer-text-main{
     padding-top: 0px!important;
     padding-bottom: 0px!important;
     font-size: 13.5px;
     min-height: 48px;
+    box-sizing: border-box;
     .window-textarea{
+      color: rgba($secondary-text, .70) !important;;
       outline: none;
       -webkit-font-smoothing: antialiased;
       width: 100%;
       min-height: 23px;
       margin-top: 12.5px;
+      overflow-x: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
   }
   .chatcamp-widget-attach-main{
@@ -56,6 +62,9 @@
     cursor: pointer;
     .chatcamp-widget-attach{
       width: 24px;
+      height: 24px;
+      display: block;
+      cursor: pointer;
     }
   }
   .chatcamp-widget-send-main{
@@ -70,11 +79,12 @@
     cursor: pointer;
     .chatcamp-widget-emoji{
       width: 18px;
+      cursor: pointer;
     }
   }
  i.icon {
   cursor: pointer;
-  color: #222;
+  color: rgba($secondary-text, .70) !important;;
   opacity: 0.5;
   font-size: 16px;
   // &:hover {
@@ -97,4 +107,19 @@
 .ui.popup.cc-popup-emoji{
   max-width: 360px;
   padding: 10px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba($secondary-text, .70) !important;
+    opacity: .7; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba($secondary-text, .70) !important;
+    opacity: .7;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgba($secondary-text, .70) !important;
+    opacity: .7;
 }
