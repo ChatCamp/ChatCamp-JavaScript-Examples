@@ -1,4 +1,7 @@
 #ifc-app .chatcamp-welcome-bubble {
+  *{
+    cursor: pointer;
+  }
   // width: 317px;
   // height: 100px;
   position: fixed;
@@ -28,17 +31,19 @@
     }
   }
   .chatcamp-wb-right{
-    width: 68px;
-    height: 68px;
-    border-radius: 68px;
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
     background-color: $primary-backgroud;
     padding: 10px;
     float: right;
     -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.06),0 2px 32px rgba(0,0,0,.16)!important;
     .chatcamp-wb-right-image{
-      width: 30px;
-      margin-left: 8.5px;
-      margin-top: 8px;
+      width: 100%;
+      margin-left: 13px;
+      margin-top: 12px;
+      height: 100%;
+      display: block;
     }
   }
   .chatcamp-wb-close{
