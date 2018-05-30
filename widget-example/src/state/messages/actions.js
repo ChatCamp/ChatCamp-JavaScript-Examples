@@ -6,7 +6,7 @@ import {
 
 
 export const userMessage = (message) => dispatch => {
-  console.log("dispatch", message)
+  debug("dispatch", message)
   dispatch({
     type: USER_MESSAGE,
     message: message
@@ -24,7 +24,7 @@ export const userMessageWrapper = (threadId, message) =>  {
   return (dispatch, getState) => {
     let state = getState();
     let messageObj = {};
-    console.log(state)
+    debug(state)
     messageObj.name = state.user.get('user_name')
     messageObj.text = message
     messageObj.messageId = Math.random()

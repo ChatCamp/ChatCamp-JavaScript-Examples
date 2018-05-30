@@ -60,9 +60,9 @@ class SmartChat extends Component {
     //     showHidden = true
     //   }
     // })
-      // console.log("start")
+      // debug("start")
     this.props.groupChannelsState.map((chatWindow, id) => {
-      // console.log("window", chatWindow.getIn(["state"]),chatWindow.getIn(["type"]), id)
+      // debug("window", chatWindow.getIn(["state"]),chatWindow.getIn(["type"]), id)
       if(chatWindow.getIn(["state"]) !== "HIDDEN" && chatWindow.getIn(["state"]) !== undefined){
         if(number < Math.floor(windowWidth/368)){
         // if(number < 3){
@@ -86,7 +86,7 @@ class SmartChat extends Component {
         showHidden = true
       }
     })
-    // console.log("stop")
+    // debug("stop")
 
 
     return (

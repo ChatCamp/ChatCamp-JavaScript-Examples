@@ -15,6 +15,6 @@ export const isRequestingAppValid = (state) => {
 };
 
 export const isAppValid = (state) => {
-	console.log(state)
+	debug(state)
 	return state.app.getIn(['isAppValid'])
 };

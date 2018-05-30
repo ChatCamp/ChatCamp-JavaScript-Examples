@@ -16,7 +16,7 @@ export const initialState = Map({
 export function auth (state = initialState, action) {
   switch (action.type) {
     case LOGIN_REQUEST_SUCCESS:
-      console.log("login request success:", action)
+      // debug("login request success:", action)
       // return state.set('appId', action.result.user.app_id).set('apiKey', action.result.token.value).set('isLoggedIn', true)
       return state.set('isLoggedIn', true)
     // case APP_SET:

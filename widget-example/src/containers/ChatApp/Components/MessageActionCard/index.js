@@ -3,10 +3,12 @@ import { Image, Icon, Card } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from 'state/groupChannels/actions'
+import * as Debug from 'debug';
+const debug = Debug('chatcamp:MessageActionCard')
 class MessageActionCard extends Component {
 
   handleCardClick(product, e) {
-    console.log("hello", e, product)
+    debug("hello", e, product)
     window.open(JSON.parse(product.ImageURL)[0], "_blank");
   }
 

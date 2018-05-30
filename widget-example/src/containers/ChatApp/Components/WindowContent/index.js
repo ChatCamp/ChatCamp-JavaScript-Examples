@@ -133,13 +133,13 @@ class WindowContent extends Component {
     // let channelListener = new client.ChannelListener();
     // channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
     //   if(currentChannelId === groupChannel.id){
-    //     console.log("heyaaaaa1111", message)
+    //     debug("heyaaaaa1111", message)
     //     this.serialize = message.serialize()
-    //     console.log("heyaaaaa2222", this.serialize)
-    //     console.log("heyaaaaa333", message.__proto__, JSON.stringify(message.__proto__))
+    //     debug("heyaaaaa2222", this.serialize)
+    //     debug("heyaaaaa333", message.__proto__, JSON.stringify(message.__proto__))
     //     let m = client.Message.deSerialize(this.serialize)
-    //     console.log("heyaaaaa", m,m.getText)
-    //     // console.log(m.getText())
+    //     debug("heyaaaaa", m,m.getText)
+    //     // debug(m.getText())
     //   }
     // }
     // client.addChannelListener("WindowContent", channelListener)
@@ -217,8 +217,8 @@ class WindowContent extends Component {
       let messageClubbing = this.handleClubbing(message,oldMessage)
       oldMessage = _.clone(message)
       // if(this.cacheMessages[message.get("id")]){
-      //   console.log("heyaaaaa")
-      //   console.log(this.cacheMessages[message.get("id")].getText())
+      //   debug("heyaaaaa")
+      //   debug(this.cacheMessages[message.get("id")].getText())
       // }
       let text = null
       if(message.get('type') === "attachment") {

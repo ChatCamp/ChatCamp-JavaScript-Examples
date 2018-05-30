@@ -8,7 +8,8 @@ import * as openChannelsactions from 'state/openChannels/actions'
 import { Accordion, Tab } from 'semantic-ui-react'
 import Roster from 'containers/ChatApp/Components/Roster'
 import ListHeader from 'containers/ChatApp/Components/ListHeader'
-
+import * as Debug from 'debug';
+const debug = Debug('chatcamp:LeftPanel')
 // import './style.css'
 
 class LeftPanel extends Component {
@@ -28,7 +29,7 @@ class LeftPanel extends Component {
         this.props.groupChannelsListactions.getList( this.props.groupChannelsList.last())
       }
       else if(this.state.activeIndex === 1){
-        console.log("OC last", this.props.openChannels.last().get("id"))
+        debug("OC last", this.props.openChannels.last().get("id"))
         this.props.openChannelsactions.getList( this.props.openChannels.last().get("id"))
       }
     }

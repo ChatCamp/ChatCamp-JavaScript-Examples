@@ -97,7 +97,7 @@ class MessageAction extends Component {
     // axios.get('http://streaklabs.in:90//api/Ecommerce/GetAllProducts', {
     //   headers: {'Authorization': 'Bearer vJ-gKSwUh9yh5CWBFsrrVBIn9T9n9DgxNWnJsCmGJL8goOhJy3IJKx5a3e5M-Xe1P6qM-g558PF5wTce3NYNIhOoHC5-OLqlpuGzzE7-0BUUgRMFzV1yrFLgXDSnIEIl_PDbogoMcA6QxcUK2rz0NbppaWY--koJycDGq9lyVKKxU56Pltj9ntHm7jaPtHGyInaKX0ZWe1NBf514zFYZ1y45A5LTnzJx12e7rY79R6g-e-buUkpa56tQz5M8Ea7dqYHA1o-xyrzRc0RF9l4v26eKfnhrv_f07jBBflkpjCjJ0XMtV9WOW8iMz-a86ayF8Aqj8LQiHd1xFqedUAUjdrtm5rd-2B2VGEnCAJuSCi0CblLM7ltau1Ry6d7irbYjblVbvnydSNvYKccVO4mUWzujTfR8ishCFcsmuqAxp-Uvufh2mSw9CAIwlKI0iO4IgfO0KVlKzdp4YB2-ZA2GvkNCqIHDsGr8KK-HQ_23r8JLMQYn3Zjg_kztpu-sKKvhQJgxSa-mw0pvMDAvSKCjwg'}
     // }).then(res => {
-    //   console.log("MODAL", res);
+    //   debug("MODAL", res);
     // })
   }
 

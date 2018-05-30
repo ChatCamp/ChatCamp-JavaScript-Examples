@@ -24,7 +24,7 @@ export default class Root extends Component {
   //   const loggedIn = isLoggedIn(store.getState())
   //   const appId = getAppId(store.getState())
   //   const allowedAnonymousToVisitPath = ['/auth', '/register']
-  //   console.log("appId", appId)
+  //   debug("appId", appId)
   //   // if(appId === null) {
   //   //   return false
   //   // } else if (loggedIn && allowedAnonymousToVisitPath.includes(path)) {

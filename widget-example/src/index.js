@@ -42,6 +42,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.REACT_APP_PERF === 'tru
         createClass = nextCreateClass;
       }
     });
+  localStorage.setItem('debug', 'chatcamp:*')
 
   // whyDidYouUpdate(React)
 }
@@ -75,7 +76,7 @@ export const initialState = {
 // let oldEmbedRoom = ChatAppInit.addOldEmbedRoomsToState(initialState);
 //
 // initialState.apps = Immutable.fromJS(initialState.apps);
-// console.log(initialState.apps)
+// debug(initialState.apps)
 // if(popup === true || embedRoom === true || embedApp === true || widget === true || widgetOnlineUserCount === true || widgetOnlineUserList === true || oldEmbedRoom === true){
 //   // iFlyChatChatSdk.chatConnect();
 // }

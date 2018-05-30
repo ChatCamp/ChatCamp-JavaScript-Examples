@@ -29,6 +29,9 @@ import {
 
 import Utility from 'utility/Utility'
 
+import * as Debug from 'debug';
+const debug = Debug('chatcamp:middleware')
+
 export const iFlyMiddleWare = store => {
   let userId;
   if(window.ChatCampData && window.ChatCampData.userId){
@@ -108,7 +111,7 @@ export const iFlyMiddleWare = store => {
             allGroupChannels.push(index)
           }
         })
-        // console.log("all channels", allOpenChannels, allGroupChannels)
+        // debug("all channels", allOpenChannels, allGroupChannels)
         // allGroupChannels = allGroupChannels.concat(storeChannels)
 
         store.dispatch({
@@ -135,7 +138,7 @@ export const iFlyMiddleWare = store => {
 
         let channelListener = new client.ChannelListener();
         channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
-          console.log("Listener", groupChannel, message)
+          debug("Listener", groupChannel, message)
           // automatic opening of chat in case of new message
           let state = store.getState().groupChannelsState.getIn([groupChannel.id, "state"])
           let groupChannelsState = store.getState().groupChannelsState
@@ -185,7 +188,7 @@ export const iFlyMiddleWare = store => {
         }
 
         channelListener.onGroupChannelParticipantJoined = function(groupChannel, user) {
-          console.log("groupchannel joined", groupChannel, user)
+          debug("groupchannel joined", groupChannel, user)
           store.dispatch({
             type: GROUP_CHANNELS_GET_SUCCESS,
             groupChannel: groupChannel
@@ -193,7 +196,7 @@ export const iFlyMiddleWare = store => {
         }
 
         channelListener.onGroupChannelParticipantLeft = function(groupChannel, user) {
-          console.log("groupchannel left", groupChannel, user)
+          debug("groupchannel left", groupChannel, user)
           if(user.id === userId){
             store.dispatch({
               type: GROUP_CHANNELS_LEAVE_SUCCESS,
@@ -215,7 +218,7 @@ export const iFlyMiddleWare = store => {
         }
 
         channelListener.onOpenChannelParticipantJoined = function(openChannel, user) {
-          console.log("openchannel joined", openChannel, user)
+          debug("openchannel joined", openChannel, user)
           store.dispatch({
             type: OPEN_CHANNELS_GET_SUCCESS,
             openChannel: openChannel
@@ -235,7 +238,7 @@ export const iFlyMiddleWare = store => {
         }
 
         channelListener.onOpenChannelParticipantLeft = function(openChannel, user) {
-          console.log("openchannel left", openChannel, user)
+          debug("openchannel left", openChannel, user)
           store.dispatch({
             type: OPEN_CHANNELS_GET_SUCCESS,
             openChannel: openChannel
@@ -253,7 +256,7 @@ export const iFlyMiddleWare = store => {
         }
 
         channelListener.onGroupChannelTypingStatusChanged = function(groupChannel) {
-          console.log("Typing Status", groupChannel, groupChannel.getTypingParticipants())
+          debug("Typing Status", groupChannel, groupChannel.getTypingParticipants())
           store.dispatch({
             type: GROUP_CHANNELS_GET_SUCCESS,
             groupChannel: groupChannel
@@ -261,7 +264,7 @@ export const iFlyMiddleWare = store => {
         }
 
         channelListener.onGroupChannelReadStatusUpdated = function(groupChannel) {
-          console.log("Read Status Update", groupChannel)
+          debug("Read Status Update", groupChannel)
           store.dispatch({
             type: GROUP_CHANNELS_GET_SUCCESS,
             groupChannel: groupChannel
@@ -274,7 +277,7 @@ export const iFlyMiddleWare = store => {
           var groupChannelListQuery = client.GroupChannel.createGroupChannelListQuery();
           groupChannelListQuery.get(function(error, groupChannelList){
   	         if(error == null){
-    	          // console.log("My Group Channels List Retreived", groupChannelList)
+    	          // debug("My Group Channels List Retreived", groupChannelList)
                 store.dispatch({
                   type: GROUP_CHANNELS_LIST_SUCCESS,
                   groupChannels: groupChannelList
@@ -305,7 +308,7 @@ export const iFlyMiddleWare = store => {
         var openChannelListQuery = client.OpenChannel.createOpenChannelListQuery();
         openChannelListQuery.get(function(error, openChannelList){
 	         if(error == null){
-  	          console.log("My Open Channels List Retreived", openChannelList)
+  	          debug("My Open Channels List Retreived", openChannelList)
               store.dispatch({
                 type: OPEN_CHANNELS_LIST_SUCCESS,
                 openChannels: openChannelList

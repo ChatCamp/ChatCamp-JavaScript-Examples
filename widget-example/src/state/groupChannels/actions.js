@@ -8,7 +8,8 @@ import {
 } from 'state/action-types'
 
 import client from 'Client'
-
+import * as Debug from 'debug';
+const debug = Debug('chatcamp:state:groupChannels')
 export const getChannel = (groupChannelId) => dispatch => {
   client.GroupChannel.get(groupChannelId, function(error, groupChannel) {
     if(!error) {
@@ -131,9 +132,9 @@ export const addParticipants = (group) => dispatch => {
 export const leaveParticipant = (group) => dispatch => {
   client.GroupChannel.get(group.id, function(error, groupChannel) {
     groupChannel.leave( function(error) {
-      console.log("errors leave",error)
+      debug("errors leave",error)
       if(!error) {
-        console.log("not errors leave",error)
+        debug("not errors leave",error)
         dispatch({
           type: GROUP_CHANNELS_CLOSE,
           groupChannelsId: group.id

@@ -179,7 +179,7 @@ class WindowFooter extends Component {
     // let reader = new FileReader();
     this.props.actions.attachmentMessage(this.props.id, file)
     // reader.onloadend = () => {
-    //   // console.log("File Reader", reader)
+    //   // debug("File Reader", reader)
     //   this.setState({
     //     attachment: file,
     //     // imagePreviewUrl: reader.result

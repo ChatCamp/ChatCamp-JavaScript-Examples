@@ -132,7 +132,7 @@ _UtilityTime.timeSince = function(date,relativeFormat) {
   }
 
   if(relativeFormat === 'short'){
-    // console.log('relativeformat inside')
+    // debug('relativeformat inside')
     return interval + intervalType[0];
   } else{
     return relativeTime;
