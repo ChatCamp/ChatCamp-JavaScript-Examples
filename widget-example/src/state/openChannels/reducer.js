@@ -10,7 +10,7 @@ import {
 } from 'state/action-types'
 
 
-export const initialState = Map()
+export const initialState = Immutable.OrderedMap()
 
 export function openChannels (state = initialState, action) {
   let oldMessages, oldOpen;
@@ -43,7 +43,7 @@ export function openChannels (state = initialState, action) {
         .setIn([action.openChannel.getId(), 'messages'], messageMap.merge(oldMessages))
 
     case OPEN_CHANNELS_LIST_SUCCESS:
-      let channels = Map()
+      let channels = Immutable.OrderedMap()
       for(let i in action.openChannels) {
         let g = Map(action.openChannels[i])
         oldOpen = state.getIn([action.openChannels[i].id], Immutable.Map())

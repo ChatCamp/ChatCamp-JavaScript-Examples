@@ -23,7 +23,7 @@ class LeftPanel extends Component {
     let node = ReactDOM.findDOMNode(this.handleContextRef);
     if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
       if(this.state.activeIndex === 2){
-        this.props.actions.getUserList(5, this.props.userList.last().get("id"))
+        this.props.actions.getUserList(20, this.props.userList.last().get("id"))
       }
       else if(this.state.activeIndex === 0){
         this.props.groupChannelsListactions.getList( this.props.groupChannelsList.last())
@@ -38,7 +38,7 @@ class LeftPanel extends Component {
     // if(this.state.activeIndex === 2){
     //   let node = ReactDOM.findDOMNode(this.handleContextRef);
     //   if(node.clientHeight === (node.scrollHeight - node.scrollTop)) {
-    //     this.props.actions.getUserList(5, this.props.userList.last().get("id"))
+    //     this.props.actions.getUserList(20, this.props.userList.last().get("id"))
     //   }
     // }
     // else if(this.state.activeIndex === 0){
