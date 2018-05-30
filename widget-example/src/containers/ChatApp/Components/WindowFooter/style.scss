@@ -37,14 +37,14 @@
 }
 
 .window-footer {
-  min-height: 48px;
+  min-height: 49px;
   background-color: $secondary-background;
   border-radius: 0 0 8px 8px!important;
   .cc-window-footer-text-main{
     padding-top: 0px!important;
     padding-bottom: 0px!important;
     font-size: 13.5px;
-    min-height: 48px;
+    min-height: 49px;
     box-sizing: border-box;
     .window-textarea{
       color: rgba($secondary-text, .70) !important;;
@@ -52,7 +52,8 @@
       -webkit-font-smoothing: antialiased;
       width: 100%;
       min-height: 23px;
-      margin-top: 12.5px;
+      margin-top: 13px;
+      margin-bottom: 13px;
       overflow-x: hidden;
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -61,11 +62,14 @@
   .chatcamp-widget-attach-main{
     padding:0!important;
     cursor: pointer;
+    display: block;
+    height: 49px;
     .chatcamp-widget-attach{
       width: 24px;
       height: 24px;
       display: block;
       cursor: pointer;
+      margin-top: 10px;
     }
   }
   .chatcamp-widget-send-main{
@@ -78,8 +82,12 @@
   .chatcamp-widget-emoji-main{
     padding: 0!important;
     cursor: pointer;
+    display: block;
+    height: 49px;
     .chatcamp-widget-emoji{
       width: 18px;
+      margin-top: 10px;
+      display: block;
       cursor: pointer;
     }
   }
@@ -95,8 +103,6 @@
 }
 .chatcamp-popup .window-footer {
   border-radius: 0!important;
-  max-height: 51px!important;
-  box-sizing: border-box;
 }
 .cc-app-mobile{
   .cc-window-footer-text-main{

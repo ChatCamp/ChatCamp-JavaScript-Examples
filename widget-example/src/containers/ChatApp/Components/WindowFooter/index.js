@@ -71,13 +71,12 @@ class WindowFooter extends Component {
     }
     if(!isNaN(height)){
       let diff = height - this.state.footerHeight
-      if(diff !== 0 & !this.state.initialLoad){
+      if(diff !== 0 && !this.state.initialLoad){
         this.setState({footerHeight: height},function(){
           let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].offsetHeight
           let contentHeightInt = contentHeight
           let newContentHeightInt =  contentHeightInt - diff
           this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt  + "px"
-
           if(diff > 0){
             this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
           }

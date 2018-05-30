@@ -104,8 +104,7 @@ class ListHeader extends Component {
      <Segment className="cc-list-header cc-widget">
        <Modal className="cc-create-group-modal" open={modalOpen} size="tiny"
          trigger={<Popup className="headerSettings"
-                         // trigger={<Image className="cc-list-header-image" size="tiny" src={source} onClick={this.buttonClick.bind()}/>}
-                         trigger={<div onClick={() => {this.buttonClick.bind()}} className= "cc-list-header-image">{source}</div>}
+                         trigger={<div onClick={this.buttonClick.bind()} className= "cc-list-header-image">{source}</div>}
                          hideOnScroll
                          position='bottom left'
                          on='hover' inverted>
