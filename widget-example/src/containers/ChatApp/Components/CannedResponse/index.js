@@ -39,6 +39,7 @@ class CannedResponse extends Component {
 
         <Popup
           trigger={<Dropdown
+                      className="cc-theme"
                       name="canned_response"
                       icon="wizard"
                       pointing = "right"
@@ -49,7 +50,7 @@ class CannedResponse extends Component {
                       </Dropdown.Menu>
                     </Dropdown>}
                     content='Canned Responses'
-                    inverted
+                    className="cc-theme cc-tooltips"
         />
         {/* <Dropdown
           name="canned_response"

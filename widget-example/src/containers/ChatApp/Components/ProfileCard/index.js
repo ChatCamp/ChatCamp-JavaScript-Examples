@@ -21,7 +21,7 @@ class ProfileCard extends Component {
   render () {
     let {userM} = this.props
       return (
-        <Grid style={{width: "300px"}}>
+        <Grid className={"cc-user-profile-grid"} style={{width: "300px"}}>
         <Grid.Row>
           <Grid.Column width={3}>
             <Image as={()=> <AvatarWrapper className="image" name={userM.getIn(["displayName"])} src = {userM.getIn(["avatarUrl"])} size={30} />}/>

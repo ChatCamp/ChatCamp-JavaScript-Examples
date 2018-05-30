@@ -231,7 +231,7 @@ class WindowContent extends Component {
                   this.updateNodeInfo = false
                   this.forceUpdate()
                 }} />
-            let modal = <Modal trigger={text} closeIcon>
+            let modal = <Modal className="cc-theme" trigger={text} closeIcon>
               <Modal.Header>Photo</Modal.Header>
               <Modal.Content>
                 <Modal.Description>
@@ -325,7 +325,9 @@ class WindowContent extends Component {
                   trigger={<Comment.Author as='a'>{message.getIn(['user', 'displayName'])}</Comment.Author>}
                   hideOnScroll
                   position='right center'
-                  on='click'>
+                  on='click'
+                  basic
+                  className="cc-theme cc-user-profile">
                   <Popup.Content>
                     <ProfileCard userM={message.getIn(['user'])} id={this.props.id} type={this.props.type} />
                   </Popup.Content>

@@ -8,6 +8,8 @@ import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
 import status from 'utility/status'
 import UtilityTime from 'utility/UtilityTime'
 import client from 'Client'
+import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
+import {ICONS} from 'constants/icons'
 
 
 
@@ -74,8 +76,9 @@ class Roster extends Component {
 
   render () {
     let sourceURL = process.env.PUBLIC_URL + "/"
-    let source_online =  sourceURL + "icons8-connection-status-on-96.png"
-    let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
+    // let source_online =  sourceURL + "icons8-connection-status-on-96.png"
+    // let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
+    let source_status = <ChatCampIcon icon={ICONS.STATUS} height="16px" width="16px" viewBox="0 0 50 50"/>
     let roster = []
     let inlineStyleDisplay ={
       display: "table-cell"
@@ -105,10 +108,10 @@ class Roster extends Component {
         if(rosterItem.getIn(['id']) !== this.props.user.getIn(['id'])){
           let onlineStatus
           if(rosterItem.getIn(['isOnline'])){
-            onlineStatus = <Image className= "cc-user-list-status" src={source_online} />
+            onlineStatus = <div className= "cc-user-list-status cc-online">{source_status}</div>
           }
           else {
-            onlineStatus = <Image className= "cc-user-list-status" src={source_offline} />
+            onlineStatus = <div className= "cc-user-list-status cc-offline">{source_status}</div>
           }
           roster.push(
             <List.Item className={"list-users"} key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onUserClick(rosterItem.getIn(['id']))}>

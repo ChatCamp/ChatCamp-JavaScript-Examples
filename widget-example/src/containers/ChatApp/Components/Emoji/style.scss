@@ -361,6 +361,9 @@
   color: #ddd;
   line-height: 16px;
 }
+.emoji-mart-bar:first-child , .emoji-mart-bar:last-child {
+  border: none;
+}
 // .ifc-chat-window-message-body-message{
 //   .emoji-mart-emoji{
 //     height: 21px;

@@ -197,7 +197,8 @@ class WindowHeader extends Component {
       trigger={triggerComponent}
       hideOnScroll
       position='bottom left'
-      on='click'>
+      on='click'
+      className="cc-theme">
       <Popup.Header>Participants</Popup.Header>
       <Popup.Content>
         <GroupParticipantsList id={this.props.id} groupChannels={this.props.groupChannels}/>
@@ -207,9 +208,11 @@ class WindowHeader extends Component {
     let triggerComponentPopup = <span className="header-count" >&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>{this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")}</span>
     let participantsCount = <Popup
       trigger={triggerComponentPopup}
+      basic
       hideOnScroll
       position='bottom left'
-      on='click'>
+      on='click'
+      className="cc-theme">
       <Popup.Header>Participants</Popup.Header>
       <Popup.Content>
         <GroupParticipantsList id={this.props.id} groupChannels={this.props.groupChannels}/>
@@ -217,8 +220,9 @@ class WindowHeader extends Component {
     </Popup>
     let onlineStatus;
     let sourceURL = process.env.PUBLIC_URL + "/"
-    let source_online =  sourceURL + "icons8-connection-status-on-96.png"
-    let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
+    // let source_online =  sourceURL + "icons8-connection-status-on-96.png"
+    // let source_offline =  sourceURL + "icons8-connection-status-off-96.png"
+    let source_status = <ChatCampIcon icon={ICONS.STATUS} height="16px" width="16px" viewBox="0 0 50 50"/>
     // let source_close =  sourceURL + "icons8-delete-64.png"
     let source_close =  <ChatCampIcon icon={ICONS.CLOSE} height="24px" width="24px" viewBox="0 0 50 50"/>
     let source_minus =  <ChatCampIcon icon={ICONS.MINIMIZE} height="24px" width="19px" viewBox="0 0 22 24"/>
@@ -244,13 +248,14 @@ class WindowHeader extends Component {
       }
       if(other && other.isOnline){
         // status = <Icon name="circle" size="large"/>
-        onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Available'}</Header.Subheader>
-        status = <Image className= "cc-window-header-status" src={source_online} />
+        // onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Available'}</Header.Subheader>
+        // status = <Image className= "cc-window-header-status" src={source_online} />
+        status = <div className= "cc-window-header-status cc-online">{source_status}</div>
       }
       else {
         // status = <Icon name="circle outline" size="large"/>
-        onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Offline'}</Header.Subheader>
-        status = <Image className= "cc-window-header-status" src={source_offline} />
+        // onlineStatus = <Header.Subheader className="cc-window-header-name-subtext" as='div'>{'Offline'}</Header.Subheader>
+        status = <div className= "cc-window-header-status cc-offline">{source_status}</div>
       }
 
     }
@@ -301,7 +306,7 @@ class WindowHeader extends Component {
                     trigger={<div onClick={() => {this.minimizeChannel()}} className= "cc-window-header-minus">{source_minus}</div>}
                     hideOnScroll
                     position='bottom right'
-                    on='hover' inverted>
+                    on='hover' className="cc-theme cc-tooltips">
                 <Popup.Content>
                   Minimize
                 </Popup.Content>
@@ -313,7 +318,7 @@ class WindowHeader extends Component {
                     trigger={<div onClick={() => {this.openChannel()}} className= "cc-window-header-max">{source_max}</div>}
                     hideOnScroll
                     position='bottom right'
-                    on='hover' inverted>
+                    on='hover' className="cc-theme cc-tooltips">
                     <Popup.Content>
                       Maximize
                     </Popup.Content>
@@ -322,14 +327,14 @@ class WindowHeader extends Component {
 
             <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
                           <Dropdown icon='setting' floating className='icon cc-window-header-settings' direction="left">
-                            <Dropdown.Menu className="cc-window-header-settings-options">
+                            <Dropdown.Menu className="cc-window-header-settings-options cc-theme">
                               <Dropdown.Item onClick={this.handleItemClick} icon='image' text='Attach a File' />
-                              {(this.props.type === "group") && <Dropdown.Item onClick={this.buttonClick.bind()} icon='add square' text='Add Participants' />}
+                              {(this.props.type === "group") && !this.ifP2P() && <Dropdown.Item onClick={this.buttonClick.bind()} icon='add square' text='Add Participants' />}
                               {(this.props.type === "group") &&<Dropdown.Item onClick={this.leaveGroup.bind()} icon='sign out' text='Leave Chat' />}
                               {(this.props.type === "open") &&<Dropdown.Item onClick={this.leaveOpen.bind()} icon='sign out' text='Leave Chat' />}
                             </Dropdown.Menu>
                           </Dropdown>
-                  <Modal className="cc-create-group-modal" open={modalOpen} size="tiny">
+                  <Modal className="cc-create-group-modal cc-theme" open={modalOpen} size="tiny">
                    <Modal.Header>Add Participants</Modal.Header>
                      <Modal.Content>
                        <Modal.Description>
@@ -363,7 +368,7 @@ class WindowHeader extends Component {
                     trigger={<div onClick={() => {this.closeChannel()}} className= "cc-window-header-close">{source_close}</div>}
                     hideOnScroll
                     position='bottom right'
-                    on='hover' inverted>
+                    on='hover' className="cc-theme cc-tooltips">
                     <Popup.Content>
                       Close
                     </Popup.Content>

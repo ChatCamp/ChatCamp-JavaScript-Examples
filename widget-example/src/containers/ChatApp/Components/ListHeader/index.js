@@ -102,12 +102,12 @@ class ListHeader extends Component {
 
    return(
      <Segment className="cc-list-header cc-widget">
-       <Modal className="cc-create-group-modal" open={modalOpen} size="tiny"
+       <Modal className="cc-create-group-modal cc-theme" open={modalOpen} size="tiny"
          trigger={<Popup className="headerSettings"
                          trigger={<div onClick={this.buttonClick.bind()} className= "cc-list-header-image">{source}</div>}
                          hideOnScroll
                          position='bottom left'
-                         on='hover' inverted>
+                         on='hover' className="cc-theme cc-tooltips">
                   <Popup.Content>Create New Group Chat</Popup.Content>
                   </Popup>}
         // onClose = {this.handleClose.bind(this)}
@@ -150,7 +150,7 @@ class ListHeader extends Component {
             trigger={<div onClick={() => {this.closeSmartChat()}} className= "cc-lisr-header-close">{source_close}</div>}
             hideOnScroll
             position='bottom right'
-            on='hover' inverted>
+            on='hover' className="cc-theme cc-tooltips">
             <Popup.Content>
               Close
             </Popup.Content>

@@ -120,13 +120,13 @@
   .message-content {
     float: right;
       .message-bubble{
-        // background-color: $primary-backgroud;
-        background-color: $primary-backgroud;
+        // background-color: $primary-background;
+        background-color: $primary-background;
         color: $primary-text;
       }
     .cc-read{
       path{
-        fill: $primary-backgroud;
+        fill: $primary-background;
       }
     }
     .cc-unread {

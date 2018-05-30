@@ -234,9 +234,10 @@ class WindowFooter extends Component {
                       clickMethod ={this.handleUpdateEmoji}
                     />}
             on='click'
+            basic
             hoverable
             size="large"
-            className="cc-popup-emoji"
+            className="cc-popup-emoji cc-theme"
           />
 
         </Grid.Column>
@@ -267,7 +268,7 @@ class WindowFooter extends Component {
           <Popup
             trigger={<div onClick={() => {this.sendAttachmentClick()}} className= "chatcamp-widget-attach">{source}</div>}
             content='Attach a File'
-            inverted
+            className="cc-theme cc-tooltips"
           />
         </Grid.Column>}
         {/* Attach Media */}
@@ -275,7 +276,7 @@ class WindowFooter extends Component {
           <Popup
             trigger={<Icon name='image' size='large' onClick={() => {this.sendAttachmentClick()}}/>}
             content='Attach Media'
-            inverted
+            className="cc-theme cc-tooltips"
           />
         </Grid.Column>}
         { isAction && isFile && <Grid.Column width={1}>
@@ -286,7 +287,7 @@ class WindowFooter extends Component {
           <Popup
             trigger={<div onClick={() => {this.sendMessageClick()}} className= "chatcamp-widget-send">{source_send}</div>}
             content='Send Message'
-            inverted
+            className="cc-theme cc-tooltips"
           />
         </Grid.Column>}
         {/* Start Recording*/}
@@ -294,7 +295,7 @@ class WindowFooter extends Component {
           <Popup
             trigger={<Icon name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
             content='Start Recording'
-            inverted
+            className="cc-theme cc-tooltips"
           />
         </Grid.Column>}
         {/* Stop Recording*/}
@@ -302,7 +303,7 @@ class WindowFooter extends Component {
           <Popup
             trigger={<Icon name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
             content='Stop Recording'
-            inverted
+            className="cc-theme cc-tooltips"
           />
         </Grid.Column>}
       </Grid>

@@ -1,5 +1,5 @@
 .cc-list-header{
-background-color: $primary-backgroud!important;
+background-color: $primary-background!important;
 width: 100%;
 text-align: center;
 border-radius: 0!important;
@@ -21,7 +21,7 @@ height: 50px;
   margin-bottom: 0!important;
   margin-top: 0!important;
   padding: 12px 13px!important;
-  border: 1px solid $primary-backgroud!important;
+  border: 1px solid $primary-background!important;
   border-radius: 7px 7px 0 0!important;
 }
 .cc-list-header-image{
@@ -48,7 +48,7 @@ height: 50px;
 }
 .cc-create-group-modal{
   button.primary{
-    background-color: $primary-backgroud!important;
+    background-color: $primary-background!important;
   }
   .buttons{
     float: right!important;

@@ -114,6 +114,7 @@ class MessageAction extends Component {
       return true
     })
     return (<Modal
+      className="cc-theme"
       trigger={<Icon onClick={this.handleOpen} name='plus cart' size="large"/>} open={this.state.modalOpen}
       onClose={this.handleClose}>
         <Modal.Header>Share Product</Modal.Header>

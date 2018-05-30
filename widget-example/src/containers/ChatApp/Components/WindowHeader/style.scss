@@ -14,6 +14,8 @@
   .cc-window-header-status-main{
     padding:0!important;
     margin: 0px 10px 0px 8px!important;
+    height: 18px;
+    padding-top: 4px!important;
   }
   .ui.header{
     color: $primary-text;
@@ -26,6 +28,9 @@
 }
 
 .header-actions {
+  *{
+    cursor: pointer;
+  }
   padding-left: 0 !important;
   padding-right: 0 !important;
   margin-left: 0.15rem!important;
@@ -36,11 +41,10 @@
   line-height: 24px;
   i.icon {
     color: $primary-text;
-    cursor: pointer;
-    opacity: 0.9;
-    margin-bottom: 2px!important;
-    font-size: 1.3em!important;
-    margin-right: 0!important;
+    // opacity: 0.9;
+    // margin-bottom: 2px!important;
+    font-size: 1.2em!important;
+    // margin-right: 0!important;
     &:hover{
       opacity: 1;
     }
@@ -79,13 +83,14 @@
   cursor: pointer
 }
 #ifc-app .row.cc-chat-window-header {
-  background-color: $primary-backgroud!important;
+  background-color: $primary-background!important;
   border-radius: 7px 7px 0 0;
   box-sizing: border-box;
 }
 .cc-window-header-status{
   width: 16px;
   box-sizing: border-box;
+  margin-left: 5px;
 }
 .cc-window-header-minus{
   cursor: pointer;
@@ -113,6 +118,7 @@
   width: 22px;
   height:22px;
   display: block;
+  margin-top: -4px;
 }
 .cc-window-header-name{
   padding-left: 0!important;

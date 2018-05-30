@@ -2,7 +2,7 @@
 @import "./reset.scss";
 
 @import "./Components/Emoji/style.scss";
-
+@import './Components/ProfileCard/style.scss';
 .#{$app-name}-root{
 @import './Components/AvatarWrapper/style.scss';
 @import './Components/CannedResponse/style.scss';
@@ -120,6 +120,112 @@
     background: rgba(0,0,0,0.20);
     border-radius: 7px;
 }
+.cc-online{
+  .cc-icons{
+      fill: #4CAF50!important;
+  }
+}
+.cc-offline{
+  .cc-icons{
+      fill: #aaaaaa!important;
+  }
+}
+}
+.cc-theme {
+  background: $secondary-background!important;
+  border-color: rgba($secondary-text, 0.2)!important;
+  .header, .content{
+    background: $secondary-background!important;
+    color: $secondary-text!important;
+    .item .text{
+      color: $secondary-text!important;
+    }
+  }
+  .menu{
+    background: $secondary-background!important;
+    color: $secondary-text!important;
+    border-color: rgba($secondary-text, 0.2)!important;
+    .item .text{
+      color: $secondary-text!important;
+    }
+    *{
+      cursor: pointer;
+    }
+  }
+  .menu:after{
+    background: $secondary-background!important;
+    box-shadow: -1px -1px 0 0 rgba($secondary-text,.2)!important;
+  }
+  .item .text, .item i:before{
+    color: $secondary-text!important;
+  }
+
+  .ui.primary.button, .ui.label{
+    background: $primary-background!important;
+    color: $primary-text!important;
+  }
+  .ui.button{
+    background: $tertiary-background!important;
+    color: $tertiary-text!important;
+  }
+
+  .ui.buttons .or:before{
+    color: $secondary-text!important;
+    background: $secondary-background!important;
+  }
+  .ui.input *, .ui.dropdown, .ui.dropdown *{
+    background: $secondary-background!important;
+    color: $secondary-text!important;
+    border-color: rgba($secondary-text, 0.2)!important;
+  }
+}
+.ui.popup.cc-theme:before{
+  background: $secondary-background!important;
+  // box-shadow: 1px 1px 0 0 rgba($secondary-text,.2)!important;
+  box-shadow: none!important;
+}
+.ui.popup.cc-theme.cc-tooltips, .ui.popup.cc-theme.cc-tooltips *{
+  background: $secondary-text!important;
+  color: rgba($secondary-background, 0.85)!important;
+  border: none!important;
+}
+.ui.popup.cc-theme.cc-tooltips:before{
+  background: $secondary-text!important;
+  // box-shadow: -1px -1px 0 0 rgba(red,1)!important;
+  box-shadow: none!important;
+}
+
+.cc-popup-emoji{
+  border-color: rgba($secondary-text,.2)!important;
+  background: $secondary-background!important;
+  .emoji-mart{
+    background-color: $secondary-background!important;
+    input, .emoji-mart-skin-swatches{
+      background: $secondary-background!important;
+      color: $secondary-text!important;
+      border-color: rgba($secondary-text, 0.2)!important;
+    }
+    .emoji-mart-category-label span{
+      background-color: rgba($secondary-background, 1)!important;
+      color: rgba($secondary-text, 0.85)!important;
+    }
+    .emoji-mart-anchor{
+      color: rgba($secondary-text, 0.4);
+      :hover{
+        color: rgba($secondary-text, 0.85);
+      }
+    }
+    .emoji-mart-title-label, .emoji-mart-preview-name{
+      color: rgba($secondary-text, 0.85);
+    }
+    .emoji-mart-preview-emoji, .emoji-mart-preview-shortname{
+      color: rgba($secondary-text, 0.45);
+    }
+    .emoji-mart-skin-swatches{
+
+    }
+
+  }
 }
 // .ifc-chat-window *::-webkit-scrollbar-button {
 //     width: 0;
