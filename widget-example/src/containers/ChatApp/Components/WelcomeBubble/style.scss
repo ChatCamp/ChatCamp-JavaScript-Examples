@@ -45,6 +45,21 @@
       height: 100%;
       display: block;
     }
+    .chatcamp-wb-notification{
+      display: inline-block;
+      background: #fa3e3e;
+      font-size: 11px;
+      width: 21px;
+      height: 21px;
+      border-radius: 21px;
+      text-align: center;
+      color: white;
+      line-height: 21px;
+      position: absolute;
+      top: 2px;
+      left: 54px;
+      -webkit-font-smoothing: antialiased;
+    }
   }
   .chatcamp-wb-close{
     width: 24px;

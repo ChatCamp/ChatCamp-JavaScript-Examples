@@ -19,9 +19,22 @@ class WelcomeBubble extends Component {
   render () {
     let sourceURL = "http://localhost:3000/"
     let source =  <ChatCampIcon icon={ICONS.CHAT} height="40px" width="40px" viewBox="0 0 60 60"/>
-    let source_close = sourceURL + "icons8-delete-100.png"
+    // let source_close = sourceURL + "icons8-delete-100.png"
 
-
+    let inboxValues = this.props.groupChannelsList.toArray()
+    let notificationCount = 0
+    for(let i in inboxValues){
+      let rosterItem
+      let id = inboxValues[i]
+      if(this.props.groupChannels){
+        rosterItem = this.props.groupChannels.getIn([id])
+      }
+      if(rosterItem){
+        if(rosterItem.getIn(['unreadMessageCount']) > 0){
+          notificationCount++
+        }
+      }
+    }
     return (
       <div style={{right: "40px"}} onClick={()=>(this.startChat())}className="chatcamp-welcome-bubble">
         {/* <div className="chatcamp-wb-left">
@@ -33,6 +46,7 @@ class WelcomeBubble extends Component {
         <div className="chatcamp-wb-right">
           {/* <Image className="chatcamp-wb-right-image" src={source}/> */}
           <div className="chatcamp-wb-right-image">{source}</div>
+          {(notificationCount > 0) && <div className="chatcamp-wb-notification">{notificationCount}</div>}
         </div>
       </div>
     )

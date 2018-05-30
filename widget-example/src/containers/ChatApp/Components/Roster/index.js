@@ -196,7 +196,7 @@ class Roster extends Component {
               {(rosterItem.getIn(['lastMessage']))? UtilityTime.getTime('3', rosterItem.getIn(['lastMessage']).insertedAt*1000) : ""}
             </List.Content>
             {/* <List.Content className={"list-item-unread"} style={inlineStyleHeight} floated='right' verticalAlign='middle'>
-              {(rosterItem.getIn(['unreadMessageCount']))}
+              {Number(rosterItem.getIn(['unreadMessageCount']) > 9) ? "9+" : rosterItem.getIn(['unreadMessageCount'])}
             </List.Content> */}
 
             <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
@@ -209,7 +209,7 @@ class Roster extends Component {
                 {lastMessageText}
               </List.Description>
               {(rosterItem.getIn(['unreadMessageCount']) > 0) &&  <List.Description className={"list-inbox-unread"}>
-                {(rosterItem.getIn(['unreadMessageCount']))}
+                {(rosterItem.getIn(['unreadMessageCount']) > 9) ? "9+" : rosterItem.getIn(['unreadMessageCount'])}
               </List.Description>}
             </List.Content>
 
