@@ -128,21 +128,24 @@ class WindowFooter extends Component {
 
   handleFileUpload(e) {
     e.preventDefault();
-    let reader = new FileReader();
+    // let reader = new FileReader();
     let file = e.target.files[0];
-    if(this.props.type === "group"){
-      this.props.actions.attachmentMessage(this.props.id, file)
-    }
-    else {
-      this.props.actions1.attachmentMessage(this.props.id, file)
-    }
-    reader.onloadend = () => {
-      this.setState({
-        attachment: file,
-      });
+    if(file !== 'undefined'){
+      if(this.props.type === "group"){
+        this.props.actions.attachmentMessage(this.props.id, file)
+      }
+      else {
+        this.props.actions1.attachmentMessage(this.props.id, file)
+      }
     }
 
-    reader.readAsDataURL(file)
+    // reader.onloadend = () => {
+    //   this.setState({
+    //     attachment: file,
+    //   });
+    // }
+    //
+    // reader.readAsDataURL(file)
   }
 
 
