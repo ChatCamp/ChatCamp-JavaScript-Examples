@@ -64,7 +64,7 @@ class WindowContent extends Component {
     if(_.isEmpty(oldMessage)){
       return {info: false, color: ""}
     }
-    else if(oldMessage.getIn(['user', 'id']) === currentMessage.getIn(['user', 'id'])){
+    else if((oldMessage.getIn(['user', 'id']) === currentMessage.getIn(['user', 'id'])) && (oldMessage.getIn(['type']) !== "announcement")){
       if(currentMessage.get('insertedAt') - oldMessage.get('insertedAt') < 300){
         return {info: true, color: "#FFF"}
       }

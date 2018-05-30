@@ -95,6 +95,9 @@
   width: 100%;
   max-width: 500px;
   height: 500px;
+  -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+  -moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.06), 0 2px 5px 0 rgba(0,0,0,.2);
   // margin: 20px;
    @media screen and (max-width: 750px) {
      height: 100%;

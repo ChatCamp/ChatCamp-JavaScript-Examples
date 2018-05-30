@@ -176,6 +176,8 @@
   background-color: $secondary-background;
   display: block;
   box-sizing: border-box;
+  margin: 0;
+  border-radius: 0;
   .ui.comments {
     padding: 6px 0;
     margin: 6px 0;
@@ -192,8 +194,8 @@
   }
 }
 .ui.segment.window-content.cc-popup {
-  height: calc(100% - 93px);
-  max-height: 375px;
+  height: calc(100% - 101px);
+  max-height: 369px;
 }
 
 .ui.segment.window-content.cc-embed {

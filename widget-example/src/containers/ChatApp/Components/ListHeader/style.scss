@@ -6,12 +6,14 @@ border-radius: 0!important;
 border-right: 2px solid $primary-text!important;
 display: block;
 box-sizing: border-box;
+height: 50px;
   .cc-list-header-text{
     font-size: 15px;
     color: $primary-text;
     display: inline-block;
     margin-left: 9px!important;
     font-weight: normal;
+    line-height: 22px;
   }
 }
 .cc-widget{

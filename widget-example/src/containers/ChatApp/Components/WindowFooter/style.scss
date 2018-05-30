@@ -13,6 +13,7 @@
 
 .window-footer {
   min-height: 48px;
+  margin: 0!important;
  i.icon {
   cursor: pointer;
   color: rgba($secondary-text, .70) !important;;
@@ -94,6 +95,8 @@
 }
 .chatcamp-popup .window-footer {
   border-radius: 0!important;
+  max-height: 51px!important;
+  box-sizing: border-box;
 }
 .cc-app-mobile{
   .cc-window-footer-text-main{

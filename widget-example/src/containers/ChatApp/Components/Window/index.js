@@ -53,19 +53,21 @@ class Window extends Component {
       if(this.props.state === "minimize"){
         customClass = customClass + " ifc-chat-frame-window-min"
       }
-    if(this.props.groupChannelsState.getIn([this.props.id, "state"]) !== "CLOSE" ){
-      frameContent.push(
-        <Segment.Group key={"window-data-" + this.props.id} size="tiny" className={"ifc-chat-window"}>
-          <WindowHeader id = {this.props.id} type = {this.props.type} state = {this.props.state} fileRef = {this.state.fileRef}/>
-          {visibleContent}
-          {visibleFooter}
-        </Segment.Group>
-      )
-    }
+    // if(this.props.groupChannelsState.getIn([this.props.id, "state"]) !== "CLOSE" ){
+    //   frameContent.push(
+    //     // <Segment.Group key={"window-data-" + this.props.id} size="tiny" className={"ifc-chat-window"}>
+    //
+    //     // </Segment.Group>
+    //   )
+    // }
 
     }
     return (
-      <div onMouseEnter={this.handleFocus} style={{right: popupRightAdjustment}} className={mainClass}>{frameContent}</div>
+      <div onMouseEnter={this.handleFocus} style={{right: popupRightAdjustment}} className={mainClass}>
+        <WindowHeader id = {this.props.id} type = {this.props.type} state = {this.props.state} fileRef = {this.state.fileRef}/>
+        {visibleContent}
+        {visibleFooter}
+      </div>
     )
   }
 

@@ -1,6 +1,13 @@
 .window-header{
   display: block;
   box-sizing: border-box;
+  margin: 0!important;
+  padding: 0!important;
+  border: 0!important;
+  border-radius: 20px;
+  .ui.grid{
+    margin: 0!important;
+  }
 }
 .cc-chat-window-header {
   background-color: #222;
