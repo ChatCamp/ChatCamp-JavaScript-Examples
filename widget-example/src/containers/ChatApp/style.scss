@@ -1,19 +1,22 @@
 @import "src/styles/vars.scss";
 @import "./reset.scss";
 
+@import "./Components/Emoji/style.scss";
+
 .#{$app-name}-root{
-@import './Components/WindowHeader/style.scss';
-@import './Components/WindowFooter/style.scss';
-@import './Components/Window/style.scss';
-@import './Components/WindowContent/style.scss';
-@import './Components/HiddenChatWindow/style.scss';
-@import './Components/WelcomeBubble/style.scss';
+@import './Components/AvatarWrapper/style.scss';
 @import './Components/CannedResponse/style.scss';
+@import './Components/ChatCampIcon/style.scss';
+@import './Components/HiddenChatWindow/style.scss';
 @import './Components/LeftPanel/style.scss';
 @import './Components/ListHeader/style.scss';
 @import './Components/Roster/style.scss';
-@import './Components/AvatarWrapper/style.scss';
-@import './Components/ChatCampIcon/style.scss';
+@import './Components/WelcomeBubble/style.scss';
+@import './Components/Window/style.scss';
+@import './Components/WindowContent/style.scss';
+@import './Components/WindowFooter/style.scss';
+@import './Components/WindowHeader/style.scss';
+
 @import 'loaders.css/src/animations/ball-beat.scss';
 
 
