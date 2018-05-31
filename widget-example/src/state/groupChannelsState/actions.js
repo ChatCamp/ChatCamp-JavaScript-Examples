@@ -50,29 +50,29 @@ export const groupChannelsHide = (groupChannelsId) => dispatch => {
     groupChannelsId: groupChannelsId
   })
 }
-// export const openChannelsCreate = (openChannelsId) => dispatch => {
-//   client.OpenChannel.get(openChannelsId, function(error, openChannel) {
-//     openChannel.join(function(error) {
-//       dispatch({
-//         type: OPEN_CHANNELS_CREATE,
-//         openChannelsId: openChannelsId
-//       })
-//     })
-//   })
-//
-// }
-//
-// export const openChannelsOpen = (openChannelsId) => dispatch => {
-//   client.OpenChannel.get(openChannelsId, function(error, openChannel) {
-//     openChannel.join(function(error) {
-//       dispatch({
-//         type: OPEN_CHANNELS_OPEN,
-//         openChannelsId: openChannelsId
-//       })
-//     })
-//   })
-//
-// }
+export const openChannelsCreate = (openChannelsId) => dispatch => {
+  client.OpenChannel.get(openChannelsId, function(error, openChannel) {
+    openChannel.join(function(error) {
+      dispatch({
+        type: OPEN_CHANNELS_CREATE,
+        openChannelsId: openChannelsId
+      })
+    })
+  })
+
+}
+
+export const openChannelsOpen = (openChannelsId) => dispatch => {
+  client.OpenChannel.get(openChannelsId, function(error, openChannel) {
+    openChannel.join(function(error) {
+      dispatch({
+        type: OPEN_CHANNELS_OPEN,
+        openChannelsId: openChannelsId
+      })
+    })
+  })
+
+}
 
 export const openChannelsClose = (openChannelsId) => dispatch => {
   dispatch({
