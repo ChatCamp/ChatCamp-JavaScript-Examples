@@ -4,8 +4,10 @@ import { PersistGate } from 'redux-persist/integration/react'
 import ChatApp from 'containers/ChatApp'
 import Utility from 'utility/Utility'
 import {
-  GROUP_CHANNELS_CLOSE
+  GROUP_CHANNELS_CLOSE, SMART_CHAT_CLOSE
 } from 'state/action-types'
+import * as Debug from 'debug';
+const debug = Debug('chatcamp:Root')
 export default class Root extends Component {
   // static propTypes = {
   //   store: PropTypes.object,
@@ -71,14 +73,21 @@ export default class Root extends Component {
       }
 
       // if user id or app id doesnt match then delete the groupchannelsState
-      if(userId !== store.getState().user.get("id") || appId !== store.getState().user.get("appId")){
-        let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
-        for(let i in storeChannels)
-        store.dispatch({
-          type: GROUP_CHANNELS_CLOSE,
-          groupChannelsId: storeChannels[i]
-        })
+      if(store.getState().user.get("id", false)){
+        debug("start user id"+ store.getState().user.get("id", false))
+        if(userId !== store.getState().user.get("id") || appId !== store.getState().user.get("appId") || Utility.mobileCheck()){
+          let storeChannels = store.getState().groupChannelsState.keySeq().toArray()
+          for(let i in storeChannels)
+          store.dispatch({
+            type: GROUP_CHANNELS_CLOSE,
+            groupChannelsId: storeChannels[i]
+          })
+          store.dispatch({
+            type: SMART_CHAT_CLOSE
+          })
+        }
       }
+      
     }
     // const authProtection = this.authCheck.bind(this);
     // const routesWithAuthProtection = routes(authProtection, appId);

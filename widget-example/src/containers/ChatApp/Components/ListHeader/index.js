@@ -147,7 +147,7 @@ class ListHeader extends Component {
         <div className="cc-list-header-text">My Chats</div>
         { this.ifPopUp() && <div className={"cc-list-header-actions"}>
           <Popup className="headerSettings"
-            trigger={<div onClick={() => {this.closeSmartChat()}} className= "cc-lisr-header-close">{source_close}</div>}
+            trigger={<div onClick={() => {this.closeSmartChat()}} className= "cc-list-header-close">{source_close}</div>}
             hideOnScroll
             position='bottom right'
             on='hover' className="cc-theme cc-tooltips">

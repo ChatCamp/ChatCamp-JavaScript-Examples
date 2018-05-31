@@ -50,7 +50,7 @@ if (process.env.NODE_ENV !== 'production' && process.env.REACT_APP_PERF === 'tru
 export const initialState = {
   user: Immutable.fromJS({
     name: "User Name",
-    id: "0",
+    id: false,
     avatarUrl: "//cdn.iflychat.com/img/default_avatar.png",
     profileUrl: "javascript:void(0)",
     role: Immutable.Map({}),

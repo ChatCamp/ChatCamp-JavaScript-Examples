@@ -92,8 +92,8 @@ class SmartChat extends Component {
     return (
       <div id="ifc-app">
         {/* <LeftPanel key={"1"}/> */}
-        {(this.props.smartChat.getIn(["isSmartChatOpen"])) && windows}
-        {!(this.props.smartChat.getIn(["isSmartChatOpen"])) && <WelcomeBubble />}
+        {(((this.props.smartChat.getIn(["isSmartChatOpen"])) && process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "TRUE") || process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "FALSE") && windows}
+        {!(this.props.smartChat.getIn(["isSmartChatOpen"])) && process.env.REACT_APP_CHATCAMP_WELCOME_BUBBLE_SHOW === "TRUE" &&<WelcomeBubble />}
         {(this.props.smartChat.getIn(["isSmartChatOpen"])) && showHidden && <HiddenChatWindow position={Math.floor(windowWidth/368)} />}
       </div>
     )
