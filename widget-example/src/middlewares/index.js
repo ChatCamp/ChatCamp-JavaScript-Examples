@@ -52,7 +52,7 @@ export const iFlyMiddleWare = store => {
   // to expose startchat to other platforms
   let startChat = (groupChannelId) => {
     if(Utility.mobileCheck()){
-      var el = document.getElementById('cc-app');
+      var el = document.getElementById('cc-app-inner');
       if(el) {
         el.className = 'cc-app-mobile'
       }
