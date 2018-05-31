@@ -34,6 +34,37 @@ _UtilityTime.getTimeTwelveHour = function(millis) {
     return time = (month+'/'+date+' '+hour+':'+minute+ampm);
   }
 };
+_UtilityTime.getTimeTwelveHourCompact = function(millis) {
+  var ct = new Date();
+  var ctime = new Date(millis);
+  var date = ctime.getDate();
+  var month = (ctime.getMonth())+1;
+  var minute = ctime.getMinutes();
+  var hour = ctime.getHours();
+  minute = (minute<10 ? '0':'') + minute;
+  date = (date<10 ? '0':'') + date;
+  var ampm = '';
+  if (hour > 12 && hour < 24) {
+    hour = hour - 12;
+    ampm = 'PM'
+  } else if (hour === 12 && minute > 0) {
+    ampm = 'PM'
+  } else if (hour === 24 ) {
+    hour = hour - 24;
+    ampm = 'AM'
+  } else {
+    ampm = 'AM'
+  }
+  hour = (hour<10 ? '0':'') + hour;
+  var time = ''
+  return time = (hour+':'+minute+ampm);
+  // if((ct.getDate() === ctime.getDate()) && (ct.getMonth() === ctime.getMonth())) {
+  //
+  // }
+  // else {
+  //   return time = (month+'/'+date+' '+hour+':'+minute+ampm);
+  // }
+};
 _UtilityTime.getTimeTwentyFourHour = function(millis) {
   var ct = new Date();
   var ctime = new Date(millis);
@@ -52,6 +83,27 @@ _UtilityTime.getTimeTwentyFourHour = function(millis) {
   else {
     return time = (month+'/'+date+' '+hour+':'+minute);
   }
+};
+
+_UtilityTime.getTimeTwentyFourHourCompact = function(millis) {
+  var ct = new Date();
+  var ctime = new Date(millis);
+  var date = ctime.getDate();
+  var month = (ctime.getMonth())+1;
+  var minute = ctime.getMinutes();
+  var hour = ctime.getHours();
+  minute = (minute<10 ? '0':'') + minute;
+  date = (date<10 ? '0':'') + date;
+
+  hour = (hour<10 ? '0':'') + hour;
+  var time = ''
+  return time = (hour+':'+minute);
+  // if((ct.getDate() === ctime.getDate()) && (ct.getMonth() === ctime.getMonth())) {
+  //
+  // }
+  // else {
+  //   return time = (month+'/'+date+' '+hour+':'+minute);
+  // }
 };
 _UtilityTime.timeSince = function(date,relativeFormat) {
 
@@ -146,12 +198,37 @@ let UtilityTime = {
       if(format === '1'){
         return _UtilityTime.getTimeTwelveHour(time)
       }
+      if(format === '4'){
+        return _UtilityTime.getTimeTwelveHourCompact(time)
+      }
       else if (format === '3'){
         return _UtilityTime.timeSince(time,relativeFormat)
       }
       else if (format === '2'){
         return _UtilityTime.getTimeTwentyFourHour(time)
       }
+      else if (format === '5'){
+        return _UtilityTime.getTimeTwentyFourHourCompact(time)
+      }
+  },
+
+  getReadableDate: function(time){
+    var ctime;
+    if(time){
+      ctime = new Date(time);
+    }
+    else{
+      ctime = new Date();
+    }
+    var date = ctime.getDate();
+    var month = (ctime.getMonth())+1;
+    var year = ctime.getFullYear();
+    return {
+      fullDate: date+'/' + month + "/" + year,
+      date: date,
+      month: month,
+      year: year
+    }
   },
 
 };

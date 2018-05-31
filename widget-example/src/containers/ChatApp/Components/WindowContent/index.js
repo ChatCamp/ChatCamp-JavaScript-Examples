@@ -215,11 +215,39 @@ class WindowContent extends Component {
       message = Map(message)
       //handle message clubbing
       let messageClubbing = this.handleClubbing(message,oldMessage)
+      let oldMessageTime;
+
+      //Time Divider Logic
+      if(_.isEmpty(oldMessage)){
+        oldMessageTime = (message.get('insertedAt') - 172800)*1000
+      }
+      else{
+        oldMessageTime = oldMessage.get('insertedAt')*1000
+      }
+
+      var currentReadableDate = UtilityTime.getReadableDate()
+      var messageReadableDate = UtilityTime.getReadableDate(message.get('insertedAt')*1000)
+      var oldMessageReadableDate = UtilityTime.getReadableDate(oldMessageTime)
+      let timeDivider = false;
+      if(currentReadableDate.fullDate ===  messageReadableDate.fullDate){
+        if(messageReadableDate.fullDate !== oldMessageReadableDate.fullDate){
+          timeDivider = "Today"
+        }
+      }
+      else{
+        if(messageReadableDate.fullDate !== oldMessageReadableDate.fullDate){
+            if((messageReadableDate.date - currentReadableDate.date === -1) && (messageReadableDate.month === currentReadableDate.month) && (messageReadableDate.year === currentReadableDate.year)){
+              timeDivider = "Yesterday"
+            }
+            else{
+              timeDivider = messageReadableDate.fullDate
+            }
+        }
+      }
+      //for next iteration, store old Message
       oldMessage = _.clone(message)
-      // if(this.cacheMessages[message.get("id")]){
-      //   debug("heyaaaaa")
-      //   debug(this.cacheMessages[message.get("id")].getText())
-      // }
+
+      //Message prep
       let text = null
       if(message.get('type') === "attachment") {
         let attachment = message.getIn(['attachment'])
@@ -312,7 +340,9 @@ class WindowContent extends Component {
         classes = classes + " cc-window-message-first"
       }
 
-
+      if(timeDivider){
+        messages.push(<div key={"window-message-" + message.get('id') + timeDivider} className="window-message cc-window-content-announcment">{timeDivider}</div>)
+      }
       //message object
       if(text!=null && message.get('type') !== "announcement"){
         messages.push(
@@ -343,7 +373,7 @@ class WindowContent extends Component {
                   <div className="message-content">
                     {text}
                     {this.props.type === "group" && <ReadReceipt groupChannelId ={this.props.id} message={message} />}
-                    {<div className="message-time">{UtilityTime.getTime('2', message.get('insertedAt')*1000)}</div>}
+                    {<div className="message-time">{UtilityTime.getTime('5', message.get('insertedAt')*1000)}</div>}
                   </div>
                   {/* <ReadReceipt groupChannelId ={this.props.id} message={message} /> */}
                   {/* {customType==="action_link" && <FlightCard product={JSON.parse(metadata.product)} />} */}
