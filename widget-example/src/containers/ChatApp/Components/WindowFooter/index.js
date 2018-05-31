@@ -262,7 +262,7 @@ class WindowFooter extends Component {
           <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden", width: 0}}/>
         </Grid.Column>
         {/* Canned Responses Add */}
-        {isFile && <CannedResponse id={this.props.id} />}
+        {false && isFile && <CannedResponse id={this.props.id} />}
         {/* Attach File */}
         {isFile && <Grid.Column className="chatcamp-widget-attach-main" verticalAlign="middle" width={1}>
           <Popup
@@ -291,17 +291,17 @@ class WindowFooter extends Component {
           />
         </Grid.Column>}
         {/* Start Recording*/}
-        {false && isFile && !record && <Grid.Column verticalAlign="middle" width={1}>
+        { isFile && !record && <Grid.Column className="chatcamp-widget-record-main" verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Icon name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
+            trigger={<Icon className= "chatcamp-widget-record" name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
             content='Start Recording'
             className="cc-theme cc-tooltips"
           />
         </Grid.Column>}
         {/* Stop Recording*/}
-        {false && isFile && record && <Grid.Column verticalAlign="middle" width={1}>
+        {isFile && record && <Grid.Column className="chatcamp-widget-record-main" verticalAlign="middle" width={1}>
           <Popup
-            trigger={<Icon name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
+            trigger={<Icon className= "chatcamp-widget-record" name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
             content='Stop Recording'
             className="cc-theme cc-tooltips"
           />

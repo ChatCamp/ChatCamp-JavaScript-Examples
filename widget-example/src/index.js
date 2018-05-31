@@ -91,14 +91,28 @@ export const store = configureStore(initialState);
 //   ReactDOM.render(ChatComponent, document.getElementsByClassName("iflychat-popup")[0]);
 // } else {
   // const RootComponent = configureRootComponent(store);
-
-  const RootComponent = configureRootComponent(store);
-  ReactDOM.render(<div className="cc-root">{RootComponent}</div>, document.getElementById('cc-app'));
-
   var el = document.getElementById('cc-app');
   if(el) {
-    el.className = Utility.mobileCheck() ? 'cc-app-mobile' : 'cc-app-desktop';
+    el.className = 'cc-root'
   }
+
+  let mobileClass = Utility.mobileCheck() ? 'cc-app-mobile' : 'cc-app-desktop';
+
+  const RootComponent = configureRootComponent(store);
+
+  let innerApp = <div id="cc-app-inner" className={mobileClass}>{RootComponent}</div>
+
+  ReactDOM.render(innerApp, document.getElementById('cc-app'));
+
+  window.addEventListener('resize', function(){
+    mobileClass = Utility.mobileCheck() ? 'cc-app-mobile' : 'cc-app-desktop';
+    innerApp = <div id="cc-app-inner" className={mobileClass}>{RootComponent}</div>
+    // alert("heya" + mobileClass);
+    ReactDOM.render(innerApp, document.getElementById('cc-app'));
+  })
+
+
+  
   // ReactDOM.render(<IFlyProvider client={client}>{RootComponent}</IFlyProvider>, document.getElementById('app'));
 
 // }

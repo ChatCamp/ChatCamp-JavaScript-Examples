@@ -178,6 +178,9 @@
     color: $secondary-text!important;
     border-color: rgba($secondary-text, 0.2)!important;
   }
+  audio{
+    height: 70px;
+  }
 }
 .ui.popup.cc-theme:before{
   background: $secondary-background!important;
@@ -221,9 +224,9 @@
     .emoji-mart-preview-emoji, .emoji-mart-preview-shortname{
       color: rgba($secondary-text, 0.45);
     }
-    .emoji-mart-skin-swatches{
+    // .emoji-mart-skin-swatches{
 
-    }
+    // }
 
   }
 }
@@ -251,13 +254,17 @@ body a {
   height: auto;
 }
 
+.ui.modal>.content audio.message-bubble {
+  height: 70px;
+}
+
 .cc-app-mobile{
   width: 100%;
   height: 100%;
-  .cc-root{
-    width: 100%;
-    height: 100%;
-  }
+  // .cc-root{
+  //   width: 100%;
+  //   height: 100%;
+  // }
 }
 .cc-app-mobile.cc-app-mobile-min{
   height: 0;

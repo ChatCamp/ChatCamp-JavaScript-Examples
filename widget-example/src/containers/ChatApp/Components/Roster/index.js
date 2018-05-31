@@ -5,15 +5,10 @@ import * as actions from 'state/groupChannelsState/actions'
 import * as groupChannelsActions from 'state/groupChannels/actions'
 import {List, Label, Icon, Image } from 'semantic-ui-react'
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
-import status from 'utility/status'
 import UtilityTime from 'utility/UtilityTime'
 import client from 'Client'
 import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
 import {ICONS} from 'constants/icons'
-
-
-
-// import './style.css'
 
 class Roster extends Component {
 
@@ -92,16 +87,7 @@ class Roster extends Component {
       position: "relative",
       marginTop: '13px'
     }
-    let getStatusStyle = (statusCode) => {
-      return {
-        top: "-25px",
-        left: "43px",
-        position: "relative",
-        border: "1px solid",
-        borderColor: "#fff",
-        backgroundColor: status.getColorFromStatusCode(statusCode)
-      }
-    }
+    
     //iterating in roster and rendering active users
     if(this.props.type === "users"){
       this.props.userList.map((rosterItem) => {
@@ -117,10 +103,7 @@ class Roster extends Component {
             <List.Item className={"list-users"} key={"roster-key-" + rosterItem.getIn(['id']) } onClick={() => this.onUserClick(rosterItem.getIn(['id']))}>
               <List.Content style={inlineStyleHeightImage} floated='left' verticalAlign='middle'>
                 {<Image as={()=> <AvatarWrapper style={inlineStyleDisplay} className="image" name={rosterItem.getIn(['displayName'])} src={rosterItem.getIn(['avatarUrl'])} />}/>}
-                {/* {rosterItem.getIn(['avatarUrl']) && <Image src={rosterItem.getIn(["avatarUrl"])} />} */}
-                {/* <Icon name="circle"/> */}
                 {onlineStatus}
-                {/* <Label style={getStatusStyle('A')} circular floating empty /> */}
               </List.Content>
 
               <List.Content className="cc-user-list-name" verticalAlign='middle'>

@@ -63,7 +63,7 @@ class WindowHeader extends Component {
       this.props.actions.openChannelsClose(this.props.id)
     }
     if(Utility.mobileCheck() && (process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "FALSE")){
-      var el = document.getElementById('cc-app');
+      var el = document.getElementById('cc-app-inner');
       if(el) {
         el.className += ' cc-app-mobile-min';
       }

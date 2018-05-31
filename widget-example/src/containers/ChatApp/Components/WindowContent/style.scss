@@ -44,7 +44,7 @@
     }
   }
   .content{
-    max-width: 65%!important;
+    max-width: 85%!important;
     .text{
       display: block;
       .message-bubble{
@@ -52,11 +52,16 @@
         box-sizing: border-box;
       }
     }
+    audio{
+      height: 66px;
+      width: 261px;
+    }
   }
   .author{
     font-size: 11px!important;
     color: rgba($secondary-text, .45) !important;
   }
+  
 }
 .message-time{
   color: rgba($secondary-text, .45) !important;

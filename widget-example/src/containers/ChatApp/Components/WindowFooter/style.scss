@@ -72,6 +72,20 @@
       margin-top: 10px;
     }
   }
+  .chatcamp-widget-record-main{
+    padding:0!important;
+    cursor: pointer;
+    display: block;
+    height: 49px;
+    .chatcamp-widget-record{
+      width: 24px;
+      height: 24px;
+      display: block;
+      cursor: pointer;
+      margin-top: 12px;
+      font-size: 19px;
+    }
+  }
   .chatcamp-widget-send-main{
     padding: 0!important;
     cursor: pointer;

@@ -7,6 +7,9 @@ import _ from 'lodash'
 import Immutable from 'immutable';
 import AvatarWrapper from 'containers/ChatApp/Components/AvatarWrapper'
 import UtilityTime from 'utility/UtilityTime'
+import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
+import {ICONS} from 'constants/icons'
+
 class GroupParticipantsList extends Component {
 
   state = {
