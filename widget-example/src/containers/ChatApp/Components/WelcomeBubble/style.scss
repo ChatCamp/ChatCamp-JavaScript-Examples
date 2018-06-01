@@ -8,6 +8,7 @@
   bottom : 32px;
   right: 20px;
   cursor: pointer;
+  z-index: 2147483647;
   .chatcamp-wb-left{
     width: 225px;
     height: 65px;
@@ -31,17 +32,17 @@
     }
   }
   .chatcamp-wb-right{
-    width: 60px;
-    height: 60px;
-    border-radius: 60px;
+    width: 65px;
+    height: 65px;
+    border-radius: 65px;
     background-color: $primary-background;
     padding: 10px;
     float: right;
     -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.06),0 2px 32px rgba(0,0,0,.16)!important;
     .chatcamp-wb-right-image{
       width: 100%;
-      margin-left: 13px;
-      margin-top: 12px;
+      margin-left: 6px;
+      margin-top: 5px;
       height: 100%;
       display: block;
     }
@@ -57,7 +58,7 @@
       line-height: 21px;
       position: absolute;
       top: 2px;
-      left: 54px;
+      left: 47px;
       -webkit-font-smoothing: antialiased;
     }
   }

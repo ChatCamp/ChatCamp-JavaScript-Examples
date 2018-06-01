@@ -19,10 +19,10 @@ import SoundNotification from 'containers/ChatApp/Components/SoundNotification'
 import TitleAlert from 'containers/ChatApp/Components/TitleAlert'
 import DesktopNotification from 'containers/ChatApp/Components/DesktopNotification'
 import ReadReceipt from 'containers/ChatApp/Components/ReadReceipt'
+import AudioPlayer from 'containers/ChatApp/Components/AudioPlayer'
 import UnicodeToImg from 'utility/UnicodeToImg'
 import UtilityTime from 'utility/UtilityTime'
 import ProcessMessage from 'utility/ProcessMessage';
-import DetectBrowser from 'utility/DetectBrowser';
 import client from 'Client'
 import _ from 'lodash'
 import MessageActionCard from '../MessageActionCard'
@@ -41,10 +41,6 @@ class WindowContent extends Component {
   state = {
     cacheMessages : {},
     isLoading: false,
-    soundPlay: "STOPPED",
-    soundPlayURL: "",
-    soundDuration: 0,
-    soundCurrentPosition: 0,
     cardState: {"$id": "2",
     "ProductID": 44,
     "Name": "Streaker Fitbit",
@@ -60,33 +56,6 @@ class WindowContent extends Component {
 
   handleInviteCancel() {
 
-  }
-
-  handleSoundPlay(soundURL) {
-    // alert("heya")
-    debug("soundplay", soundURL)
-    this.setState({soundPlay: Sound.status.PLAYING, soundPlayURL: soundURL})
-  }
-
-  handleSoundPause(){
-    this.setState({soundPlay: Sound.status.PAUSED})
-  }
-
-  handleOnFinishedPlaying = () => {
-    this.setState({soundPlay: Sound.status.STOPPED, soundPlayURL: ""})
-  }
-
-  handleOnLoading = (object) => {
-    debug("handleOnLoading", object)
-  }
-
-  handleOnLoad = (object) => {
-    debug("handleOnLoad", object)
-  }
-
-  handleOnPlaying = (object) => {
-    debug("handleOnPlayiung", object.duration, object.position)
-    this.setState({soundCurrentPosition: Math.floor(object.position/1000), soundDuration: Math.floor(object.duration/1000)})
   }
 
   handleInviteConfirm() {
@@ -164,30 +133,6 @@ class WindowContent extends Component {
       this.scrollHeight = node.scrollHeight
       this.scrollTop = node.scrollTop
     }
-
-    // let t = this
-    // let currentChannelId = this.props.id
-    // let channelListener = new client.ChannelListener();
-    // channelListener.onGroupChannelMessageReceived = function(groupChannel, message) {
-    //   if(currentChannelId === groupChannel.id){
-    //     debug("heyaaaaa1111", message)
-    //     this.serialize = message.serialize()
-    //     debug("heyaaaaa2222", this.serialize)
-    //     debug("heyaaaaa333", message.__proto__, JSON.stringify(message.__proto__))
-    //     let m = client.Message.deSerialize(this.serialize)
-    //     debug("heyaaaaa", m,m.getText)
-    //     // debug(m.getText())
-    //   }
-    // }
-    // client.addChannelListener("WindowContent", channelListener)
-    // client.GroupChannel.get(this.props.id, function(error, groupChannel) {
-    //   let previousMessageListQuery = groupChannel.createPreviousMessageListQuery();
-    //   previousMessageListQuery.load(20, null, function(previousMessageListQueryError, messages) {
-    //
-    //   })
-
-    // })
-
 
   }
 
@@ -319,63 +264,8 @@ class WindowContent extends Component {
             text = modal
           }
           if(attachment.get('type').substring(0,5) === "audio"){
-            if(!DetectBrowser.detectIE()){
-              // text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
-              if(this.state.soundPlay === Sound.status.PAUSED || this.state.soundPlay === Sound.status.STOPPED){
-                text = <div className="cc-sound-player"><PlayButton className="PlayButton message-bubble"
-                isEnabled={true}
-                onClick={() => this.handleSoundPlay(attachment.get('url'))} 
-                />
-                {/* <TimeMarker
-                totalTime={this.state.soundDuration}
-                currentTime={this.state.soundCurrentPosition}
-                markerSeparator={"/"}
-                firstMarkerType={TimeMarkerType.ELAPSED}
-                secondMarkerType={TimeMarkerType.DURATION}
-              /> */}
-              <FormattedTime
-              numSeconds={this.state.soundCurrentPosition}
-                />
-              <ProgressBar
-                totalTime={this.state.soundDuration}
-                currentTime={this.state.soundCurrentPosition}
-                isSeekable={true}
-              /></div>
-              
-              }
-              else{
-                text = <div className="cc-sound-player"><PauseButton className="PauseButton message-bubble"
-                onClick={() => this.handleSoundPause()} 
-                />
-                <FormattedTime
-                  numSeconds={this.state.soundCurrentPosition}
-                />
-                <ProgressBar
-                totalTime={this.state.soundDuration}
-                currentTime={this.state.soundCurrentPosition}
-                isSeekable={true}
-              /></div>
-              }
-              
-              {text}
-              // <Sound className="message-bubble" playStatus={Sound.status.PLAYING} autoLoad = {true} url={attachment.get('url')} />
-              //TODO: remove modal from recordings
-              // let modal = <Modal trigger={text} closeIcon>
-              //   <Modal.Header>Audio</Modal.Header>
-              //   <Modal.Content>
-              //     <Modal.Description>
-                    
-              //     </Modal.Description>
-              //   </Modal.Content>
-              // </Modal>
-              // text = modal
-            }
-            else{
-              // IE render link instead of audio player
-              text = <div className="message-bubble" dangerouslySetInnerHTML={{ __html: ProcessMessage.MediaRender(attachment.get('url'))}}></div>
-            }
+            text = <AudioPlayer key={"player_" + message.get('id')} id={message.get('id')} url={attachment.get('url')}/>
           }
-        // }
       }
       else if(message.get('type') === "announcment"){
         text = ""

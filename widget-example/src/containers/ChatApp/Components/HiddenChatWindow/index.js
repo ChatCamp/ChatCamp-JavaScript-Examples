@@ -46,26 +46,28 @@ class HiddenChatWindow extends Component {
   }
 
   getName(id, chatWindow){
-    let name;
+    // let name;
     if(chatWindow.getIn(["type"]) === "open"){
-      name = this.props.openChannels.getIn([id, "name"])
+      return  this.props.openChannels.getIn([id, "name"])
     }
     else if(chatWindow.getIn(["type"]) === "group"){
-      if( this.props.groupChannels.getIn([id, "participantsCount"]) === 2 && this.props.groupChannels.getIn([id, "isDistinct"]) === true){
-        let id = this.props.user.get("id")
+      let groupChannels = this.props.groupChannels
+      if( (groupChannels.getIn([id, "participantsCount"]) === 2 )&& (groupChannels.getIn([id, "isDistinct"]) === true)){
+        let userId = this.props.user.get("id")
         let participants = this.props.groupChannels.getIn([id, "participants"])
         for(let i in participants){
-          if(participants[i].id !== id){
-              name = participants[i].displayName
+          if(participants[i].id !== userId){
+            return participants[i].displayName
           }
         }
       }
       else{
-        name = this.props.groupChannels.getIn([id, "name"])
+        return this.props.groupChannels.getIn([id, "name"])
+        
       }
     }
 
-    return name
+    // return name
   }
 
   render () {

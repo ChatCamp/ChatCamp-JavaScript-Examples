@@ -4,6 +4,7 @@
 @import "./Components/Emoji/style.scss";
 @import './Components/ProfileCard/style.scss';
 .#{$app-name}-root{
+  @import './Components/AudioPlayer/style.scss';
 @import './Components/AvatarWrapper/style.scss';
 @import './Components/CannedResponse/style.scss';
 @import './Components/ChatCampIcon/style.scss';
