@@ -43,7 +43,6 @@
     "node-sass": "^4.5.3",
     "react-addons-perf": "^15.4.2",
     "redux-devtools-extension": "^2.13.2",
-    "semantic-ui": "^2.2.10",
     "why-did-you-update": "0.0.8"
   },
   "scripts": {
