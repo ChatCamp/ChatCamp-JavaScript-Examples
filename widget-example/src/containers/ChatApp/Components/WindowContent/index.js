@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Sound from 'react-sound';
+import { PlayButton, PauseButton, ProgressBar, TimeMarker, TimeMarkerType,FormattedTime } from 'react-player-controls'
 import {
   GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
   GROUP_CHANNELS_INVALID_PARTICIPANT
@@ -22,9 +24,11 @@ import UtilityTime from 'utility/UtilityTime'
 import ProcessMessage from 'utility/ProcessMessage';
 import DetectBrowser from 'utility/DetectBrowser';
 import client from 'Client'
-
 import _ from 'lodash'
 import MessageActionCard from '../MessageActionCard'
+import * as Debug from 'debug'
+const debug = Debug('chatcamp:WindowContent')
+
 
 // import ReactList from 'react-list';
 // import { Scrollbars } from 'react-custom-scrollbars';
@@ -37,6 +41,10 @@ class WindowContent extends Component {
   state = {
     cacheMessages : {},
     isLoading: false,
+    soundPlay: "STOPPED",
+    soundPlayURL: "",
+    soundDuration: 0,
+    soundCurrentPosition: 0,
     cardState: {"$id": "2",
     "ProductID": 44,
     "Name": "Streaker Fitbit",
@@ -52,6 +60,33 @@ class WindowContent extends Component {
 
   handleInviteCancel() {
 
+  }
+
+  handleSoundPlay(soundURL) {
+    // alert("heya")
+    debug("soundplay", soundURL)
+    this.setState({soundPlay: Sound.status.PLAYING, soundPlayURL: soundURL})
+  }
+
+  handleSoundPause(){
+    this.setState({soundPlay: Sound.status.PAUSED})
+  }
+
+  handleOnFinishedPlaying = () => {
+    this.setState({soundPlay: Sound.status.STOPPED, soundPlayURL: ""})
+  }
+
+  handleOnLoading = (object) => {
+    debug("handleOnLoading", object)
+  }
+
+  handleOnLoad = (object) => {
+    debug("handleOnLoad", object)
+  }
+
+  handleOnPlaying = (object) => {
+    debug("handleOnPlayiung", object.duration, object.position)
+    this.setState({soundCurrentPosition: Math.floor(object.position/1000), soundDuration: Math.floor(object.duration/1000)})
   }
 
   handleInviteConfirm() {
@@ -118,7 +153,9 @@ class WindowContent extends Component {
   }
 
   componentDidMount() {
-    // this.cacheMessages = []
+    let modalMountNode = document.getElementById("ifc-app")
+    this.setState({modalMountNode: modalMountNode})
+
     this.updateNodeInfo = true
 
     let node = ReactDOM.findDOMNode(this);
@@ -259,7 +296,7 @@ class WindowContent extends Component {
                   this.updateNodeInfo = false
                   this.forceUpdate()
                 }} />
-            let modal = <Modal className="cc-theme" trigger={text} closeIcon>
+            let modal = <Modal mountNode= {this.state.modalMountNode} className="cc-theme" trigger={text} closeIcon>
               <Modal.Header>Photo</Modal.Header>
               <Modal.Content>
                 <Modal.Description>
@@ -271,7 +308,7 @@ class WindowContent extends Component {
           }
           if(attachment.get('type').substring(0,5) === "video"){
             text = <video className="message-bubble" controls><source src={attachment.get('url')} />Your browser does not support the video tag.</video>
-            let modal = <Modal trigger={text} closeIcon>
+            let modal = <Modal mountNode= {this.state.modalMountNode} trigger={text} closeIcon>
               <Modal.Header>Video</Modal.Header>
               <Modal.Content>
                 <Modal.Description>
@@ -283,16 +320,55 @@ class WindowContent extends Component {
           }
           if(attachment.get('type').substring(0,5) === "audio"){
             if(!DetectBrowser.detectIE()){
-              text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
-              let modal = <Modal trigger={text} closeIcon>
-                <Modal.Header>Audio</Modal.Header>
-                <Modal.Content>
-                  <Modal.Description>
-                    {text}
-                  </Modal.Description>
-                </Modal.Content>
-              </Modal>
-              text = modal
+              // text = <audio className="message-bubble" controls><source src={attachment.get('url')} type="audio/ogg"/></audio>
+              if(this.state.soundPlay === Sound.status.PAUSED || this.state.soundPlay === Sound.status.STOPPED){
+                text = <div className="cc-sound-player"><PlayButton className="PlayButton message-bubble"
+                isEnabled={true}
+                onClick={() => this.handleSoundPlay(attachment.get('url'))} 
+                />
+                {/* <TimeMarker
+                totalTime={this.state.soundDuration}
+                currentTime={this.state.soundCurrentPosition}
+                markerSeparator={"/"}
+                firstMarkerType={TimeMarkerType.ELAPSED}
+                secondMarkerType={TimeMarkerType.DURATION}
+              /> */}
+              <FormattedTime
+              numSeconds={this.state.soundCurrentPosition}
+                />
+              <ProgressBar
+                totalTime={this.state.soundDuration}
+                currentTime={this.state.soundCurrentPosition}
+                isSeekable={true}
+              /></div>
+              
+              }
+              else{
+                text = <div className="cc-sound-player"><PauseButton className="PauseButton message-bubble"
+                onClick={() => this.handleSoundPause()} 
+                />
+                <FormattedTime
+                  numSeconds={this.state.soundCurrentPosition}
+                />
+                <ProgressBar
+                totalTime={this.state.soundDuration}
+                currentTime={this.state.soundCurrentPosition}
+                isSeekable={true}
+              /></div>
+              }
+              
+              {text}
+              // <Sound className="message-bubble" playStatus={Sound.status.PLAYING} autoLoad = {true} url={attachment.get('url')} />
+              //TODO: remove modal from recordings
+              // let modal = <Modal trigger={text} closeIcon>
+              //   <Modal.Header>Audio</Modal.Header>
+              //   <Modal.Content>
+              //     <Modal.Description>
+                    
+              //     </Modal.Description>
+              //   </Modal.Content>
+              // </Modal>
+              // text = modal
             }
             else{
               // IE render link instead of audio player
@@ -427,6 +503,16 @@ class WindowContent extends Component {
         <SoundNotification groupChannelId = {this.props.id}/>
         <TitleAlert groupChannelId = {this.props.id}/>
         <DesktopNotification groupChannelId = {this.props.id}/>
+        <Sound 
+          playStatus={this.state.soundPlay} 
+          autoLoad = {true} 
+          url={this.state.soundPlayURL} 
+          onFinishedPlaying = {this.handleOnFinishedPlaying}
+          onLoading = {this.handleOnLoading}
+          onLoad = {this.handleOnLoad}
+          onPlaying = {this.handleOnPlaying}
+          onPause = {this.handleOnPause}
+        />
       </Segment>
     )
   }

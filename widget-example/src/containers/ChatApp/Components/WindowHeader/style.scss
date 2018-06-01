@@ -13,7 +13,7 @@
   background-color: #222;
   .cc-window-header-status-main{
     padding:0!important;
-    margin: 0px 10px 0px 8px!important;
+    margin: 0px 10px 0px 0px!important;
     height: 18px;
     padding-top: 4px!important;
   }
@@ -86,6 +86,8 @@
   background-color: $primary-background!important;
   border-radius: 7px 7px 0 0;
   box-sizing: border-box;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 .cc-window-header-status{
   width: 16px;

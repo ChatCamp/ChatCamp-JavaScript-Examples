@@ -7,8 +7,9 @@ import * as actionsUserList from 'state/userList/actions'
 import * as actionsGroupChannels from 'state/groupChannels/actions'
 import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
 import {ICONS} from 'constants/icons'
-
+import * as Debug from 'debug'
 import { Image, Segment, Popup, Modal, Input, Form, Label, Dropdown, Button, Message } from 'semantic-ui-react'
+const debug = Debug('chatcamp:ListHeader')
 class ListHeader extends Component {
 
   state = {
@@ -17,7 +18,13 @@ class ListHeader extends Component {
     groupParticipants: [],
     showGroupNameError: false,
     showGroupParticipantsError: false,
-    modalOpen: false
+    modalOpen: false,
+    modalMountNode: ""
+  }
+
+  componentDidMount(){
+    let node = document.getElementById("ifc-app")
+    this.setState({modalMountNode: node})
   }
 
   ifPopUp = () => {
@@ -81,6 +88,8 @@ class ListHeader extends Component {
   }
 
   render () {
+    // let node = React.findDOMNode(this.textInputRef)
+    // console.log("node", node)
     let sourceURL = process.env.PUBLIC_URL + "/"
     let source =  <ChatCampIcon icon={ICONS.CREATE} height="20px" width="20px" viewBox="0 0 35 35"/>
     let source_close =  <ChatCampIcon icon={ICONS.CLOSE} height="24px" width="24px" viewBox="0 0 50 50"/>
@@ -99,10 +108,11 @@ class ListHeader extends Component {
           options.push({key: id, value: id, text: name  })
       }
     })
+    // console.log("domnode")
 
    return(
      <Segment className="cc-list-header cc-widget">
-       <Modal className="cc-create-group-modal cc-theme" open={modalOpen} size="tiny"
+       <Modal mountNode= {this.state.modalMountNode} className="cc-create-group-modal cc-theme" open={modalOpen} size="tiny"
          trigger={<Popup className="headerSettings"
                          trigger={<div onClick={this.buttonClick.bind()} className= "cc-list-header-image">{source}</div>}
                          hideOnScroll

@@ -18,7 +18,13 @@ class WindowHeader extends Component {
     groupParticipants: [],
     showGroupNameError: false,
     showGroupParticipantsError: false,
-    modalOpen: false
+    modalOpen: false,
+    modalMountNode: ""
+  }
+
+  componentDidMount(){
+    let node = document.getElementById("ifc-app")
+    this.setState({modalMountNode: node})
   }
 
   findFirstHidden(){
@@ -334,7 +340,7 @@ class WindowHeader extends Component {
                               {(this.props.type === "open") &&<Dropdown.Item onClick={this.leaveOpen.bind()} icon='sign out' text='Leave Chat' />}
                             </Dropdown.Menu>
                           </Dropdown>
-                  <Modal className="cc-create-group-modal cc-theme" open={modalOpen} size="tiny">
+                  <Modal mountNode= {this.state.modalMountNode} className="cc-create-group-modal cc-theme" open={modalOpen} size="tiny">
                    <Modal.Header>Add Participants</Modal.Header>
                      <Modal.Content>
                        <Modal.Description>

@@ -93,6 +93,7 @@
   display: block;
   float: left;
   position: relative;
+  z-index: 2147483646;
   // height: 20px;
   // bottom: 20px;
   width: 100%;
@@ -130,7 +131,14 @@
       fill: #aaaaaa!important;
   }
 }
+.modals{
+  z-index: 2147483647;
 }
+.modal{
+  z-index: 2147483647;
+}
+}
+
 .cc-theme {
   background: $secondary-background!important;
   border-color: rgba($secondary-text, 0.2)!important;
@@ -181,6 +189,9 @@
   audio{
     height: 70px;
   }
+}
+.ui.popup.cc-theme{
+  z-index: 2147483647;
 }
 .ui.popup.cc-theme:before{
   background: $secondary-background!important;
