@@ -15,6 +15,8 @@ import Utility from 'utility/Utility';
 import DetectBrowser from 'utility/DetectBrowser';
 import ChatCampIcon from 'containers/ChatApp/Components/ChatCampIcon'
 import {ICONS} from 'constants/icons'
+import * as Debug from 'debug';
+const debug = Debug('chatcamp:WindowFooter')
 
 class WindowFooter extends Component {
   state = {
@@ -34,15 +36,16 @@ class WindowFooter extends Component {
   }
 
   componentWillMount(){
-    let mic
-    if(!DetectBrowser.detectIE()){
-      mic = require("react-mic").ReactMic
-      this.setState({mic: mic})
-    }
-    else{
-      this.setState({mic: false})
-    }
+    // let mic
+    // if(!DetectBrowser.detectIE()){
+    //   mic = require("react-mic").ReactMic
+    //   this.setState({mic: mic})
+    // }
+    // else{
+    //   this.setState({mic: false})
+    // }
   }
+  componentDidUpdate
 
   handleChange = (e) =>{
     let isFile = false;
@@ -73,12 +76,12 @@ class WindowFooter extends Component {
       let diff = height - this.state.footerHeight
       if(diff !== 0 && !this.state.initialLoad){
         this.setState({footerHeight: height},function(){
-          let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].offsetHeight
+          let contentHeight = this.textInputRef.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].offsetHeight
           let contentHeightInt = contentHeight
           let newContentHeightInt =  contentHeightInt - diff
-          this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt  + "px"
+          this.textInputRef.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].style.height = newContentHeightInt  + "px"
           if(diff > 0){
-            this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
+            this.textInputRef.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop = this.textInputRef.parentNode.parentNode.parentNode.parentNode.parentNode.getElementsByClassName("window-content")[0].scrollTop + diff
           }
 
         })
@@ -153,9 +156,19 @@ class WindowFooter extends Component {
   }
 
   startRecording = () => {
-    this.setState({
-      record: true
-    });
+    let mic
+    if(!DetectBrowser.detectIE()){
+      mic = require("react-mic").ReactMic
+      this.setState({mic: mic, record: true}, function(){
+
+      })
+    }
+    else{
+      this.setState({mic: false, record: true})
+    }
+    // this.setState({
+    //   record: true
+    // });
   }
 
   stopRecording = () => {
@@ -165,8 +178,12 @@ class WindowFooter extends Component {
   }
 
   onStop = (recordedBlob) =>{
+    debug("on stop recording", this.props.id)
     var file = new File([recordedBlob.blob], "recording.mp3", {type: "audio/mp3", lastModified: Date.now()});
     this.props.actions.attachmentMessage(this.props.id, file)
+    this.setState({
+      mic: false
+    });
   }
 
   ifPopUp = () => {
@@ -193,9 +210,10 @@ class WindowFooter extends Component {
     let source_emoji = <ChatCampIcon icon={ICONS.SMILEY} height="20px" width="20px" viewBox="0 0 50 50"/>
 
     return (
-    <div className="window-footer" compact={true} size={"mini"}>
-
-      {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
+    <div>
+      {!!percent && <Progress className="cc-window-progress" percent={percent} size="tiny" />}
+      
+    <div className="window-footer" size={"mini"}>
       <div className="cc-window-footer-inner">
         <div className="chatcamp-widget-emoji-main cc-footer-elements">
           <Popup
@@ -272,7 +290,7 @@ class WindowFooter extends Component {
           />
         </div>}
         {/* Stop Recording*/}
-        {isFile && record && <div stretched className="chatcamp-widget-record-main cc-footer-elements">
+        {isFile && record && <div className="chatcamp-widget-record-main cc-footer-elements">
           <Popup
             trigger={<Icon className= "chatcamp-widget-record" name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
             content='Stop Recording'
@@ -285,8 +303,10 @@ class WindowFooter extends Component {
           record={this.state.record}
           className="cc-hideMic"
           onStop={this.onStop}
+          key= {this.props.id}
           strokeColor="#000000"
           backgroundColor="#FF4081" />}
+    </div>
     </div>
 
     )
