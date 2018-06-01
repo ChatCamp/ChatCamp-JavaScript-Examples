@@ -18,7 +18,7 @@ class SmartChat extends Component {
     let showHidden = false
     let windowWidth = window.innerWidth
     let that = this
-    if(process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "TRUE"){
+    if(process.env.REACT_APP_CHATCAMP_LIST_PANEL_SHOW === "TRUE" && this.props.smartChat.get("isSmartChatOpen") === true){
        windows.push(<LeftPanel key={"window-left"}/>)
        number = 1
     }

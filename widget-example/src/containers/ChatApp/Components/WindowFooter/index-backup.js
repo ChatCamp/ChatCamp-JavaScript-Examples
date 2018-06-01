@@ -138,6 +138,14 @@ class WindowFooter extends Component {
         this.props.actions1.attachmentMessage(this.props.id, file)
       }
     }
+
+    // reader.onloadend = () => {
+    //   this.setState({
+    //     attachment: file,
+    //   });
+    // }
+    //
+    // reader.readAsDataURL(file)
   }
 
 
@@ -165,8 +173,22 @@ class WindowFooter extends Component {
   }
 
   onStop = (recordedBlob) =>{
+
+    // var fd = new FormData();
+    // fd.append('fname', 'test.wav');
+    // fd.append('data', recordedBlob);
     var file = new File([recordedBlob.blob], "recording.mp3", {type: "audio/mp3", lastModified: Date.now()});
+    // let reader = new FileReader();
     this.props.actions.attachmentMessage(this.props.id, file)
+    // reader.onloadend = () => {
+    //   // debug("File Reader", reader)
+    //   this.setState({
+    //     attachment: file,
+    //     // imagePreviewUrl: reader.result
+    //   });
+    // }
+    //
+    // reader.readAsDataURL(file)
   }
 
   ifPopUp = () => {
@@ -179,9 +201,13 @@ class WindowFooter extends Component {
   }
 
   componentDidMount() {
+    // this.props.setInput(this.textInputRef);
     this.props.setFileRef(this.refs.attachmentField)
   }
 
+  componentWillUnmount() {
+    // this.props.removeInput(this.textInputRef)
+  }
 
   render () {
     const { message, isFile, isAction, record } = this.state
@@ -194,10 +220,10 @@ class WindowFooter extends Component {
 
     return (
     <div className="window-footer" compact={true} size={"mini"}>
-
+      {/* <textArea className="borderNone" placeholder='Type and Send Message..' name ='message' value={message} style={{ width: "100%"}} onChange={this.handleChange} onKeyDown={this.handleKeyPress} ref={node => this.textInputRef = node} /> */}
       {!!percent && <Progress percent={percent} attached="top" size="large" color="purple" />}
-      <div className="cc-window-footer-inner">
-        <div className="chatcamp-widget-emoji-main cc-footer-elements">
+      <Grid stretched>
+        <Grid.Column stretched className="chatcamp-widget-emoji-main" verticalAlign="middle" width={1}>
           <Popup
 
             trigger={<div className="chatcamp-widget-emoji">{source_emoji}</div>}
@@ -214,9 +240,10 @@ class WindowFooter extends Component {
             className="cc-popup-emoji cc-theme"
           />
 
-        </div>
+        </Grid.Column>
 
-        <div className="cc-window-footer-text-main">
+        <Grid.Column stretched verticalAlign="middle" width={(isFile && isAction)?13:(isFile?13:13)} className="cc-window-footer-text-main">
+
           <Textarea
             className="window-textarea"
             name ='message'
@@ -232,18 +259,18 @@ class WindowFooter extends Component {
             onHeightChange={(height, instance) => this.handleChangeHeight(height)}
             onClick={this.handleKeyPress}
           />
-          <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden", width: 0, height: 0, display: "none"}}/>
-        </div>
+          <input ref="attachmentField" type="file" onChange={this.handleFileUpload} style={{visibility: "hidden", width: 0}}/>
+        </Grid.Column>
         {/* Canned Responses Add */}
         {false && isFile && <CannedResponse id={this.props.id} />}
         {/* Attach File */}
-        {isFile && <div className="chatcamp-widget-attach-main cc-footer-elements">
+        {isFile && <Grid.Column className="chatcamp-widget-attach-main" verticalAlign="middle" width={1}>
           <Popup
             trigger={<div onClick={() => {this.sendAttachmentClick()}} className= "chatcamp-widget-attach">{source}</div>}
             content='Attach a File'
             className="cc-theme cc-tooltips"
           />
-        </div>}
+        </Grid.Column>}
         {/* Attach Media */}
         {false && isFile && !this.ifPopUp() && <Grid.Column stretched verticalAlign="middle" width={1}>
           <Popup
@@ -256,30 +283,30 @@ class WindowFooter extends Component {
           <MessageAction id={this.props.id}/>
         </Grid.Column>}
         {/* Send Message Button */}
-        {!isFile && <div className="chatcamp-widget-send-main cc-footer-elements">
+        {!isFile && <Grid.Column stretched className="chatcamp-widget-send-main" verticalAlign="middle" width={1}>
           <Popup
             trigger={<div onClick={() => {this.sendMessageClick()}} className= "chatcamp-widget-send">{source_send}</div>}
             content='Send Message'
             className="cc-theme cc-tooltips"
           />
-        </div>}
+        </Grid.Column>}
         {/* Start Recording*/}
-        { isFile && !record && <div className="chatcamp-widget-record-main cc-footer-elements">
+        { isFile && !record && <Grid.Column stretched className="chatcamp-widget-record-main" verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon className= "chatcamp-widget-record" name='microphone' size='large' onClick={() => {this.startRecording()}}/>}
             content='Start Recording'
             className="cc-theme cc-tooltips"
           />
-        </div>}
+        </Grid.Column>}
         {/* Stop Recording*/}
-        {isFile && record && <div stretched className="chatcamp-widget-record-main cc-footer-elements">
+        {isFile && record && <Grid.Column stretched className="chatcamp-widget-record-main" verticalAlign="middle" width={1}>
           <Popup
             trigger={<Icon className= "chatcamp-widget-record" name='microphone slash' size='large' onClick={() => {this.stopRecording()}}/>}
             content='Stop Recording'
             className="cc-theme cc-tooltips"
           />
-        </div>}
-      </div>
+        </Grid.Column>}
+      </Grid>
       {/* React Mic Hidden Component*/}
       { this.state.mic && <this.state.mic
           record={this.state.record}

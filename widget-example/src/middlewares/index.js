@@ -24,6 +24,8 @@ import {
   OPEN_CHANNELS_MESSAGE_RECEIVED_SUCCESS,
   OPEN_CHANNELS_CLOSE,
   OPEN_CHANNELS_REMOVE_HISTORY,
+  SMART_CHAT_OPEN,
+  SMART_CHAT_CLOSE,
   USER_LIST_SUCCESS
 } from 'state/action-types'
 
@@ -81,6 +83,11 @@ export const iFlyMiddleWare = store => {
         openChannelsId: channelId
       })
     }
+    else if(channelType === "roster"){
+      store.dispatch({
+        type: SMART_CHAT_OPEN
+      })
+    }
   }
 
   // client.connect(userId, accessToken, "localhost", "9080", function(e, user) {
@@ -111,8 +118,20 @@ export const iFlyMiddleWare = store => {
             allGroupChannels.push(index)
           }
         })
-        // debug("all channels", allOpenChannels, allGroupChannels)
-        // allGroupChannels = allGroupChannels.concat(storeChannels)
+
+        let storeUserId = store.getState().user.get("id")
+        debug("smartChat Store", storeUserId)
+        if(storeUserId === false && !Utility.mobileCheck())
+        if(process.env.REACT_APP_CHATCAMP_LIST_PANEL_OPEN_DEFAULT === "TRUE"){
+          store.dispatch({
+            type: SMART_CHAT_OPEN
+          })
+        }
+        else if(process.env.REACT_APP_CHATCAMP_LIST_PANEL_OPEN_DEFAULT === "FALSE"){
+          store.dispatch({
+            type: SMART_CHAT_CLOSE
+          })
+        }
 
         store.dispatch({
           type: CHAT_CONNECT_SUCCESS,
@@ -122,6 +141,9 @@ export const iFlyMiddleWare = store => {
           type: SET_SMART_CHAT_TYPE,
           data: {type: "popup"} //popup or embed
         });
+
+        
+        
 
       if(!Utility.mobileCheck()){
         for(let i in allGroupChannels){

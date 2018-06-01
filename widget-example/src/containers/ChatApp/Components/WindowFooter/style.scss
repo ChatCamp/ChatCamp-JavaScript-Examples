@@ -1,123 +1,130 @@
-.backgroundNone{
-  background: none!important;
+.window-footer {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 10px;
+  background-color: $secondary-background;
+  .cc-window-footer-inner{
+    width: 100%;
+    display: flex;
+    .cc-footer-elements{
+      display: inline-block;
+      width: 6.25%;
+      height: 23px;
+    }
+    .cc-window-footer-text-main{
+      width: 81.25%;
+      display: inline-block;
+      padding: 0px 8px;
+      .window-textarea{
+        width: 100%;
+        min-height: 23px;
+        box-sizing: border-box;
+        // margin: 4px 0px;
+        display: block;
+        outline: none;
+      }
+    }
+  }
 }
-.borderNone{
-  border: none!important;
-  resize: none;
-}
-.hideMic{
+
+// .backgroundNone{
+//   background: none!important;
+// }
+// .borderNone{
+//   border: none!important;
+//   resize: none;
+// }
+.cc-hideMic{
   height: 0;
   width: 0;
   display: none
 }
 
-.window-footer {
-  min-height: 48px;
-  margin: 0!important;
- i.icon {
-  cursor: pointer;
-  color: rgba($secondary-text, .70) !important;;
-  opacity: 0.5;
-  // &:hover {
-  //   opacity: 1;
-  // }
-}
-}
-
-.backgroundNone{
-  background: none!important;
-}
-.borderNone{
-  border: none!important;
-  resize: none;
-}
-.hideMic{
-  height: 0;
-  width: 0
-}
-
-.window-footer {
-  min-height: 49px;
-  background-color: $secondary-background;
-  border-radius: 0 0 8px 8px!important;
-  .cc-window-footer-text-main{
-    padding-top: 0px!important;
-    padding-bottom: 0px!important;
-    font-size: 13.5px;
-    min-height: 49px;
-    box-sizing: border-box;
-    .window-textarea{
-      color: rgba($secondary-text, .70) !important;;
-      outline: none;
-      -webkit-font-smoothing: antialiased;
-      width: 100%;
-      min-height: 23px;
-      margin-top: 13px;
-      margin-bottom: 13px;
-      overflow-x: hidden;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-  }
-  .chatcamp-widget-attach-main{
-    padding:0!important;
-    cursor: pointer;
-    display: block;
-    height: 49px;
-    .chatcamp-widget-attach{
-      width: 24px;
-      height: 24px;
-      display: block;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-  }
-  .chatcamp-widget-record-main{
-    padding:0!important;
-    cursor: pointer;
-    display: block;
-    height: 49px;
-    .chatcamp-widget-record{
-      width: 24px;
-      height: 24px;
-      display: block;
-      cursor: pointer;
-      margin-top: 12px;
-      font-size: 19px;
-    }
-  }
-  .chatcamp-widget-send-main{
-    padding: 0!important;
-    cursor: pointer;
-    .chatcamp-widget-send{
-      width: 24px;
-    }
-  }
-  .chatcamp-widget-emoji-main{
-    padding: 0!important;
-    cursor: pointer;
-    display: block;
-    height: 49px;
-    .chatcamp-widget-emoji{
-      width: 18px;
-      margin-top: 10px;
-      display: block;
-      cursor: pointer;
-    }
-  }
- i.icon {
-  cursor: pointer;
-  color: rgba($secondary-text, .70) !important;;
-  opacity: 0.5;
-  font-size: 16px;
-  // &:hover {
-  //   opacity: 1;
-  // }
-}
-}
 .chatcamp-popup .window-footer {
-  border-radius: 0!important;
+  // border-radius: 0!important;
 }
+
+.window-footer {
+  // min-height: 49px;
+  // width: 100%;
+  // box-sizing: border-box;
+  // background-color: $secondary-background;
+  // border-radius: 0 0 8px 8px!important;
+  // margin: 0!important;
+  .cc-window-footer-text-main{
+    // padding-top: 0px!important;
+    // padding-bottom: 0px!important;
+    // font-size: 13.5px;
+    // min-height: 49px;
+    // box-sizing: border-box;
+  //   .window-textarea{
+  //     color: rgba($secondary-text, .70) !important;;
+  //     outline: none;
+  //     -webkit-font-smoothing: antialiased;
+  //     width: 100%;
+  //     min-height: 23px;
+  //     margin-top: 13px;
+  //     margin-bottom: 13px;
+  //     overflow-x: hidden;
+  //     white-space: pre-wrap;
+  //     word-wrap: break-word;
+  //   }
+  }
+  // .chatcamp-widget-attach-main{
+  //   padding:0!important;
+  //   cursor: pointer;
+  //   display: block;
+  //   height: 49px;
+  //   .chatcamp-widget-attach{
+  //     width: 24px;
+  //     height: 24px;
+  //     display: block;
+  //     cursor: pointer;
+  //     margin-top: 10px;
+  //   }
+  // }
+  // .chatcamp-widget-record-main{
+  //   padding:0!important;
+  //   cursor: pointer;
+  //   display: block;
+  //   height: 49px;
+  //   .chatcamp-widget-record{
+  //     width: 24px;
+  //     height: 24px;
+  //     display: block;
+  //     cursor: pointer;
+  //     margin-top: 12px;
+  //     font-size: 19px;
+  //   }
+  // }
+  // .chatcamp-widget-send-main{
+  //   padding: 0!important;
+  //   cursor: pointer;
+  //   .chatcamp-widget-send{
+  //     width: 24px;
+  //   }
+  // }
+  // .chatcamp-widget-emoji-main{
+  //   padding: 0!important;
+  //   cursor: pointer;
+  //   display: block;
+  //   height: 49px;
+  //   .chatcamp-widget-emoji{
+  //     width: 18px;
+  //     margin-top: 10px;
+  //     display: block;
+  //     cursor: pointer;
+  //   }
+  // }
+  // i.icon {
+  //   cursor: pointer;
+  //   color: rgba($secondary-text, .70) !important;;
+  //   opacity: 0.5;
+  //   font-size: 16px;
+  // }
+}
+
 .cc-app-mobile{
   .cc-window-footer-text-main{
     font-size: 16px;
