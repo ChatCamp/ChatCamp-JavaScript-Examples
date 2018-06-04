@@ -152,15 +152,18 @@
   // }
 }
 
-// .cc-app-mobile{
-//   .cc-window-footer-text-main{
-//     font-size: 16px;
-//     min-height: 68px;
-//     .window-textarea{
-//       margin-top: 22.5px;
-//     }
-//   }
-// }
+.cc-app-mobile{
+  // .cc-window-footer-text-main{
+  //   font-size: 16px;
+  //   min-height: 68px;
+  //   .window-textarea{
+  //     margin-top: 22.5px;
+  //   }
+  // }
+  .window-footer {
+    padding: 20px 10px;
+  }
+}
 .ui.popup.cc-popup-emoji{
   max-width: 360px;
   padding: 10px;

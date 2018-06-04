@@ -211,7 +211,7 @@ class WindowHeader extends Component {
       </Popup.Content>
     </Popup>
 
-    let triggerComponentPopup = <span className="header-count" >&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>{this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")}</span>
+    let triggerComponentPopup = <span className="header-count" >|&nbsp;&nbsp;&nbsp;&nbsp;<Icon name="user outline"/>{this.props.groupChannels.getIn([this.props.id, 'participantsCount'], "0")}</span>
     let participantsCount = <Popup
       trigger={triggerComponentPopup}
       basic
@@ -290,24 +290,23 @@ class WindowHeader extends Component {
     })
 
     return (
-      <Segment size="tiny" className="window-header">
-        <Grid>
-          <Grid.Row color="purple" className="cc-chat-window-header">
-            <Grid.Column className="cc-window-header-status-main" verticalAlign="middle" width={1}>
+      <div className="window-header">
+          <div className="cc-chat-window-header">
+            <div className="cc-window-header-status-main">
               {status}
-            </Grid.Column>
+            </div>
 
-            <Grid.Column className="cc-window-header-name" verticalAlign="middle" floated="left" width={10}>
-              <Header as='h4'>
-                {groupChannelName}
+            <div className="cc-window-header-name">
+              <div className="cc-window-header-name-inner">
+                <span className={"cc-window-header-name-text"}>{groupChannelName}</span>
                 { (this.props.type === "group") && this.ifPopUp() && !this.ifP2P() && participantsCount}
                 {/* {!this.ifPopUp()  && embedParticipants} */}
                 {/* {this.ifPopUp() && !this.ifP2P() && embedParticipants} */}
                 {/* {this.ifPopUp() && this.ifP2P() && onlineStatus} */}
-              </Header>
-            </Grid.Column>
+              </div>
+            </div>
 
-            { !Utility.mobileCheck() && this.ifPopUp() && this.ifPopUpOpen() && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+            { !Utility.mobileCheck() && this.ifPopUp() && this.ifPopUpOpen() && <div className={"header-actions"}>
               <Popup className="headerSettings"
                     trigger={<div onClick={() => {this.minimizeChannel()}} className= "cc-window-header-minus">{source_minus}</div>}
                     hideOnScroll
@@ -317,9 +316,9 @@ class WindowHeader extends Component {
                   Minimize
                 </Popup.Content>
               </Popup>
-            </Grid.Column>}
+            </div>}
 
-            { this.ifPopUp() && (this.ifPopUpMinimize()) && <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
+            { this.ifPopUp() && (this.ifPopUpMinimize()) && <div className={"header-actions"}>
                   <Popup className="headerSettings"
                     trigger={<div onClick={() => {this.openChannel()}} className= "cc-window-header-max">{source_max}</div>}
                     hideOnScroll
@@ -329,11 +328,11 @@ class WindowHeader extends Component {
                       Maximize
                     </Popup.Content>
                   </Popup>
-            </Grid.Column>}
+            </div>}
 
-            <Grid.Column className={"header-actions"} verticalAlign="middle" floated="right" width={1}>
-                          <Dropdown icon='setting' floating className='icon cc-window-header-settings' direction="left">
-                            <Dropdown.Menu className="cc-window-header-settings-options cc-theme">
+            <div className={"header-actions"}>
+                          <Dropdown icon='setting' floating className='icon cc-window-header-settings'>
+                            <Dropdown.Menu direction="left" className="left cc-window-header-settings-options cc-theme">
                               <Dropdown.Item onClick={this.handleItemClick} icon='image' text='Attach a File' />
                               {(this.props.type === "group") && !this.ifP2P() && <Dropdown.Item onClick={this.buttonClick.bind()} icon='add square' text='Add Participants' />}
                               {(this.props.type === "group") &&<Dropdown.Item onClick={this.leaveGroup.bind()} icon='sign out' text='Leave Chat' />}
@@ -366,9 +365,9 @@ class WindowHeader extends Component {
                        </Modal.Description>
                      </Modal.Content>
                    </Modal>
-            </Grid.Column>
+            </div>
 
-            { this.ifPopUp() && <Grid.Column className={"header-actions header-actions-last"} verticalAlign="middle" floated="right" width={Utility.mobileCheck()? 2:1}>
+            { this.ifPopUp() && <div className={"header-actions header-actions-last"}>
 
                   <Popup className="headerSettings"
                     trigger={<div onClick={() => {this.closeChannel()}} className= "cc-window-header-close">{source_close}</div>}
@@ -379,10 +378,9 @@ class WindowHeader extends Component {
                       Close
                     </Popup.Content>
                   </Popup>
-            </Grid.Column>}
-          </Grid.Row>
-        </Grid>
-    </Segment>
+            </div>}
+          </div>
+    </div>
     )
   }
 
