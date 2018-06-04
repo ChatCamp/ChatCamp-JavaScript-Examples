@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Sound from 'react-sound';
-import { PlayButton, PauseButton, ProgressBar, TimeMarker, TimeMarkerType,FormattedTime } from 'react-player-controls'
 import {
   GROUP_CHANNELS_INVITE_ACCEPTANCE_REQUIRED,
   GROUP_CHANNELS_INVALID_PARTICIPANT
@@ -393,16 +391,6 @@ class WindowContent extends Component {
         <SoundNotification groupChannelId = {this.props.id}/>
         <TitleAlert groupChannelId = {this.props.id}/>
         <DesktopNotification groupChannelId = {this.props.id}/>
-        <Sound 
-          playStatus={this.state.soundPlay} 
-          autoLoad = {true} 
-          url={this.state.soundPlayURL} 
-          onFinishedPlaying = {this.handleOnFinishedPlaying}
-          onLoading = {this.handleOnLoading}
-          onLoad = {this.handleOnLoad}
-          onPlaying = {this.handleOnPlaying}
-          onPause = {this.handleOnPause}
-        />
       </Segment>
     )
   }

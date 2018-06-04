@@ -1,3 +1,4 @@
+/* global soundManager:false */
 import React, { Component } from 'react'
 import Avatar from 'react-avatar'
 import { Image } from 'semantic-ui-react'
@@ -17,8 +18,12 @@ class AudioPlayer extends Component {
         soundCurrentPosition: 0
     }
 
+    componentDidMount () {
+        soundManager.setup({debugMode: false});
+    }
+
     handleSoundPlay(soundURL) {
-        debug("soundplay", soundURL)
+        // debug("soundplay", soundURL)
         this.setState({soundPlay: Sound.status.PLAYING, soundPlayURL: soundURL})
     }
     
@@ -31,20 +36,20 @@ class AudioPlayer extends Component {
     }
 
     handleOnLoading = (object) => {
-        debug("handleOnLoading", object)
+        // debug("handleOnLoading", object)
     }
 
     handleOnLoad = (object) => {
-        debug("handleOnLoad", object)
+        // debug("handleOnLoad", object)
     }
 
     handleOnPlaying = (object) => {
-        debug("handleOnPlayiung", object.duration, object.position)
+        // debug("handleOnPlayiung", object.duration, object.position)
         this.setState({soundCurrentPosition: Math.floor(object.position/1000), soundDuration: Math.floor(object.duration/1000)})
     }
 
     render () {
-        debug("debug autoplay", this.state.soundPlay, this.props.url, this.props.id)
+        // debug("debug autoplay", this.state.soundPlay, this.props.url, this.props.id)
         let player = [];
         if(!DetectBrowser.detectIE()){
             if(this.state.soundPlay === Sound.status.PAUSED || this.state.soundPlay === Sound.status.STOPPED){
@@ -66,7 +71,7 @@ class AudioPlayer extends Component {
         return (
             <div className="cc-sound-player">
                 {player}
-                <Sound key={"sound_" + this.props.id}
+                {(this.state.soundPlay) && (this.props.url) &&<Sound key={"sound_" + this.props.id}
                     playStatus={this.state.soundPlay} 
                     autoLoad = {false} 
                     url={this.props.url} 
@@ -75,7 +80,7 @@ class AudioPlayer extends Component {
                     onLoad = {this.handleOnLoad}
                     onPlaying = {this.handleOnPlaying}
                     onPause = {this.handleOnPause}
-                />
+                />}
             </div>
         )
     }

@@ -9,7 +9,13 @@ class HiddenChatWindow extends Component {
 
   state = {
     cacheMessages : {},
-    isLoading: false
+    isLoading: false,
+    modalMountNode: ""
+  }
+
+  componentWillMount(){
+    let node = document.getElementById("ifc-app")
+    this.setState({modalMountNode: node})
   }
 
   findLast(){
@@ -83,7 +89,7 @@ class HiddenChatWindow extends Component {
     </List>
 
     let popupRightAdjustment = "0";
-    let mainClass = "chatcamp-popup-hidden";
+    let mainClass = "chatcamp-popup-hidden cc-theme";
     if(this.props.smartChat.get("type") === "popup"){
       popupRightAdjustment = String(345*this.props.position + 20*(this.props.position + 1)) + "px"
     }
