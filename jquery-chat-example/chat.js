@@ -50,9 +50,6 @@ $(document).ready(function(){
       o += '</li>'
     }
     return o
-    // return '<div class="row no-gutters"><div class="col-md-2">' + message.user.displayName + '</div><div class="col-md-9">' + message.text + '</div><div class="col-md-2">'+ timeago().format(message.insertedAt*1000) +'</div></div>'
-    
-    // '<div class="card"><div class="card-body"><h5 class="card-title">' + message.user.displayName + '</h5><p class="card-text">' + message.text + '</p><p class="card-text"><small class="text-muted">' + timeago().format(message.time) + '</small></p></div></div>'
   }
 
   var scrollToBottom = function() {
@@ -78,10 +75,11 @@ $(document).ready(function(){
         // Get Open Channel
         cc.OpenChannel.get(openChannelId, function(error, openChannel) {
         	if(!error){
-          	console.log("Open Channel Successfully retrieved", openChannel)
+          	// Join Open Channel
             openChannel.join(function(error) {
               $('.chat-room-name').html(openChannel.name)
               $('.chat-participants').html(openChannel.participantsCount + ' Participants')
+              // Get history of Open Channel
               let previousMessageListQuery = openChannel.createPreviousMessageListQuery();
               previousMessageListQuery.load(50, null, function(previousMessageListQueryError, messages) {
                 if(!previousMessageListQueryError){
@@ -98,8 +96,6 @@ $(document).ready(function(){
       })
     }
   })
-
-  $('#message-to-send')
   
   var channelListener = new cc.ChannelListener();
 
@@ -120,5 +116,7 @@ $(document).ready(function(){
   $('button').on('click', function() {
     sendMessage()
   })
+
+  $('#message-to-send').attr('placeholder', 'You are logged in as ' + userDisplayName + '. Type your message here and press enter to send.')
 
 })

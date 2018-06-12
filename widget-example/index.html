@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+      // helper function
+      function getQueryStringValue (key) {  
+        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+      } 
+    </script>
+    <!-- Include semantic css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"/>
+
+    <title>ChatCamp JavaScript SDK - Widget Example</title>
+
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- Include ChatCamp App div -->
+    <div id="cc-app"></div>
+    <!-- Load ChatCamp JavaScript UI Kit -->
+    <script src="https://api.chatcamp.io/asset/js/chatcamp-ui.min.js"></script>
+    <script>
+      // Create user object from query parameters
+      let user = {
+        id: getQueryStringValue('id') || '1'
+      }
+      if(getQueryStringValue('displayName')) {
+        user.displayName = getQueryStringValue('displayName')
+      }
+      
+      // Initialize ChatCamp
+      window.ChatCampUi.init({
+        appId: "6346990561630613504", 
+        user: user, 
+        ui: {
+          theme: {
+            primaryText: "#00FF00"
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
