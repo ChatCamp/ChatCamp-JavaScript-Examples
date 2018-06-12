@@ -22,7 +22,7 @@
     <!-- Include ChatCamp App div -->
     <div id="cc-app"></div>
     <!-- Load ChatCamp JavaScript UI Kit -->
-    <script src="https://api.chatcamp.io/asset/js/chatcamp-ui.min.js"></script>
+    <script src="https://cdn.chatcamp.io/js/chatcamp-ui.min.js"></script>
     <script>
       // Create user object from query parameters
       let user = {
@@ -38,7 +38,12 @@
         user: user, 
         ui: {
           theme: {
-            primaryText: "#00FF00"
+            primaryBackground: "#3f45ad",
+            primaryText: "#ffffff",
+            secondaryBackground: "#ffffff",
+            secondaryText: "#000000",
+            tertiaryBackground: "#f4f7f9",
+            tertiaryText: "#263238"
           }
         }
       })
