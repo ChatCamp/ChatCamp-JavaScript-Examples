@@ -1,6 +1,9 @@
 ## Chat Live Demo
 - [Click here to view the live demo](https://demo.chatcamp.io/widget-example/index.html?userId=1)
 
+## ChatCamp JavaScript Documentation
+- You may review our documentation here - [https://docs.chatcamp.io/docs/javascript-chat-quickstart](https://docs.chatcamp.io/docs/javascript-chat-quickstart).
+
 ## How to Install
 - Run the following command to install dependencies: `npm install`.
 
