@@ -4,16 +4,32 @@
 ## ChatCamp JavaScript Documentation
 - You may review our documentation here - [https://docs.chatcamp.io/docs/javascript-chat-quickstart](https://docs.chatcamp.io/docs/javascript-chat-quickstart).
 
-## How to Install
-- Run the following command to install dependencies: `npm install`.
+## How to Install ChatCamp UI Kit
+We provide ready-to-use UI kit which may be integrated into your web app in three easy steps.
 
-## How to run the development server
-- Change App ID in `env.development` file.
-- Run the following command to start the development server: `npm run start`.
-- Then go to http://localhost:3000/?userId=1.
-- Change Group Channel Id and User Id in the above URL as per your application.
+- First add the following div in your webpage: `<div id="cc-app"></div>`
+- Next include the chat UI kit in footer: `<script src="https://cdn.chatcamp.io/js/chatcamp-ui.min.js"></script>`
+- Finally we need to initialize the chat UI kit. Add the following code right after the above script tag:
+```
+      // Initialize ChatCamp
+      window.ChatCampUi.init({
+        appId: APP_ID, 
+        user: {
+          id: USER_ID,
+          displayName: USER_DISPLAY_NAME
+        }, 
+        ui: {
+          theme: {
+            primaryBackground: "#3f45ad",
+            primaryText: "#ffffff",
+            secondaryBackground: "#ffffff",
+            secondaryText: "#000000",
+            tertiaryBackground: "#f4f7f9",
+            tertiaryText: "#263238"
+          }
+        }
+      })
+```
+Here `APP_ID`, `USER_ID` and `USER_DISPLAY_NAME` should be replaced by correct string values and you are good to go. :)
 
-## How to generate build for production
- - Change App ID in `env.production` file.
- - Run the following command to generate the production build: `npm run build`.
- - Copy the `build` to your production server and rename it
+The chat UI kit uses our ChatCamp JavaScript SDK to connect to our ChatCamp backend.
