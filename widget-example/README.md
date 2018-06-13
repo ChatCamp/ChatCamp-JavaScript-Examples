@@ -16,7 +16,8 @@ We provide ready-to-use UI kit which may be integrated into your web app in thre
         appId: APP_ID, 
         user: {
           id: USER_ID,
-          displayName: USER_DISPLAY_NAME
+          displayName: USER_DISPLAY_NAME // optional
+          // accessToken: USER_ACCESS_TOKEN // optional
         }, 
         ui: {
           theme: {
@@ -30,6 +31,6 @@ We provide ready-to-use UI kit which may be integrated into your web app in thre
         }
       })
 ```
-Here `APP_ID`, `USER_ID` and `USER_DISPLAY_NAME` should be replaced by correct string values and you are good to go. :)
+Here `APP_ID`, `USER_ID`, `USER_DISPLAY_NAME` and `USER_ACCESS_TOKEN` should be replaced by correct string values and you are good to go. :)
 
 The chat UI kit uses our ChatCamp JavaScript SDK to connect to our ChatCamp backend.
