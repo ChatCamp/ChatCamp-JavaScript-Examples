@@ -27,6 +27,11 @@ We provide ready-to-use UI kit which may be integrated into your web app in thre
             secondaryText: "#000000",
             tertiaryBackground: "#f4f7f9",
             tertiaryText: "#263238"
+          },
+          roster: {
+            tabs: ['recent', 'rooms', 'users'], 
+            render: true, 
+            defaultMode: 'open' // other possible values are minimize, hidden
           }
         }
       })
