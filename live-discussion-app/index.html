@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+      // helper function
+      function getQueryStringValue (key) {  
+        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
+      } 
+    </script>
+
+    <title>ChatCamp JavaScript SDK - Live Discussion App</title>
+
+  </head>
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- Include ChatCamp Live Discussion Chat App div -->
+    <div class="cc-live-discussion-app" data-channel-id="5a5ef06b48bdc63ad6760fe5" data-channel-type="open" data-height="600px" data-width="100%"></div>
+    <!-- Load ChatCamp JavaScript UI Kit -->
+    <script src="https://cdn.chatcamp.io/js/chatcamp-ui.min.js"></script>
+    <script>
+      // Create user object from query parameters
+      let user = {
+        id: getQueryStringValue('id') || '1'
+      }
+      if(getQueryStringValue('displayName')) {
+        user.displayName = getQueryStringValue('displayName')
+      }
+      
+      // Initialize ChatCamp
+      window.ChatCampUi.init({
+        appId: "6346990561630613504", 
+        user: user, 
+        ui: {
+          theme: {
+            primaryBackground: "#3f45ad",
+            primaryText: "#ffffff",
+            secondaryBackground: "#ffffff",
+            secondaryText: "#000000",
+            tertiaryBackground: "#f4f7f9",
+            tertiaryText: "#263238"
+          },
+          roster: {
+            tabs: ['recent', 'rooms', 'users'],
+            render: true,
+            defaultMode: 'open' // other possible values are minimize, hidden
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
