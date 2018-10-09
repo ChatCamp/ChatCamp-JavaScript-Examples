@@ -1,3 +1,5 @@
+# DEPRECATED - PLEASE DON'T USE THIS SAMPLE APP ANYMORE
+
 ## How to Install
 - Run the following command to install dependencies: `npm install`.
 
