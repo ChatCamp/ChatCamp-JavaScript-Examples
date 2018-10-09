@@ -33,7 +33,13 @@ We provide ready-to-use UI kit which may be integrated into your web app in thre
           roster: {
             tabs: ['recent', 'rooms', 'users'], 
             render: true, 
-            defaultMode: 'open' // other possible values are minimize, hidden
+            defaultMode: 'open', // other possible values are minimize, hidden
+            showUserAvatarUpload: true
+          },
+          channel: {
+            showAttachFile: true,
+            showVideoCall: true,
+            showVoiceRecording: true
           }
         }
       })
