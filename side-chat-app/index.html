@@ -10,15 +10,15 @@
       }
     </script>
 
-    <title>ChatCamp JavaScript SDK - Widget Example</title>
+    <title>ChatCamp JavaScript SDK - Side Chat App</title>
 
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <!-- Include ChatCamp App div -->
-    <div id="cc-app"></div>
+    <!-- Include ChatCamp Side Chat Chat App div -->
+    <div class="cc-side-chat-app" data-height="600px" data-width="370px"></div>
     <!-- Load ChatCamp JavaScript UI Kit -->
     <script src="https://cdn.chatcamp.io/2.x/js/chatcamp-ui.min.js"></script>
     <script>
@@ -46,7 +46,8 @@
           roster: {
             tabs: ['recent', 'rooms', 'users'],
             render: true,
-            defaultMode: 'open' // other possible values are minimize, hidden
+            defaultMode: 'open', // other possible values are minimize, hidden
+            displayStartNewChatButton: true // can be either true or false
           }
         }
       })

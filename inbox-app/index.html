@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script>
       // helper function
-      function getQueryStringValue (key) {  
-        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));  
-      } 
+      function getQueryStringValue (key) {
+        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+      }
     </script>
 
     <title>ChatCamp JavaScript SDK - Widget Example</title>
@@ -20,7 +20,7 @@
     <!-- Include ChatCamp Inbox App div -->
     <div class="cc-inbox-app" data-height="600px" data-width="100%"></div>
     <!-- Load ChatCamp JavaScript UI Kit -->
-    <script src="https://cdn.chatcamp.io/js/chatcamp-ui.min.js"></script>
+    <script src="https://cdn.chatcamp.io/2.x/js/chatcamp-ui.min.js"></script>
     <script>
       // Create user object from query parameters
       let user = {
@@ -29,11 +29,11 @@
       if(getQueryStringValue('displayName')) {
         user.displayName = getQueryStringValue('displayName')
       }
-      
+
       // Initialize ChatCamp
       window.ChatCampUi.init({
-        appId: "6346990561630613504", 
-        user: user, 
+        appId: "6346990561630613504",
+        user: user,
         ui: {
           theme: {
             primaryBackground: "#3f45ad",
